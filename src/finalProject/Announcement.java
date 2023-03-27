@@ -22,6 +22,4 @@ public class Announcement implements Distributable{
     public void setText(String text) {
         this.text = text;
     }
-
-    
 }
