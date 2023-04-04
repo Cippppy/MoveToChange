@@ -26,7 +26,7 @@ public class GUI extends Application {
     private String memLog = "member";
     private String orgLog = "organizer";
     private String leadLog = "lead";
-    private int rank = 0; // 0 for member, 1 for organizer, 2 for lead/president
+    private Role rank = null; 
 
     // needed for login setup
     private Button loginButton = new Button("Login");
@@ -109,15 +109,15 @@ public class GUI extends Application {
         boolean valid = false;
         if (usernameField.getText().equals(memLog) && passwordField.getText().equals(memLog)) {
             login.close();
-            rank = 0;
+            rank = Role.MEMBER;
             valid = true;
         } else if (usernameField.getText().equals(orgLog) && passwordField.getText().equals(orgLog)) {
             login.close();
-            rank = 1;
+            rank = Role.ORGANIZER;
             valid = true;
         } else if (usernameField.getText().equals(leadLog) && passwordField.getText().equals(leadLog)) {
             login.close();
-            rank = 2;
+            rank = Role.PRESIDENT;
             valid = true;
         }
         return valid;
