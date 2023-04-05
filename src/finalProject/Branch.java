@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Branch extends Organization{
+public class Branch {
     String location;
     int numBranchMembers;
     List<Person> members = new ArrayList<Person>();;
@@ -20,10 +20,12 @@ public class Branch extends Organization{
      * @param numOfBranches used for super constructor, should probably be removed after inheritance is changed
      * @param totalMembers also used for super, same as above value
      */
-    public Branch(String location, int numBranchMembers, Purpose purpose, int numOfBranches, int totalMembers) {
-        super(purpose, numOfBranches, totalMembers);
-        this.location = location;
-        this.numBranchMembers = numBranchMembers;
+    public Branch(String location, int numBranchMembers, Organization org) {
+        if(location != null && numBranchMembers > -1 && org != null) {
+            this.location = location;
+            this.numBranchMembers = numBranchMembers;
+            org.getBranches().add(this);
+        }
         
     }
 
@@ -41,7 +43,7 @@ public class Branch extends Organization{
      * @param location Location to be set as the branch location
      */
     public void setLocation(String location) {
-        this.location = location;
+        if(location != null) this.location = location;
     }
     /**
      * Gets the number of members in the branch
@@ -57,7 +59,7 @@ public class Branch extends Organization{
      * @param numBranchMembers Value to be set as the number of members of this branch
      */
     public void setNumBranchMembers(int numBranchMembers) {
-        this.numBranchMembers = numBranchMembers;
+        if(numBranchMembers > -1) this.numBranchMembers = numBranchMembers;
     }
     /**
      * Gets the List of members in the branch
@@ -73,7 +75,7 @@ public class Branch extends Organization{
      * @param members List to be passed in and set as the members of this branch
      */
     public void setMembers(List<Person> members) {
-        this.members = members;
+        if(members != null) this.members = members;
     }
     /**
      * Gets the List of Events this branch has
@@ -89,7 +91,7 @@ public class Branch extends Organization{
      * @param events List to be passed in and set as the events of this branch
      */
     public void setEvents(List<Event> events) {
-        this.events = events;
+        if(events != null) this.events = events;
     }
 
 }

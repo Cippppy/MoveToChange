@@ -86,11 +86,11 @@ public class GUI extends Application {
     private void setupControls(Pane pane) {
         // TODO - change member GUI depending on user rank
         Text test = new Text("test");
-        if (rank == 0) {
+        if (rank.equals(Role.MEMBER)) {
             test.setText("I am a member.");
-        } else if (rank == 1) {
+        } else if (rank.equals(Role.ORGANIZER)) {
             test.setText("I am an organizer.");
-        } else if (rank == 2) {
+        } else if (rank.equals(Role.PRESIDENT)) {
             test.setText("I am a leader.");
         }
 

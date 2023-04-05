@@ -4,12 +4,23 @@ package finalProject;
  * @version 03/27/2023
  */
 public class Member extends Person{
-    Role role;
+    private Role role;
+    private Branch branch;
 
     public Member(String name, Role role){
         super(name);
         this.role = Role.MEMBER;
     }
+    
+    public Branch getBranch() {
+        return this.branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    
     /**
      * Gets the role of this Member, 
      * @author Jimmy McCarry

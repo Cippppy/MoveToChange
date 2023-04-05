@@ -1,5 +1,5 @@
 package finalProject;
-public class Person {
+public abstract class Person {
     String name;
 
     public String getName() {
