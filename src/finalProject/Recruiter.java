@@ -1,6 +1,16 @@
 package finalProject;
+
 import java.util.Random;
-public class Recruiter extends Member{
+
+/**
+ * 
+ * 
+ * @author
+ * @version 04/11/2023
+ */
+public class Recruiter extends Member {
+
+    
     private Branch branch;
 
     private static final double RECRUITING_CHANCE = 50.0;

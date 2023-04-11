@@ -9,7 +9,7 @@ public class President extends Member implements Lead, Organize {
     private Branch branch;
 
     /**
-     * Creates a instance of President with name
+     * Creates a instance of President with a name
      * 
      * @param name The president's name
      */
@@ -23,6 +23,7 @@ public class President extends Member implements Lead, Organize {
      */
     public void kickMember(Member member) {
         member.setRole(Role.NON_MEMBER);
+        branch.removeMember(member);
     }
 
     /**

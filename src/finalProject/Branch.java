@@ -124,5 +124,12 @@ public class Branch {
         numBranchMembers++;
     }
 
-
+    /**
+     * Removes a single member to the branch and decrements numBranchMembers
+     * @param member The member to be removed
+     */
+    public void removeMember(Member member) {
+        this.members.remove(member);
+        numBranchMembers--;
+    }
 }

@@ -21,16 +21,30 @@ public class Event implements Participable {
     String location;
 
     /**
-     * Constructor for Event
+     * Full Constructor for Event
      * 
      * @author Jimmy McCarry
      * @param reason The reason for the event
      * @param attendees The people attending the event
      */
-    public Event(String reason, List<Person> attendees) {
+    public Event(String reason, ArrayList<Person> attendees, String location) {
         this.reason = reason;
-        attendees = new ArrayList<Person>();
-    }   
+        this.attendees = attendees;
+        this.location = location;
+    }
+    
+    /**
+     * Overloaded Constructor for Event
+     * 
+     * @author Jimmy McCarry
+     * @param reason The reason for the event
+     * @param attendees The people attending the event
+     */
+    public Event(String reason, String location) {
+        this.reason = reason;
+        this.attendees = new ArrayList<Person>();
+        this.location = location;
+    }
 
     /**
      * Gets the reason for this event
