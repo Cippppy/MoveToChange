@@ -2,17 +2,31 @@ package finalProject;
 
 import java.util.List;
 import java.util.ArrayList;
+
 /**
+ * 
+ * 
  * @author Jimmy McCarry
- * @version 03/27/2023
+ * @author Christian Cipolletta
+ * @version 04/10/2023
  */
 public class Branch {
+
+    /** The location of the branch **/
     String location;
+
+    /** The number of members the branch has **/
     int numBranchMembers;
-    List<Person> members = new ArrayList<Person>();;
+
+    /** The list of members the branch has **/
+    List<Person> members = new ArrayList<Person>();
+
+    /** The list of events the branch has **/
     List<Event> events = new ArrayList<Event>();
 
     /**
+     * Constructor
+     * 
      * @author Jimmy McCarry
      * @param location Location of the branch
      * @param numBranchMembers Number of members of this branch
@@ -37,6 +51,7 @@ public class Branch {
     public String getLocation() {
         return this.location;
     }
+
     /**
      * Sets the location of the branch
      * @author Jimmy McCarry
@@ -45,6 +60,7 @@ public class Branch {
     public void setLocation(String location) {
         if(location != null) this.location = location;
     }
+
     /**
      * Gets the number of members in the branch
      * @author Jimmy McCarry
@@ -53,6 +69,7 @@ public class Branch {
     public int getNumBranchMembers() {
         return this.numBranchMembers;
     }
+
     /**
      * Sets the number of members in the branch
      * @author Jimmy McCarry
@@ -61,6 +78,7 @@ public class Branch {
     public void setNumBranchMembers(int numBranchMembers) {
         if(numBranchMembers > -1) this.numBranchMembers = numBranchMembers;
     }
+
     /**
      * Gets the List of members in the branch
      * @author Jimmy McCarry
@@ -69,6 +87,7 @@ public class Branch {
     public List<Person> getMembers() {
         return this.members;
     }
+
     /**
      * Sets the List of members in the branch
      * @author Jimmy McCarry
@@ -77,6 +96,7 @@ public class Branch {
     public void setMembers(List<Person> members) {
         if(members != null) this.members = members;
     }
+
     /**
      * Gets the List of Events this branch has
      * @author Jimmy McCarry
@@ -85,6 +105,7 @@ public class Branch {
     public List<Event> getEvents() {
         return this.events;
     }
+
     /**
      * Sets the List of Events this branch has
      * @author Jimmy McCarry
@@ -93,5 +114,15 @@ public class Branch {
     public void setEvents(List<Event> events) {
         if(events != null) this.events = events;
     }
+
+    /**
+     * Adds a single member to the branch and increments numBranchMembers
+     * @param member The member to be added
+     */
+    public void addMember(Member member) {
+        this.members.add(member);
+        numBranchMembers++;
+    }
+
 
 }

@@ -1,7 +1,9 @@
 package finalProject;
+
 /**
  * @author Jimmy McCarry
- * @version 03/27/2023
+ * @author Christian Cipolletta
+ * @version 04/10/2023
  */
 public class NonMember extends Person{
     
@@ -12,5 +14,15 @@ public class NonMember extends Person{
      */
     public NonMember(String name) {
         super(name);
+    }
+
+    /**
+     * Allows a non-member to join a branch
+     * @param branch The branch to be joined
+     * @author Christian Cipolletta
+     */
+    public void join(Branch branch) {
+        Member member = new Member(name, Role.MEMBER);
+        branch.addMember(member);
     }
 }

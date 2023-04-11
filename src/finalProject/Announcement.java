@@ -1,14 +1,22 @@
 package finalProject;
 
 /**
+ * 
+ * 
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Announcement implements Distributable{
+public class Announcement implements Distributable {
+
+    /** The reason for the announcement **/
     String reason;
+
+    /** The text of the announcement **/
     String text;
 
     /**
+     * Constructor
+     * 
      * @author Jimmy McCarry
      * @version 03/27/2023
      * @param reason Reason for the announcement
@@ -18,15 +26,17 @@ public class Announcement implements Distributable{
         this.reason = reason;
         this.text = text;
     }
+
     /**
      * Gets the reason for the announcement
      * @author Jimmy McCarry
      * @version 03/27/2023
-     * @return reason 
+     * @return The reason for the announcement
      */
     public String getReason() {
         return this.reason;
     }
+
     /**
      * Sets the reason for the announcement
      * @author Jimmy McCarry
@@ -35,6 +45,7 @@ public class Announcement implements Distributable{
     public void setReason(String reason) {
         this.reason = reason;
     }
+
     /**
      * Gets the text of the announcement
      * @author Jimmy McCarry
@@ -43,6 +54,7 @@ public class Announcement implements Distributable{
     public String getText() {
         return this.text;
     }
+    
     /**
      * Sets the text of the announcement
      * @author Jimmy McCarry

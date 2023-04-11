@@ -4,32 +4,43 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * 
+ * 
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Event implements Participable{
+public class Event implements Participable {
+
+    /** The reason for the event **/
     String reason;
+
+    /** The list of people attending the event **/
     List<Person> attendees;
+
+    /** The location of the event **/
     String location;
 
     /**
      * Constructor for Event
+     * 
      * @author Jimmy McCarry
-     * @param reason
-     * @param attendees
+     * @param reason The reason for the event
+     * @param attendees The people attending the event
      */
     public Event(String reason, List<Person> attendees) {
         this.reason = reason;
         attendees = new ArrayList<Person>();
     }   
+
     /**
      * Gets the reason for this event
      * @author Jimmy McCarry
-     * @return
+     * @return The reason for the event
      */
     public String getReason() {
         return this.reason;
     }
+
     /**
      * Sets the reason for this event
      * @author Jimmy McCarry
@@ -38,6 +49,7 @@ public class Event implements Participable{
     public void setReason(String reason) {
         this.reason = reason;
     }
+
     /**
      * Gets the List of Person objects that attend this event
      * @author Jimmy McCarry
@@ -46,6 +58,7 @@ public class Event implements Participable{
     public List<Person> getAttendees() {
         return this.attendees;
     }
+
     /**
      * Sets the attendees list to a List that is passed in
      * @author Jimmy McCarry
@@ -54,6 +67,7 @@ public class Event implements Participable{
     public void setAttendees(List<Person> attendees) {
         this.attendees = attendees;
     }
+
     /**
      * Gets the location of this event
      * @author Jimmy McCarry
@@ -62,6 +76,7 @@ public class Event implements Participable{
     public String getLocation() {
         return this.location;
     }
+
     /**
      * Sets the location of this event
      * @author Jimmy McCarry
@@ -69,5 +84,13 @@ public class Event implements Participable{
      */
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    /**
+     * Adds a single person to the attendee list
+     * @param person The person to be added
+     */
+    public void addAttendee(Person person) {
+        this.attendees.add(person);
     }
 }
