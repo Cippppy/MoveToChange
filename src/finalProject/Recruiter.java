@@ -8,12 +8,12 @@ import java.util.Random;
  * @author
  * @version 04/11/2023
  */
-public class Recruiter extends Member {
+public class Recruiter extends Leader {
 
     private static final double RECRUITING_CHANCE = 50.0;
     
-    public Recruiter(String name) {
-        super(name, Role.RECRUITER);
+    public Recruiter(String name, Branch branch) {
+        super(name, Role.RECRUITER, branch);
     }
 
     public boolean tryToRecruit(NonMember target) {

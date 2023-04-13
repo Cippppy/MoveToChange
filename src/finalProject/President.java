@@ -3,15 +3,15 @@ package finalProject;
 /**
  * 
  */
-public class President extends Member implements Lead, Organize {
+public class President extends Leader implements Lead, Organize {
 
     /**
      * Creates a instance of President with a name
      * 
      * @param name The president's name
      */
-    public President(String name) {
-        super(name, Role.PRESIDENT);
+    public President(String name, Branch branch) {
+        super(name, Role.PRESIDENT, branch);
     }
 
     /**

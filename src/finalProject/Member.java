@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * 
@@ -12,8 +15,8 @@ public class Member extends Person {
     /** The role the member has in the branch **/
     private Role role;
 
-    /** The branch the member is part of **/
-    private Branch branch;
+    /** The branches the member is a part of **/
+    private List<Branch> branches = new ArrayList<Branch>();
 
     /**
      * Constructor
@@ -27,19 +30,19 @@ public class Member extends Person {
     }
     
     /**
-     * Return the branch
-     * @return The branch
+     * Return the branches
+     * @return The branches
      */
-    public Branch getBranch() {
-        return this.branch;
+    public List<Branch> getBranches() {
+        return this.branches;
     }
 
     /**
-     * Set the branch
-     * @param branch The branch
+     * Set the branches
+     * @param branches The branches
      */
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBranches(List<Branch> branches) {
+        this.branches = branches;
     }
     
     /**

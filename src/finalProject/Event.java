@@ -115,4 +115,9 @@ public class Event implements Participable {
     public void removeAttendee(Person person) {
         this.attendees.remove(person);
     }
+
+    @Override
+    public String toString() {
+        return getReason() + " at " + getLocation();
+    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author
  * @version 04/11/2023
  */
-public class Organizer extends Member implements Organize, Lead {
+public class Organizer extends Leader implements Organize, Lead {
 
     /** List of events created by the organizer **/
     private List<Event> events = new ArrayList<Event>();
@@ -19,8 +19,30 @@ public class Organizer extends Member implements Organize, Lead {
      * 
      * @param name The name of the organizer
      */
-    public Organizer(String name) {
-        super(name, Role.ORGANIZER);
+    public Organizer(String name, Branch branch) {
+        super(name, Role.ORGANIZER, branch);
+    }
+
+    public List<Event> getEvents() {
+        return this.events;
+    }
+
+    public void setEvents(List<Event> events) {
+        if(events != null) {
+            this.events = events;
+        }
+        else {
+            System.err.println("The input events are null.");
+        }
+    }
+
+    public void addEvent(Event event) {
+        if(event != null) {
+            this.events.add(event);
+        }
+        else {
+            System.err.println("The input event is null.");
+        }
     }
 
     /**
@@ -44,7 +66,7 @@ public class Organizer extends Member implements Organize, Lead {
             event.addAttendee(member);
         }
         else {
-            System.err.println("You do not have permission to add members to " + event);
+            System.err.println("You do not have permission to add members to event: " + event);
         }
     }
 
@@ -58,7 +80,7 @@ public class Organizer extends Member implements Organize, Lead {
             event.removeAttendee(member);
         }
         else {
-            System.err.println("You do not have permission to remove members from " + event);
+            System.err.println("You do not have permission to remove members from event: " + event);
         }
     }
 }
