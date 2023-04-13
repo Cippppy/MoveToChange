@@ -107,4 +107,12 @@ public class Event implements Participable {
     public void addAttendee(Person person) {
         this.attendees.add(person);
     }
+
+    /**
+     * Removes a single person to the attendee list
+     * @param person The person to be removed
+     */
+    public void removeAttendee(Person person) {
+        this.attendees.remove(person);
+    }
 }

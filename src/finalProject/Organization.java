@@ -148,4 +148,14 @@ public class Organization extends Cause {
         }
         return desiredBranch;
     }
+
+    public void addBranch(Branch branch) {
+        if(branch != null) {
+            branches.add(branch);
+            numOfBranches++;
+        }
+        else {
+            System.err.println("The branch trying to be added is null.");
+        }
+    }
 }

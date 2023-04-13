@@ -132,4 +132,36 @@ public class Branch {
         this.members.remove(member);
         numBranchMembers--;
     }
+
+    /**
+     * Adds a single event to the branch
+     * @param event The event to be added
+     */
+    public void addEvent(Event event) {
+        if(event != null) {
+            this.events.add(event);
+        }
+        else {
+            System.err.println("The input event is null.");
+        }
+    }
+
+    /**
+     * Remove a single event from the branch
+     * @param event The event to be removed
+     */
+    public void removeEvent(Event event) {
+        if(event != null) {
+            try {
+                this.events.remove(event);
+            } catch (NullPointerException n) {
+                System.err.println("The input event does not exist.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.err.println("The input event is null.");
+        }
+    }
 }

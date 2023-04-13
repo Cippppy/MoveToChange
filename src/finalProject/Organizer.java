@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class Organizer extends Member implements Organize, Lead {
 
-    /** The branch the organizer belongs to **/
-    private Branch branch;
-
     /** List of events created by the organizer **/
     private List<Event> events = new ArrayList<Event>();
 
@@ -33,24 +30,7 @@ public class Organizer extends Member implements Organize, Lead {
      * @param location
      */
     public void planEvent(String reason, String location) {
-        Event event = new Event(reason, location);
-        events.add(event);
-    }
-
-    /**
-     * Return the branch of the organizer
-     * @return The branch of the organizer
-     */
-    public Branch getBranch() {
-        return this.branch;
-    }
-
-    /**
-     * Set the branch of the organizer
-     * @param branch The branch of the organizer
-     */
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+        events.add(new Event(reason, location));
     }
 
     /**
@@ -60,6 +40,25 @@ public class Organizer extends Member implements Organize, Lead {
      */
     // TODO - Look at this
     public void addAttendee(Event event, Member member) {
-        event.addAttendee(member);
+        if(events.contains(event)) {
+            event.addAttendee(member);
+        }
+        else {
+            System.err.println("You do not have permission to add members to " + event);
+        }
+    }
+
+    /**
+     * 
+     * @param event
+     * @param member
+     */
+    public void removeAttendee(Event event, Member member) {
+        if(events.contains(event)) {
+            event.removeAttendee(member);
+        }
+        else {
+            System.err.println("You do not have permission to remove members from " + event);
+        }
     }
 }

@@ -10,9 +10,6 @@ import java.util.Random;
  */
 public class Recruiter extends Member {
 
-    
-    private Branch branch;
-
     private static final double RECRUITING_CHANCE = 50.0;
     
     public Recruiter(String name) {
@@ -37,15 +34,4 @@ public class Recruiter extends Member {
     public void recruit(NonMember recruitee) {
         this.getBranch().getMembers().add(recruitee);
     }
-
-
-
-    public Branch getBranch() {
-        return this.branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
-    
 }

@@ -5,9 +5,6 @@ package finalProject;
  */
 public class President extends Member implements Lead, Organize {
 
-    /** The Branch the President is President of **/
-    private Branch branch;
-
     /**
      * Creates a instance of President with a name
      * 
@@ -23,7 +20,7 @@ public class President extends Member implements Lead, Organize {
      */
     public void kickMember(Member member) {
         member.setRole(Role.NON_MEMBER);
-        branch.removeMember(member);
+        getBranch().removeMember(member);
     }
 
     /**
@@ -34,21 +31,4 @@ public class President extends Member implements Lead, Organize {
     public void changePosition(Member member, String role) {
         member.setRole(Role.valueOf(role));
     }
-
-    /**
-     * Return the branch the President resides over
-     * @return The branch the president resides over
-     */
-    public Branch getBranch() {
-        return this.branch;
-    }
-
-    /**
-     * Set the branch the President resides over
-     * @param branch The branch the president resides over
-     */
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
-
 }
