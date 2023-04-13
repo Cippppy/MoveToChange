@@ -30,11 +30,12 @@ public class GUI extends Application {
 
     // needed for login setup
     private Button loginButton = new Button("Login");
+    private Button guestButton = new Button("Login as Guest");
     private TextField usernameField = new TextField();
     private TextField passwordField = new TextField();
     private VBox loginLayout = new VBox();
     private Label errorLabel = new Label();
-    Stage login = new Stage();
+    private Stage login = new Stage();
 
     public static void main(String[] args) {
         launch(args);
@@ -49,6 +50,14 @@ public class GUI extends Application {
             login.setScene(loginScene);
             styleLogin(loginLayout);
             setupLoginControls(loginLayout);
+            guestButton.setOnAction(e -> {
+                rank = Role.NON_MEMBER;
+                BorderPane mainPane = new BorderPane();
+                styleMainPane(mainPane);
+                setupControls(mainPane);
+                Scene mainScene = new Scene(mainPane);
+                setStage(stage, mainScene);
+            });
             loginButton.setOnAction(e -> {
                 if (isLoginValid()) {
                     login.close();
@@ -92,6 +101,8 @@ public class GUI extends Application {
             test.setText("I am an organizer.");
         } else if (rank.equals(Role.PRESIDENT)) {
             test.setText("I am a leader.");
+        } else {
+            test.setText("I am a guest.");
         }
 
         HBox root = new HBox(3, test);
@@ -102,7 +113,9 @@ public class GUI extends Application {
     private void setupLoginControls(Pane pane) {
         Label usernameLabel = new Label("Enter Username: ");
         Label passwordLabel = new Label("Enter Password: ");
-        loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, loginButton, errorLabel);
+        HBox buttonBox = new HBox(2);
+        buttonBox.getChildren().addAll(loginButton, guestButton);
+        loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
     }
 
     private boolean isLoginValid() {
