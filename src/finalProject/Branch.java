@@ -1,6 +1,13 @@
 package finalProject;
 
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -139,8 +146,16 @@ public class Branch {
      * @param member The member to be added
      */
     public void addMember(Member member) {
-        this.members.add(member);
-        numBranchMembers++;
+        if(member != null) {
+            if(member.getRole() == Role.NON_MEMBER || member.getRole() == null) {
+                member.setRole(Role.MEMBER);
+            }
+            this.members.add(member);
+            this.numBranchMembers = this.members.size();
+            if(!member.getBranches().contains(this)) {
+                member.addBranch(this);
+            }
+        }
     }
 
     /**
@@ -149,7 +164,8 @@ public class Branch {
      */
     public void removeMember(Member member) {
         this.members.remove(member);
-        numBranchMembers--;
+        member.removeBranch(this);
+        this.numBranchMembers = this.members.size();
     }
 
     /**
@@ -182,5 +198,66 @@ public class Branch {
         else {
             System.err.println("The input event is null.");
         }
+    }
+
+    /**
+     * Save the members of the branch to a .txt file
+     * Autogenerates the name as the branch location and the local date now!
+     */
+    public void saveMembers() {
+        final boolean OVERWRITE_MODE = false;
+        String fileName = getLocation().strip() + LocalDate.now() + ".txt";
+        try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
+            membersWriter.write("Member Name, Member Role");
+            membersWriter.write(System.lineSeparator());
+            members.forEach(member -> {try { 
+                                            membersWriter.write(member.getName() + ", " + member.getRole());
+                                            membersWriter.write(System.lineSeparator());
+                                        } catch (IOException i) {} });
+            membersWriter.close();
+        } catch (IOException i) {
+            System.err.println("There was an issue.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Overloaded method that sets the members of the branch
+     * by reading a .txt file
+     * @param fileName The name of the file to read
+     * @param numHeaderRows The number of header rows in the file
+     */
+    public void setMembers(String fileName, int numHeaderRows) {
+        if(fileName.endsWith(".txt")) {
+            try (BufferedReader membersReader = new BufferedReader(new FileReader(fileName))) {
+                members.clear();
+                String line = membersReader.readLine();
+                int linesRead = 0;
+                String delims = "[,]";
+                while(line != null) {
+                    linesRead++;
+                    line = membersReader.readLine();
+                    if(linesRead > numHeaderRows && line != null)
+                    {
+                        String[] data = line.split(delims);
+                        Member member = new Member(data[0], Role.valueOf(data[1].toUpperCase().trim()));
+                        members.add(member);
+                    }
+                }
+            } catch (FileNotFoundException f) {
+                System.err.println("The file, " + fileName + ", could not be found.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.err.println("The input file does not end with .txt");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return location + " (" + numBranchMembers + ")";
     }
 }

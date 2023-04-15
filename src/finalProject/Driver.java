@@ -4,8 +4,8 @@ public class Driver {
     public static void main(String[] args) throws Exception {
 
         // Organization constructors
-        Organization animals = new Organization(Purpose.ANIMAL_RIGHTS, 3, 9);
-        Organization nullOrganization = new Organization(null, 0, 0);
+        Organization animals = new Organization("PETA", Purpose.ANIMAL_RIGHTS, 3, 9);
+        Organization nullOrganization = new Organization(null, null, 0, 0);
 
         // Branch constructors
         Branch animalBranch = new Branch("Dog House", 3, animals);
@@ -30,7 +30,6 @@ public class Driver {
         animalBranch.addMember(animalTestMember);
 
         animalOrganizer.addEvent(animalEvent);
-        animals.addBranch(animalBranch);
         animalBranch.addEvent(null);
         animalBranch.addEvent(animalEvent);
         animalOrganizer.planEvent("Dog Naming", "Shelter");
@@ -44,5 +43,15 @@ public class Driver {
         System.out.println(animalBranch.getMembers().contains(animalTestMember));
         animalPresident.kickMember(animalTestMember);
         System.out.println(animalBranch.getMembers().contains(animalTestMember));
+        animalBranch.addMember(animalTestMember);
+        animalBranch.addMember(animalMember);
+
+        animalBranch.saveMembers();
+        animalBranch.setMembers("testMembers.txt", 0);
+        System.out.println(animalBranch.getMembers());
+
+        animals.saveBranches();
+        animals.setBranches("testBranches.txt", 0);
+        System.out.println(animals.getBranches());
     }
 }

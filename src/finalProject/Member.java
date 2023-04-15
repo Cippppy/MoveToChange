@@ -89,23 +89,6 @@ public class Member extends Person {
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
             branch.addMember(this);}});
     }
-    
-    /**
-     * Gets the role of this Member
-     * @author Jimmy McCarry
-     * @return The role of the member
-     */
-    public Role getRole() {
-        return this.role;
-    }
-    /**
-     * Sets the role of this Member, used to change it to another type of Member
-     * @author Jimmy McCarry
-     * @param role The role of the member
-     */
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     /**
      * Allows the member to attend an event
@@ -141,7 +124,9 @@ public class Member extends Person {
      */
     public void addBranch(Branch branch) {
         this.branches.add(branch);
-        branch.addMember(this);
+        if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);
+        }
     }
 
     /**
@@ -150,6 +135,13 @@ public class Member extends Person {
      */
     public void removeBranch(Branch branch) {
         this.branches.remove(branch);
-        branch.removeMember(this);
+        if(branch.getMembers().contains(this)) {
+            branch.removeMember(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + role + ")";
     }
 }

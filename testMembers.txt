@@ -1,0 +1,4 @@
+Member Name, Member Role
+Bird Guy, MEMBER
+Snake Guy, PRESIDENT
+Bunny Girl, ORGANIZER

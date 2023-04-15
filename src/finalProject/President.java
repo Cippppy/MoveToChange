@@ -21,7 +21,7 @@ public class President extends Leader implements Lead, Organize {
      */
     public void kickMember(Member member) {
         member.setRole(Role.NON_MEMBER);
-        getBranch().removeMember(member);
+        branch.removeMember(member);
         member.removeBranch(branch);
     }
 

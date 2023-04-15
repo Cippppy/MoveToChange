@@ -1,6 +1,13 @@
 package finalProject;
 
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +18,9 @@ import java.util.ArrayList;
  * @version 04/10/2023
  */
 public class Organization extends Cause {
+
+    /** The name of the organization **/
+    String name;
 
     /** The purpose of the organization **/
     Purpose purpose;
@@ -30,11 +40,13 @@ public class Organization extends Cause {
     /**
      * Constructor
      * 
+     * @param name The name of the organization
      * @param purpose The purpose of the organization
      * @param numOfBranches The number of branches the organization has
      * @param totalMembers The number of members the organization has
      */
-    public Organization(Purpose purpose, int numOfBranches, int totalMembers) {
+    public Organization(String name, Purpose purpose, int numOfBranches, int totalMembers) {
+        this.name = name;
         this.purpose = purpose;
         this.numOfBranches = numOfBranches;
         this.totalMembers = totalMembers;
@@ -193,6 +205,61 @@ public class Organization extends Cause {
         }
         else {
             System.err.println("The branch trying to be removed is null.");
+        }
+    }
+
+    /**
+     * Saves the branches of the organization to a .txt file
+     * Autogenerates the name as the organization name and the local date now!
+     */
+    public void saveBranches() {
+        final boolean OVERWRITE_MODE = false;
+        String fileName = name.trim() + LocalDate.now() + ".txt";
+        try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
+            branchesWriter.write("Branch Location, # of Branch Members");
+            branchesWriter.write(System.lineSeparator());
+            branches.forEach(branch -> {try { 
+                                            branchesWriter.write(branch.getLocation() + ", " + branch.getNumBranchMembers());
+                                            branchesWriter.write(System.lineSeparator());
+                                        } catch (IOException i) {} });
+            branchesWriter.close();
+        } catch (IOException i) {
+            System.err.println("There was an issue.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Overloaded method that sets the branches of the organization
+     * by reading a .txt file
+     * @param fileName The name of the file to read
+     * @param numHeaderRows The number of header rows in the file
+     */
+    public void setBranches(String fileName, int numHeaderRows) {
+        if(fileName.endsWith(".txt")) {
+            try (BufferedReader branchesReader = new BufferedReader(new FileReader(fileName))) {
+                branches.clear();
+                String line = branchesReader.readLine();
+                int linesRead = 0;
+                String delims = "[,]";
+                while(line != null) {
+                    linesRead++;
+                    line = branchesReader.readLine();
+                    if(linesRead > numHeaderRows && line != null)
+                    {
+                        String[] data = line.split(delims);
+                        Branch branch = new Branch(data[0], Integer.parseInt(data[1].trim()), this);
+                    }
+                }
+            } catch (FileNotFoundException f) {
+                System.err.println("The file, " + fileName + ", could not be found.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.err.println("The input file does not end with .txt");
         }
     }
 }
