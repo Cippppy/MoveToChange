@@ -149,13 +149,50 @@ public class Organization extends Cause {
         return desiredBranch;
     }
 
+    /**
+     * Adds a single branch to the organization
+     * @param branch The branch to be added
+     */
     public void addBranch(Branch branch) {
         if(branch != null) {
             branches.add(branch);
-            numOfBranches++;
+            numOfBranches = branches.size();
         }
         else {
             System.err.println("The branch trying to be added is null.");
+        }
+    }
+
+    /**
+     * Adds a single branch to the organization by its location
+     * @param location The location of the branch to be added
+     */
+    public void addBranch(String location) {
+        if(location != null) {
+            branches.add(new Branch(location, this));
+        }
+        else {
+            System.err.println("The input location is null.");
+        }
+    }
+
+    /**
+     * Removes a single branch from the organization
+     * @param branch The branch to be removed
+     */
+    public void removeBranch(Branch branch) {
+        if(branch != null) {
+            try {
+                branches.remove(branch);
+                numOfBranches = branches.size();
+            } catch (NullPointerException n) {
+                System.err.println("The branch trying to be removed does not exist.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.err.println("The branch trying to be removed is null.");
         }
     }
 }

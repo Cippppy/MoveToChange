@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Meeting extends Event {
     
     /**
-     * Constructor
+     * Overloaded Constructor
      * 
      * @author Christian Cipolletta
      * @param reason The reason for the meeting
@@ -21,6 +21,17 @@ public class Meeting extends Event {
      */
     public Meeting(String reason, ArrayList<Person> attendees, String location) {
         super(reason, attendees, location);
+    }
+    
+    /**
+     * Overloaded Constructor
+     * 
+     * @author Christian Cipolletta
+     * @param reason The reason for the meeting
+     * @param location The location of the meeting
+     */
+    public Meeting(String reason, String location) {
+        super(reason, location);
     }
 
     // TODO - Figure out what meet does

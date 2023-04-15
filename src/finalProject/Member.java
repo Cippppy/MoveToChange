@@ -19,14 +19,57 @@ public class Member extends Person {
     private List<Branch> branches = new ArrayList<Branch>();
 
     /**
-     * Constructor
+     * Overloaded Constructor
      * 
      * @param name The name of the member
      * @param role The role of the member
      */
-    public Member(String name, Role role){
+    public Member(String name, Role role) {
+        super(name);
+        this.role = role;
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
+    }
+
+    /**
+     * Overloaded Constructor
+     * 
+     * @param name The name of the member
+     * @param role The role of the member
+     * @param branches The branches the member is part of
+     */
+    public Member(String name, Role role, List<Branch> branches) {
+        super(name);
+        this.role = role;
+        this.branches = branches;
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+                                    branch.addMember(this);}});
+    }
+
+    /**
+     * Overloaded Constructor
+     * 
+     * @param name The name of the member
+     */
+    public Member(String name) {
         super(name);
         this.role = Role.MEMBER;
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
+    }
+
+    /**
+     * Overloaded Constructor
+     * 
+     * @param name The name of the member
+     * @param branches The list of branches the member is a part of
+     */
+    public Member(String name, List<Branch> branches) {
+        super(name);
+        this.role = Role.MEMBER;
+        this.branches = branches;
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
     }
     
     /**
@@ -43,6 +86,8 @@ public class Member extends Person {
      */
     public void setBranches(List<Branch> branches) {
         this.branches = branches;
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
     }
     
     /**
@@ -68,8 +113,12 @@ public class Member extends Person {
      * @author Christian Cipolletta
      */
     public void attendEvent(Event event) {
-        Person person = new Member(name, role);
-        event.addAttendee(person);
+        if(event != null) {
+            event.addAttendee(this);
+        }
+        else {
+            System.err.println("That event is null.");
+        }
     }
 
     /**
@@ -78,6 +127,29 @@ public class Member extends Person {
      * @author Christian Cipolletta
      */
     public void readAnnouncement(Announcement announcement) {
-        announcement.getText();
+        if(announcement != null) {
+            announcement.getText();
+        }
+        else {
+            System.err.println("That announcement is null.");
+        }
+    }
+
+    /**
+     * Adds a single branch to this member
+     * @param branch The branch to add
+     */
+    public void addBranch(Branch branch) {
+        this.branches.add(branch);
+        branch.addMember(this);
+    }
+
+    /**
+     * Removes a single branch from this member
+     * @param branch The branc to remove
+     */
+    public void removeBranch(Branch branch) {
+        this.branches.remove(branch);
+        branch.removeMember(this);
     }
 }

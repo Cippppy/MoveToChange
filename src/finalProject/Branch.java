@@ -25,14 +25,12 @@ public class Branch {
     List<Event> events = new ArrayList<Event>();
 
     /**
-     * Constructor
+     * Overloaded Constructor
      * 
      * @author Jimmy McCarry
      * @param location Location of the branch
      * @param numBranchMembers Number of members of this branch
-     * @param purpose Enum purpose for the branch
-     * @param numOfBranches used for super constructor, should probably be removed after inheritance is changed
-     * @param totalMembers also used for super, same as above value
+     * @param org The organization this branch belongs to
      */
     public Branch(String location, int numBranchMembers, Organization org) {
         if(location != null && numBranchMembers > -1 && org != null) {
@@ -40,7 +38,27 @@ public class Branch {
             this.numBranchMembers = numBranchMembers;
             org.getBranches().add(this);
         }
-        
+        else {
+            System.err.println("One or more of the inputs to create this branch is null.");
+        }
+    }
+
+    /**
+     * Overloaded Constructor
+     * 
+     * @author Jimmy McCarry
+     * @param location Location of the branch
+     * @param org The organization this branch belongs to
+     */
+    public Branch(String location, Organization org) {
+        if(location != null && org != null) {
+            this.location = location;
+            this.numBranchMembers = 0;
+            org.getBranches().add(this);
+        }
+        else {
+            System.err.println("One or more of the inputs to create this branch is null.");
+        }
     }
 
     /**
@@ -59,6 +77,7 @@ public class Branch {
      */
     public void setLocation(String location) {
         if(location != null) this.location = location;
+        else System.err.println("The input location for this branch is null.");
     }
 
     /**
