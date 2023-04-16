@@ -1,6 +1,7 @@
 package finalProject;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -9,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * 
@@ -31,6 +34,8 @@ public class Branch {
     /** The list of events the branch has **/
     List<Event> events = new ArrayList<Event>();
 
+    private Logger logger = Logger.getLogger(Branch.class.getName());
+
     /**
      * Overloaded Constructor
      * 
@@ -46,7 +51,7 @@ public class Branch {
             org.getBranches().add(this);
         }
         else {
-            System.err.println("One or more of the inputs to create this branch is null.");
+            logger.log(Level.WARNING, "One or more of the inputs to create this branch is null.");
         }
     }
 
@@ -64,7 +69,7 @@ public class Branch {
             org.getBranches().add(this);
         }
         else {
-            System.err.println("One or more of the inputs to create this branch is null.");
+            logger.log(Level.WARNING, "One or more of the inputs to create this branch is null.");
         }
     }
 

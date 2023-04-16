@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * 
  * 
- * @author
+ * @author Jimmy McCarry
+ * @author Christian Cipolletta
  * @version 04/11/2023
  */
 public class Organizer extends Leader implements Organize, Lead {

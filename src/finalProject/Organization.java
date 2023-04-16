@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * 
@@ -20,23 +22,24 @@ import java.util.ArrayList;
 public class Organization extends Cause {
 
     /** The name of the organization **/
-    String name;
+    private String name;
 
     /** The purpose of the organization **/
-    Purpose purpose;
+    private Purpose purpose;
 
     /** The number of branches the organization has **/
-    int numOfBranches;
+    private int numOfBranches;
 
     /** The total number of members the organization has **/
-    int totalMembers;
+    private int totalMembers;
 
     /** A list of all the branches of the organization **/
-    List<Branch> branches = new ArrayList<Branch>();
+    private List<Branch> branches = new ArrayList<Branch>();
 
     /** A list of all the announcements of the organization **/
-    List<Announcement> announcements = new ArrayList<Announcement>();
+    private List<Announcement> announcements = new ArrayList<Announcement>();
     
+    protected Logger logger = Logger.getLogger(Organization.class.getName());
     /**
      * Constructor
      * 
@@ -46,10 +49,20 @@ public class Organization extends Cause {
      * @param totalMembers The number of members the organization has
      */
     public Organization(String name, Purpose purpose, int numOfBranches, int totalMembers) {
-        this.name = name;
-        this.purpose = purpose;
-        this.numOfBranches = numOfBranches;
-        this.totalMembers = totalMembers;
+        if(name != null && purpose != null && numOfBranches > 0)
+        {
+            this.name = name;
+            this.purpose = purpose;
+            this.numOfBranches = numOfBranches;
+            this.totalMembers = totalMembers;
+        }
+        else if(numOfBranches <= 0){
+            logger.log(Level.WARNING, "Number of branches must be at least 1");
+        }
+        else {
+            logger.log(Level.WARNING, "One or more values are null");
+        }
+        
     }
 
     /**
@@ -68,6 +81,7 @@ public class Organization extends Cause {
      */
     public void setPurpose(Purpose purpose) {
         if(purpose != null) this.purpose = purpose;
+        else logger.log(Level.WARNING, "Purpose is null");
     }
 
     /**
@@ -86,6 +100,7 @@ public class Organization extends Cause {
      */
     public void setNumOfBranches(int numOfBranches) {
         if(numOfBranches > 0) this.numOfBranches = numOfBranches;
+        else logger.log(Level.WARNING, "Number of branches must be greater than 0");
     }
 
     /**
@@ -104,6 +119,7 @@ public class Organization extends Cause {
      */
     public void setTotalMembers(int totalMembers) {
         if(totalMembers > -1) this.totalMembers = totalMembers;
+        else logger.log(Level.WARNING, "Total members must be 0 or more");
     }
 
     /**
@@ -122,6 +138,7 @@ public class Organization extends Cause {
      */
     public void setBranches(List<Branch> branches) {
         if(branches != null) this.branches = branches;
+        else logger.log(Level.WARNING, "Branches is null");
     }
 
     /**
@@ -140,6 +157,7 @@ public class Organization extends Cause {
      */
     public void setAnnouncements(List<Announcement> announcements) {
         if(announcements != null) this.announcements = announcements;
+        else logger.log(Level.WARNING, "Announcements is null");
     }
 
     /**
@@ -156,6 +174,7 @@ public class Organization extends Cause {
             if(branches.get(i).getLocation().toLowerCase() == location)
             {
                 desiredBranch = branches.get(i);
+                logger.log(Level.INFO, "Branch found");
             }
         }
         return desiredBranch;
@@ -171,7 +190,7 @@ public class Organization extends Cause {
             numOfBranches = branches.size();
         }
         else {
-            System.err.println("The branch trying to be added is null.");
+            logger.log(Level.WARNING, "The branch trying to be added is null.");
         }
     }
 
@@ -184,7 +203,7 @@ public class Organization extends Cause {
             branches.add(new Branch(location, this));
         }
         else {
-            System.err.println("The input location is null.");
+            logger.log(Level.WARNING, "The input location is null.");
         }
     }
 
@@ -198,7 +217,7 @@ public class Organization extends Cause {
                 branches.remove(branch);
                 numOfBranches = branches.size();
             } catch (NullPointerException n) {
-                System.err.println("The branch trying to be removed does not exist.");
+                logger.log(Level.WARNING, "The branch trying to be removed does not exist.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -253,13 +272,14 @@ public class Organization extends Cause {
                     }
                 }
             } catch (FileNotFoundException f) {
-                System.err.println("The file, " + fileName + ", could not be found.");
+                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
             } catch (Exception e) {
                 e.printStackTrace();
+                
             }
         }
         else {
-            System.err.println("The input file does not end with .txt");
+            logger.log(Level.WARNING, "The input file does not end with .txt");
         }
     }
 }
