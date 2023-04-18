@@ -2,6 +2,7 @@ package finalProject;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -11,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
@@ -85,7 +87,19 @@ public class GUI extends Application {
 
     private void styleMainPane(Pane pane) {
         pane.setStyle("-fx-background-color: #ffffff;");
-        // TODO - change member GUI depending on user rank
+    }
+
+    private void stylePanels(VBox panel, Pos pos) {
+        panel.setMinWidth(450);
+        panel.setMinHeight(1080);
+        panel.setAlignment(pos);
+        panel.setStyle("-fx-background-color: #e6e6e6;");
+    }
+
+    private void styleCenter(VBox center) {
+        center.setMinWidth(1020);
+        center.setPrefWidth(1020);
+        center.setAlignment(Pos.TOP_CENTER);
     }
 
     private void styleLogin(Pane pane) {
@@ -93,7 +107,6 @@ public class GUI extends Application {
     }
 
     private void setupControls(Pane pane) {
-        // TODO - change member GUI depending on user rank
         Text test = new Text("test");
         if (rank.equals(Role.MEMBER)) {
             test.setText("I am a member.");
@@ -105,7 +118,19 @@ public class GUI extends Application {
             test.setText("I am a guest.");
         }
 
-        HBox root = new HBox(3, test);
+        Text test2 = new Text("sdfds");
+        Text test3 = new Text("sdfgsdfsdf");
+
+        VBox leftPanel = new VBox(test2);
+        stylePanels(leftPanel, Pos.TOP_LEFT);
+
+        VBox center = new VBox(test);
+        styleCenter(center);
+
+        VBox rightPanel = new VBox(test3);
+        stylePanels(rightPanel, Pos.TOP_RIGHT);
+        
+        HBox root = new HBox(3, leftPanel, center, rightPanel);
 
         pane.getChildren().add(root);
     }

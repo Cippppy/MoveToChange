@@ -1,0 +1,3 @@
+Member Name, Member Role
+Boot, MEMBER
+Air Bud, MEMBER
