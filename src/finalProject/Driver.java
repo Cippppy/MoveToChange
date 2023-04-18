@@ -53,5 +53,6 @@ public class Driver {
         animals.saveBranches();
         animals.setBranches("testBranches.txt", 0);
         System.out.println(animals.getBranches());
+        animalBranch.removeMember(null);
     }
 }

@@ -23,17 +23,18 @@ import java.util.logging.Level;
 public class Branch {
 
     /** The location of the branch **/
-    String location;
+    private String location;
 
     /** The number of members the branch has **/
-    int numBranchMembers;
+    private int numBranchMembers;
 
     /** The list of members the branch has **/
-    List<Person> members = new ArrayList<Person>();
+    private List<Person> members = new ArrayList<Person>();
 
     /** The list of events the branch has **/
-    List<Event> events = new ArrayList<Event>();
+    private List<Event> events = new ArrayList<Event>();
 
+    /** Logger to tell log what is going on **/
     private Logger logger = Logger.getLogger(Branch.class.getName());
 
     /**
@@ -89,7 +90,7 @@ public class Branch {
      */
     public void setLocation(String location) {
         if(location != null) this.location = location;
-        else System.err.println("The input location for this branch is null.");
+        else logger.log(Level.WARNING, "The input string for the setLocation method is null.");
     }
 
     /**
@@ -108,6 +109,7 @@ public class Branch {
      */
     public void setNumBranchMembers(int numBranchMembers) {
         if(numBranchMembers > -1) this.numBranchMembers = numBranchMembers;
+        else logger.log(Level.WARNING, "The input number of branch members is less than 0.");
     }
 
     /**
@@ -125,7 +127,9 @@ public class Branch {
      * @param members List to be passed in and set as the members of this branch
      */
     public void setMembers(List<Person> members) {
-        if(members != null) this.members = members;
+        if(members != null) { this.members = members; 
+                              this.numBranchMembers = members.size(); }
+        else logger.log(Level.WARNING, "The input list of members is null.");
     }
 
     /**
@@ -144,23 +148,27 @@ public class Branch {
      */
     public void setEvents(List<Event> events) {
         if(events != null) this.events = events;
+        else logger.log(Level.WARNING, "The input list of events is null.");
     }
 
     /**
      * Adds a single member to the branch and increments numBranchMembers
      * @param member The member to be added
      */
-    public void addMember(Member member) {
-        if(member != null) {
-            if(member.getRole() == Role.NON_MEMBER || member.getRole() == null) {
-                member.setRole(Role.MEMBER);
+    public void addMember(Person person) {
+        if(person != null) {
+            if(person.getRole() == Role.NON_MEMBER || person.getRole() == null) {
+                person.setRole(Role.MEMBER);
+                logger.log(Level.INFO, "Member trying to be added is a non-member or did not have a role." +
+                                      " They are now a member.");
             }
-            this.members.add(member);
+            this.members.add(person);
             this.numBranchMembers = this.members.size();
-            if(!member.getBranches().contains(this)) {
-                member.addBranch(this);
+            if(!((Member) person).getBranches().contains(this)) {
+                ((Member) person).addBranch(this);
             }
         }
+        else logger.log(Level.WARNING, "The member you are trying to add is null.");
     }
 
     /**
@@ -168,9 +176,15 @@ public class Branch {
      * @param member The member to be removed
      */
     public void removeMember(Member member) {
-        this.members.remove(member);
-        member.removeBranch(this);
-        this.numBranchMembers = this.members.size();
+        if(member != null) {
+            this.members.remove(member);
+            member.removeBranch(this);
+            this.numBranchMembers = this.members.size();
+            logger.log(Level.INFO, "Member successfully removed from " + this);
+        }
+        else {
+            logger.log(Level.WARNING, "The member you are trying to remove is null.");
+        }
     }
 
     /**
@@ -180,9 +194,10 @@ public class Branch {
     public void addEvent(Event event) {
         if(event != null) {
             this.events.add(event);
+            logger.log(Level.INFO, "Event added successfully to " + this);
         }
         else {
-            System.err.println("The input event is null.");
+            logger.log(Level.WARNING, "The event you are trying to add is null.");
         }
     }
 
@@ -201,7 +216,7 @@ public class Branch {
             }
         }
         else {
-            System.err.println("The input event is null.");
+            logger.log(Level.WARNING, "The event you are trying to remove is null.");
         }
     }
 
