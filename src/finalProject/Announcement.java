@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * 
  * 
@@ -14,6 +17,7 @@ public class Announcement implements Distributable {
     /** The text of the announcement **/
     String text;
 
+    Logger logger = Logger.getLogger(Announcement.class.getName());
     /**
      * Constructor
      * 
@@ -23,8 +27,12 @@ public class Announcement implements Distributable {
      * @param text Content of the announcement
      */
     public Announcement(String reason, String text) {
-        this.reason = reason;
-        this.text = text;
+        if(reason != null && text != null){
+            this.reason = reason;
+            this.text = text;
+        }
+        else logger.log(Level.WARNING, "One or more inputs are null");
+        
     }
 
     /**
@@ -43,7 +51,10 @@ public class Announcement implements Distributable {
      * @param reason Reason for the announcement
      */
     public void setReason(String reason) {
-        this.reason = reason;
+        if(reason != null) this.reason = reason; 
+        else logger.log(Level.WARNING, "Reason is null");
+
+        if(reason.isEmpty()) logger.log(Level.INFO, "Reason is empty");
     }
 
     /**
@@ -61,6 +72,8 @@ public class Announcement implements Distributable {
      * @param text Content of the announcement
      */
     public void setText(String text) {
-        this.text = text;
+        if(text != null) this.text = text;
+        else logger.log(Level.WARNING, "Text is null");
+        if(text.isEmpty()) logger.log(Level.INFO, "Text is empty");
     }
 }

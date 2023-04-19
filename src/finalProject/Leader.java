@@ -1,5 +1,7 @@
 package finalProject;
 
+import java.util.logging.Level;
+
 public abstract class Leader extends Member {
 
     /** Branch the leader leads **/
@@ -18,7 +20,7 @@ public abstract class Leader extends Member {
             this.branch = branch;
         }
         else {
-            System.err.println("The input branch is null.");
+            logger.log(Level.WARNING, "The input branch is null.");
         }
     }
 
@@ -39,7 +41,7 @@ public abstract class Leader extends Member {
             this.branch = branch;
         }
         else {
-            System.err.println("The input branch is null.");
+            logger.log(Level.WARNING, "The input branch is null.");
         }
     }
 }
