@@ -19,7 +19,7 @@ import java.util.logging.Level;
  * @author Christian Cipolletta
  * @version 04/10/2023
  */
-public class Organization extends Cause {
+public class Organization {
 
     /** The name of the organization **/
     private String name;
