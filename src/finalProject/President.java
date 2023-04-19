@@ -1,10 +1,12 @@
 package finalProject;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * 
  */
 public class President extends Leader implements Lead, Organize {
 
+    Logger logger = Logger.getLogger(President.class.getName());
     /**
      * Creates a instance of President with a name
      * 
@@ -34,22 +36,24 @@ public class President extends Leader implements Lead, Organize {
         if(member != null && role != null) {
             if(!this.branch.getMembers().contains(member)){
                 this.branch.getMembers().add(member);
+                logger.log(Level.INFO, "Member successfully added to " + this.branch);
             }
             if(Role.valueOf(role.toUpperCase()).equals(Role.NON_MEMBER)){
                 kickMember(member);
+                logger.log(Level.INFO, "Member kicked successfully");
             }
             else {
                 try {
                     member.setRole(Role.valueOf(role.toUpperCase()));
                 } catch (IllegalArgumentException i) {
-                    System.err.println("The input role, " + role + ", does not exist.");
+                    logger.log(Level.WARNING, "The input role, " + role + ", does not exist.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
         else {
-            System.err.println("One or more of the inputs is null.");
+            logger.log(Level.WARNING, "One or more of the inputs is null.");
         }
     }
 }

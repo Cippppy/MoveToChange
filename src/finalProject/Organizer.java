@@ -2,6 +2,8 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -14,7 +16,7 @@ public class Organizer extends Leader implements Organize, Lead {
 
     /** List of events created by the organizer **/
     private List<Event> events = new ArrayList<Event>();
-
+    Logger logger = Logger.getLogger(Organizer.class.getName());
     /**
      * Constructor
      * 
@@ -42,7 +44,7 @@ public class Organizer extends Leader implements Organize, Lead {
             this.events = events;
         }
         else {
-            System.err.println("The input events are null.");
+            logger.log(Level.WARNING, "The input events are null.");
         }
     }
 
@@ -55,7 +57,7 @@ public class Organizer extends Leader implements Organize, Lead {
             this.events.add(event);
         }
         else {
-            System.err.println("The input event is null.");
+            logger.log(Level.WARNING, "The input event is null.");
         }
     }
 
@@ -79,11 +81,11 @@ public class Organizer extends Leader implements Organize, Lead {
                 event.addAttendee(person);
             }
             else {
-                System.err.println("You do not have permission to add members to event: " + event);
+                logger.log(Level.INFO, "You do not have permission to add members to event: " + event);
             }
         }
         else {
-            System.err.println("The input event or person is null.");
+            logger.log(Level.WARNING, "The input event or person is null.");
         }
     }
 
@@ -98,11 +100,11 @@ public class Organizer extends Leader implements Organize, Lead {
                 event.removeAttendee(person);
             }
             else {
-                System.err.println("You do not have permission to remove members from event: " + event);
+                logger.log(Level.INFO, "You do not have permission to remove members from event: " + event);
             }
         }
         else {
-            System.err.println("The input event or person is null.");
+            logger.log(Level.WARNING, "The input event or person is null.");
         }
     }
 
@@ -111,13 +113,13 @@ public class Organizer extends Leader implements Organize, Lead {
             try {
                 events.remove(event);
             } catch (NullPointerException n) {
-                System.err.println("That event is not in your list.");
+                logger.log(Level.WARNING, "That event does not exist.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         else {
-            System.err.println("The input event is null.");
+            logger.log(Level.WARNING, "The input event is null.");
         }
     }
 }

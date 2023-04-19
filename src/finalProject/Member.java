@@ -2,6 +2,8 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -18,6 +20,8 @@ public class Member extends Person {
     /** The branches the member is a part of **/
     private List<Branch> branches = new ArrayList<Branch>();
 
+    Logger logger = Logger.getLogger(Member.class.getName());
+    
     /**
      * Overloaded Constructor
      * 
@@ -26,7 +30,8 @@ public class Member extends Person {
      */
     public Member(String name, Role role) {
         super(name);
-        this.role = role;
+        if(role != null) this.role = role;
+        else logger.log(Level.WARNING, "Role cannot be null");
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
             branch.addMember(this);}});
     }
@@ -40,27 +45,37 @@ public class Member extends Person {
      */
     public Member(String name, Role role, List<Branch> branches) {
         super(name);
-        this.role = role;
-        this.branches = branches;
+        if(role != null) this.role = role;
+        else logger.log(Level.WARNING, "Role cannot be null");
+
+        if(branches != null) this.branches = branches;
+        else logger.log(Level.WARNING, "Branches cannot be null");
+
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
                                     branch.addMember(this);}});
     }
 
     /**
      * Overloaded Constructor
-     * 
+     * @author Christian Cipolletta
+     * @author Jimmy McCarry
      * @param name The name of the member
      */
     public Member(String name) {
         super(name);
         this.role = Role.MEMBER;
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);}});
+                branch.addMember(this);
+                logger.log(Level.INFO, name + " added to " + branch);
+            }
+        });
     }
 
     /**
      * Overloaded Constructor
      * 
+     * @author Jimmy McCarry
+     * @author Christian Cipolletta
      * @param name The name of the member
      * @param branches The list of branches the member is a part of
      */
@@ -69,7 +84,9 @@ public class Member extends Person {
         this.role = Role.MEMBER;
         this.branches = branches;
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);}});
+            branch.addMember(this);
+            logger.log(Level.INFO, name + " added to " + branch);
+        }});
     }
     
     /**
@@ -85,7 +102,8 @@ public class Member extends Person {
      * @param branches The branches
      */
     public void setBranches(List<Branch> branches) {
-        this.branches = branches;
+        if(branches != null) this.branches = branches;
+        else logger.log(Level.WARNING, "Branches is null");
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
             branch.addMember(this);}});
     }
@@ -100,7 +118,7 @@ public class Member extends Person {
             event.addAttendee(this);
         }
         else {
-            System.err.println("That event is null.");
+            logger.log(Level.WARNING, "That event is null.");
         }
     }
 
@@ -114,7 +132,7 @@ public class Member extends Person {
             announcement.getText();
         }
         else {
-            System.err.println("That announcement is null.");
+            logger.log(Level.WARNING, "That announcement is null.");
         }
     }
 
@@ -123,10 +141,16 @@ public class Member extends Person {
      * @param branch The branch to add
      */
     public void addBranch(Branch branch) {
-        this.branches.add(branch);
-        if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);
+        if(branch != null){
+            this.branches.add(branch);
+            if(!branch.getMembers().contains(this)) {
+                branch.addMember(this);
+                logger.log(Level.INFO, this.name + " added to " + branch);
+            }
+            else logger.log(Level.INFO, this.name + " already belongs to that branch");
         }
+        else logger.log(Level.WARNING, "That branch is null");
+        
     }
 
     /**
@@ -134,10 +158,12 @@ public class Member extends Person {
      * @param branch The branc to remove
      */
     public void removeBranch(Branch branch) {
-        this.branches.remove(branch);
+        if(branch != null) this.branches.remove(branch);
+        else logger.log(Level.WARNING, "Branch is null");
         if(branch.getMembers().contains(this)) {
             branch.removeMember(this);
         }
+        else logger.log(Level.INFO, this.name + " does not belong to that branch");
     }
 
     @Override

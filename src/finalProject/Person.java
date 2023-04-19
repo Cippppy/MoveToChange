@@ -1,7 +1,10 @@
 package finalProject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * 
+ * @author Jimmy McCarry
+ * @version 03/27/2023
  */
 public abstract class Person {
 
@@ -11,13 +14,16 @@ public abstract class Person {
     /** The role of the person **/
     Role role;
 
+    public static Logger logger = Logger.getLogger(Person.class.getName());
+
     /**
      * Create's a person with a name
      * 
      * @param name The name of the person
      */
     public Person(String name) {
-        this.name = name;
+        if(name != null) this.name = name;
+        else logger.log(Level.WARNING, "Name is null");
     }
 
     /**
@@ -33,7 +39,8 @@ public abstract class Person {
      * @param name The person's name
      */
     public void setName(String name) {
-        this.name = name;
+        if(name != null) this.name = name;
+        else logger.log(Level.WARNING, "Name is null");
     }
 
     /**
@@ -51,6 +58,7 @@ public abstract class Person {
      * @param role The role of the member
      */
     public void setRole(Role role) {
-        this.role = role;
+        if(role != null) this.role = role;
+        else logger.log(Level.WARNING, "Role is null");
     }
 }

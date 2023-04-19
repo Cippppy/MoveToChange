@@ -39,7 +39,7 @@ public class Organization extends Cause {
     /** A list of all the announcements of the organization **/
     private List<Announcement> announcements = new ArrayList<Announcement>();
     
-    protected Logger logger = Logger.getLogger(Organization.class.getName());
+    public static Logger logger = Logger.getLogger(Organization.class.getName());
     /**
      * Constructor
      * 
@@ -223,7 +223,7 @@ public class Organization extends Cause {
             }
         }
         else {
-            System.err.println("The branch trying to be removed is null.");
+            logger.log(Level.WARNING, "The branch trying to be removed is null.");
         }
     }
 
@@ -243,7 +243,8 @@ public class Organization extends Cause {
                                         } catch (IOException i) {} });
             branchesWriter.close();
         } catch (IOException i) {
-            System.err.println("There was an issue.");
+            logger.log(Level.WARNING, "IO Exception, ");
+            i.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
