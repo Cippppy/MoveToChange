@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Person {
+public class Person implements Comparable<Person> {
 
     /** The name of the person **/
     private String name;
@@ -148,5 +148,17 @@ public class Person {
         else logger.log(Level.WARNING, "Branches is null");
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
             branch.addMember(this);}});
+    }
+
+    public String getUsername() {
+        return usernameAndPassword.getKey();
+    }
+
+    public String getPassword() {
+        return usernameAndPassword.getValue();
+    }
+
+    public int compareTo(Person person) {
+        return this.name.compareTo(person.getName());
     }
 }
