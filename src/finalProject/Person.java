@@ -77,4 +77,18 @@ public abstract class Person {
         return this.usernameAndPassword;
     }
 
+     /* 
+     * @param organizationsAndRoles
+     */
+    public void setOrganizationsAndRoles(HashMap<Organization, Role> organizationsAndRoles) {
+        this.organizationsAndRoles = organizationsAndRoles;
+    }
+
+    public void setRole(Organization organization, Role role) {
+        organizationsAndRoles.put(organization,role);
+    }
+    
+    public Role getRole(Organization organization) {
+        return organizationsAndRoles.get(organization);
+    }
 }

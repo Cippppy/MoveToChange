@@ -1,6 +1,7 @@
 package finalProject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,9 +15,6 @@ import java.util.logging.Logger;
  */
 public class Member extends Person {
 
-    /** The role the member has in the branch **/
-    private Role role;
-
     /** The branches the member is a part of **/
     private List<Branch> branches = new ArrayList<Branch>();
 
@@ -28,12 +26,15 @@ public class Member extends Person {
      * @param name The name of the member
      * @param role The role of the member
      */
-    public Member(String name, Role role) {
+    public Member(String name, HashMap<Organization, Role> organizationsAndRoles, List<Branch> branches) {
         super(name);
-        if(role != null) this.role = role;
-        else logger.log(Level.WARNING, "Role cannot be null");
-        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);}});
+        setOrganizationsAndRoles(organizationsAndRoles);
+        if(branches != null) {
+            this.branches = branches;
+        }
+        else {
+            logger.log(Level.WARNING, "The input list of branches is null.");
+        }
     }
 
     /**
@@ -43,16 +44,25 @@ public class Member extends Person {
      * @param role The role of the member
      * @param branches The branches the member is part of
      */
-    public Member(String name, Role role, List<Branch> branches) {
+    public Member(String name, List<Branch> branches) {
         super(name);
-        if(role != null) this.role = role;
-        else logger.log(Level.WARNING, "Role cannot be null");
 
         if(branches != null) this.branches = branches;
         else logger.log(Level.WARNING, "Branches cannot be null");
 
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
                                     branch.addMember(this);}});
+    }
+
+
+    public Member(String name, HashMap<Organization, Role> organizationsAndRoles) {
+        super(name);
+        setOrganizationsAndRoles(organizationsAndRoles);
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);
+            logger.log(Level.INFO, name + " added to " + branch);
+        }
+    });
     }
 
     /**
@@ -63,30 +73,11 @@ public class Member extends Person {
      */
     public Member(String name) {
         super(name);
-        this.role = Role.MEMBER;
         this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
                 branch.addMember(this);
                 logger.log(Level.INFO, name + " added to " + branch);
             }
         });
-    }
-
-    /**
-     * Overloaded Constructor
-     * 
-     * @author Jimmy McCarry
-     * @author Christian Cipolletta
-     * @param name The name of the member
-     * @param branches The list of branches the member is a part of
-     */
-    public Member(String name, List<Branch> branches) {
-        super(name);
-        this.role = Role.MEMBER;
-        this.branches = branches;
-        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);
-            logger.log(Level.INFO, name + " added to " + branch);
-        }});
     }
     
     /**
@@ -145,9 +136,9 @@ public class Member extends Person {
             this.branches.add(branch);
             if(!branch.getMembers().contains(this)) {
                 branch.addMember(this);
-                logger.log(Level.INFO, this.name + " added to " + branch);
+                logger.log(Level.INFO, getName() + " added to " + branch);
             }
-            else logger.log(Level.INFO, this.name + " already belongs to that branch");
+            else logger.log(Level.INFO, getName() + " already belongs to that branch");
         }
         else logger.log(Level.WARNING, "That branch is null");
         
@@ -163,11 +154,11 @@ public class Member extends Person {
         if(branch.getMembers().contains(this)) {
             branch.removeMember(this);
         }
-        else logger.log(Level.INFO, this.name + " does not belong to that branch");
+        else logger.log(Level.INFO, getName() + " does not belong to that branch");
     }
 
     @Override
     public String toString() {
-        return name + " (" + role + ")";
+        return getName();
     }
 }

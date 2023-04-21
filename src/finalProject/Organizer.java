@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * @author Christian Cipolletta
  * @version 04/11/2023
  */
-public class Organizer extends Leader implements Organize, Lead {
+public class Organizer extends Member implements Organize, Lead {
 
     /** List of events created by the organizer **/
     private List<Event> events = new ArrayList<Event>();
@@ -24,7 +24,8 @@ public class Organizer extends Leader implements Organize, Lead {
      * @param branch The branch the organizer belongs to
      */
     public Organizer(String name, Branch branch) {
-        super(name, Role.ORGANIZER, branch);
+        super(name);
+        setRole(branch.getOrganization(), Role.ORGANIZER);
     }
 
     /**
