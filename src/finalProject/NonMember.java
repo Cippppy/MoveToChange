@@ -25,7 +25,7 @@ public class NonMember extends Person {
      * @param branch The branch to be joined
      */
     public void join(Branch branch) {
-        Member member = new Member(name);
+        Member member = new Member(getName());
         branch.addMember(member);
     }
 }

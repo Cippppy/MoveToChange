@@ -24,6 +24,7 @@ public abstract class Person {
     public Person(String name) {
         if(name != null) this.name = name;
         else logger.log(Level.WARNING, "Name is null");
+        organizationsAndRoles = new HashMap<Organization, Role>();
     }
 
     /**
@@ -55,5 +56,21 @@ public abstract class Person {
      */
     public HashMap<Organization, Role> getOrganizationsAndRoles() {
         return this.organizationsAndRoles;
+    }
+
+    /**
+     * 
+     * @param organizationsAndRoles
+     */
+    public void setOrganizationsAndRoles(HashMap<Organization, Role> organizationsAndRoles) {
+        this.organizationsAndRoles = organizationsAndRoles;
+    }
+
+    public void setRole(Organization organization, Role role) {
+        organizationsAndRoles.put(organization,role);
+    }
+    
+    public Role getRole(Organization organization) {
+        return organizationsAndRoles.get(organization);
     }
 }

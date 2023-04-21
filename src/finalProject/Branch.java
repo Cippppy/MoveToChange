@@ -25,6 +25,9 @@ public class Branch {
     /** The location of the branch **/
     private String location;
 
+    /** The organization the branch belongs to **/
+    private Organization organization;
+
     /** The number of members the branch has **/
     private int numBranchMembers;
 
@@ -50,6 +53,7 @@ public class Branch {
             this.location = location;
             this.numBranchMembers = numBranchMembers;
             org.getBranches().add(this);
+            this.organization = org;
         }
         else {
             logger.log(Level.WARNING, "One or more of the inputs to create this branch is null.");
@@ -157,8 +161,8 @@ public class Branch {
      */
     public void addMember(Person person) {
         if(person != null) {
-            if(person.getRole() == Role.NON_MEMBER || person.getRole() == null) {
-                person.setRole(Role.MEMBER);
+            if(person.getRole(organization) == Role.NON_MEMBER || person.getRole(organization) == null) {
+                person.setRole(organization, Role.MEMBER);
                 logger.log(Level.INFO, "Member trying to be added is a non-member or did not have a role." +
                                       " They are now a member.");
             }
@@ -231,7 +235,7 @@ public class Branch {
             membersWriter.write("Member Name, Member Role");
             membersWriter.write(System.lineSeparator());
             members.forEach(member -> {try { 
-                                            membersWriter.write(member.getName() + ", " + member.getRole());
+                                            membersWriter.write(member.getName() + ", " + member.getRole(organization));
                                             membersWriter.write(System.lineSeparator());
                                         } catch (IOException i) {} });
             membersWriter.close();
@@ -261,7 +265,8 @@ public class Branch {
                     if(linesRead > numHeaderRows && line != null)
                     {
                         String[] data = line.split(delims);
-                        Member member = new Member(data[0], Role.valueOf(data[1].toUpperCase().trim()));
+                        Member member = new Member(data[0]);
+                        member.setRole(organization, Role.valueOf(data[1].trim()));
                         members.add(member);
                     }
                 }
@@ -274,6 +279,14 @@ public class Branch {
         else {
             System.err.println("The input file does not end with .txt");
         }
+    }
+
+    public Organization getOrganization() {
+        return this.organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
     @Override

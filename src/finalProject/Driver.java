@@ -25,7 +25,7 @@ public class Driver {
         President animalPresident = new President("President Lizard", animalBranch);
         Organizer animalOrganizer = new Organizer("Rex", animalBranch);
         Recruiter animalRecruiter = new Recruiter("Slinky", animalBranch);
-        Member animalMember = new Member("Air Bud", Role.MEMBER);
+        Member animalMember = new Member("Air Bud");
         Member animalTestMember = new Member("Boot");
         animalBranch.addMember(animalTestMember);
 
@@ -39,9 +39,9 @@ public class Driver {
         animalOrganizer.removeAttendee(greenEnergyEvent, animalMember);
         animalOrganizer.removeAttendee(animalEvent, animalMember);
         animalOrganizer.addAttendee(animalOrganizer.getEvents().get(0), animalMember);
-        animalPresident.changePosition(animalTestMember, "Organizer");
+        animalPresident.changePosition(animals, animalTestMember, "Organizer");
         System.out.println(animalBranch.getMembers().contains(animalTestMember));
-        animalPresident.kickMember(animalTestMember);
+        animalPresident.kickMember(animals,animalTestMember);
         System.out.println(animalBranch.getMembers().contains(animalTestMember));
         animalBranch.addMember(animalTestMember);
         animalBranch.addMember(animalMember);
