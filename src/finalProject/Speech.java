@@ -2,6 +2,7 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Speech extends Event {
 
@@ -22,7 +23,7 @@ public class Speech extends Event {
             this.speakers = speakers;
         }
         else {
-            System.err.println("The input speakers is null.");
+            logger.log(Level.WARNING, "The input speakers is null.");
         }
     }
 
@@ -94,9 +95,10 @@ public class Speech extends Event {
     public void addSpeaker(Person speaker) {
         if(speaker != null) {
             this.speakers.add(speaker);
+            logger.log(Level.INFO, speaker.getName() + " successfully added");
         }
         else {
-            System.err.println("The input speaker is null.");
+            logger.log(Level.WARNING, "The input speaker is null.");
         }
     }
 
@@ -108,14 +110,15 @@ public class Speech extends Event {
         if(speaker != null) {
             try {
                 this.speakers.remove(speaker);
+                logger.log(Level.INFO, speaker.getName() + " successfully removed");
             } catch (NullPointerException n) {
-                System.err.println("That speaker is not on the list for this speech.");
+                logger.log(Level.WARNING, "That speaker is not on the list for this speech.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         else {
-            System.err.println("The input speaker is null.");
+            logger.log(Level.WARNING, "The input speaker is null.");
         }
     }
 }
