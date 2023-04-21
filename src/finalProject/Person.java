@@ -1,4 +1,5 @@
 package finalProject;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,10 +10,9 @@ import java.util.logging.Logger;
 public abstract class Person {
 
     /** The name of the person **/
-    String name;
+    private String name;
 
-    /** The role of the person **/
-    Role role;
+    private HashMap<Organization, Role> organizationsAndRoles;
 
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
@@ -44,21 +44,16 @@ public abstract class Person {
     }
 
     /**
-     * Gets the role of this Member
-     * @author Jimmy McCarry
-     * @return The role of the member
+     * This holds the person's organizations which will be the keys,
+     * and the roles associated with those organiaztions which will be the values.
+     * The person class will not add or remove it's own roles
+     * becasue they will be added or removed by the Controller classes that will be
+     * associated with the buttons in the GUI.
+     * 
+     * @return The organizations and the roles associated with them.
+     * @author Owem O'Connell
      */
-    public Role getRole() {
-        return this.role;
-    }
-    
-    /**
-     * Sets the role of this Member, used to change it to another type of Member
-     * @author Jimmy McCarry
-     * @param role The role of the member
-     */
-    public void setRole(Role role) {
-        if(role != null) this.role = role;
-        else logger.log(Level.WARNING, "Role is null");
+    public HashMap<Organization, Role> getOrganizationsAndRoles() {
+        return this.organizationsAndRoles;
     }
 }
