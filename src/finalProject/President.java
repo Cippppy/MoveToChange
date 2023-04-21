@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 /**
  * 
  */
-public class President extends Member implements Lead, Organize {
+public class President extends Role implements Lead, Organize {
 
     Logger logger = Logger.getLogger(President.class.getName());
     /**
@@ -13,9 +13,8 @@ public class President extends Member implements Lead, Organize {
      * @param name The president's name
      * @param branch The branch the president leads
      */
-    public President(String name, Branch branch) {
-        super(name);
-        setRole(branch.getOrganization(), Role.PRESIDENT);
+    public President() {
+
     }
 
     /**
@@ -23,13 +22,8 @@ public class President extends Member implements Lead, Organize {
      * @param member The member to be removed
      */
     public void kickMember(Organization organization, Person person) {
-        if(getOrganizationsAndRoles().get(organization) == Role.PRESIDENT) {
-            person.setRole(organization, Role.NON_MEMBER);
+            person.setRole(organization, new NonMember());
             organization.removeMember(person);
-        }
-        else {
-            logger.log(Level.WARNING, "You do not have the permission to remove a member from " + organization);
-        }
     }
 
     /**
@@ -37,19 +31,19 @@ public class President extends Member implements Lead, Organize {
      * @param member The member to be changed
      * @param role The new role of the member
      */
-    public void changePosition(Organization organization, Member member, String role) {
-        if(member != null && role != null) {
-            if(!organization.getMembers().contains(member)){
-                organization.getMembers().add(member);
+    public void changePosition(Organization organization, Person person, Role role) {
+        if(person != null && role != null) {
+            if(!organization.getMembers().contains(person)){
+                organization.getMembers().add(person);
                 logger.log(Level.INFO, "Member successfully added to " + organization);
             }
-            if(Role.valueOf(role.toUpperCase()).equals(Role.NON_MEMBER)){
-                kickMember(organization, member);
+            if(role instanceof NonMember) {
+                kickMember(organization, person);
                 logger.log(Level.INFO, "Member kicked successfully");
             }
             else {
                 try {
-                    member.setRole(organization, Role.valueOf(role.toUpperCase()));
+                    person.setRole(organization, role);
                 } catch (IllegalArgumentException i) {
                     logger.log(Level.WARNING, "The input role, " + role + ", does not exist.");
                 } catch (Exception e) {

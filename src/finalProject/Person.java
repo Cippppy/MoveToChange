@@ -1,6 +1,8 @@
 package finalProject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,7 +10,7 @@ import java.util.logging.Logger;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public abstract class Person {
+public class Person {
 
     /** The name of the person **/
     private String name;
@@ -16,6 +18,9 @@ public abstract class Person {
     private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+
+    /** The branches the member is a part of **/
+    private List<Branch> branches = new ArrayList<Branch>();
 
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
@@ -33,6 +38,10 @@ public abstract class Person {
             this.usernameAndPassword = new SimpleImmutableEntry<String,String>(username, password);
         else
             logger.log(Level.WARNING, "Username or password is null");
+    }
+
+    public Person(String name) {
+        this.name = name;
     }
 
     /**
@@ -90,5 +99,54 @@ public abstract class Person {
     
     public Role getRole(Organization organization) {
         return organizationsAndRoles.get(organization);
+    }
+
+        /**
+     * Adds a single branch to this member
+     * @param branch The branch to add
+     */
+    public void addBranch(Branch branch) {
+        if(branch != null){
+            this.branches.add(branch);
+            if(!branch.getMembers().contains(this)) {
+                branch.addMember(this);
+                logger.log(Level.INFO, getName() + " added to " + branch);
+            }
+            else logger.log(Level.INFO, getName() + " already belongs to that branch");
+        }
+        else logger.log(Level.WARNING, "That branch is null");
+        
+    }
+
+    /**
+     * Removes a single branch from this member
+     * @param branch The branc to remove
+     */
+    public void removeBranch(Branch branch) {
+        if(branch != null) this.branches.remove(branch);
+        else logger.log(Level.WARNING, "Branch is null");
+        if(branch.getMembers().contains(this)) {
+            branch.removeMember(this);
+        }
+        else logger.log(Level.INFO, getName() + " does not belong to that branch");
+    }
+
+    /**
+     * Return the branches
+     * @return The branches
+     */
+    public List<Branch> getBranches() {
+        return this.branches;
+    }
+
+    /**
+     * Set the branches
+     * @param branches The branches
+     */
+    public void setBranches(List<Branch> branches) {
+        if(branches != null) this.branches = branches;
+        else logger.log(Level.WARNING, "Branches is null");
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
     }
 }

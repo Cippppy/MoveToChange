@@ -8,7 +8,7 @@ import java.util.Random;
  * @author
  * @version 04/11/2023
  */
-public class Recruiter extends Member {
+public class Recruiter extends Role {
 
     /** The chance the recruiter has to recruite someone **/
     private static final double RECRUITING_CHANCE = 50.0;
@@ -19,9 +19,8 @@ public class Recruiter extends Member {
      * @param name The name of the recruiter
      * @param branch The branch the recruiter recruits for
      */
-    public Recruiter(String name, Branch branch) {
-        super(name);
-        setRole(branch.getOrganization(), Role.RECRUITER);
+    public Recruiter() {
+
     }
 
     /**
@@ -29,7 +28,7 @@ public class Recruiter extends Member {
      * @param target The person to be recruiter
      * @return If the target was successfully recruited or not
      */
-    public boolean tryToRecruit(NonMember target, Organization organization) {
+    public boolean tryToRecruit(Person target, Organization organization) {
         Random rand = new Random();
         if(target != null) {
             if(rand.nextDouble(100) > RECRUITING_CHANCE) {
@@ -48,7 +47,7 @@ public class Recruiter extends Member {
      * Successfully recruit a non member
      * @param recruitee The non member
      */
-    public void recruit(NonMember recruitee, Organization organization) {
+    public void recruit(Person recruitee, Organization organization) {
         organization.getMembers().add(recruitee);
     }
 }
