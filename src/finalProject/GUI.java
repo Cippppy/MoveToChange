@@ -118,21 +118,26 @@
 //             test.setText("I am a guest.");
 //         }
 
-//         Text test2 = new Text("sdfds");
-//         Text test3 = new Text("sdfgsdfsdf");
+    Button button = new Button("Create Organization");
+    addOrganization(button);
 
-//         VBox leftPanel = new VBox(test2);
-//         stylePanels(leftPanel, Pos.TOP_LEFT);
+    VBox buttontest = new VBox(button);
+    stylePanels(buttontest, Pos.TOP_LEFT);
+        Text test2 = new Text("sdfds");
+        Text test3 = new Text("sdfgsdfsdf");
 
-//         VBox center = new VBox(test);
-//         styleCenter(center);
+        VBox leftPanel = new VBox(test2);
+        stylePanels(leftPanel, Pos.TOP_LEFT);
 
-//         VBox rightPanel = new VBox(test3);
-//         stylePanels(rightPanel, Pos.TOP_RIGHT);
+        VBox center = new VBox(test);
+        styleCenter(center);
+
+        VBox rightPanel = new VBox(test3);
+        stylePanels(rightPanel, Pos.TOP_RIGHT);
         
-//         HBox root = new HBox(3, leftPanel, center, rightPanel);
+        HBox root = new HBox(3, buttontest, center, rightPanel);
 
-//         pane.getChildren().add(root);
+        pane.getChildren().add(root);
 //     }
 
 //     private void setupLoginControls(Pane pane) {
@@ -160,4 +165,39 @@
 //         }
 //         return valid;
 //     }
+
+    private void addOrganization(Button button){
+    button.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent event) {
+        Label dropdownLabel = new Label("Enter Organization name: ");
+        ComboBox<String> dropdown = new ComboBox<>();
+        ObservableList<String> options = FXCollections.observableArrayList();
+            for(Purpose p : Purpose.values()){
+                options.add(p.name());
+            }
+        dropdown.setItems(options);
+        Stage newStage = new Stage();
+        VBox root = new VBox();
+        root.setPadding(new Insets(20));
+        root.setSpacing(10);
+        Label usernameLabel = new Label("Enter Organization name: ");
+        TextField usernameField = new TextField();
+        Button acceptButton = new Button("OK");
+        acceptButton.setOnAction(e -> {
+            String name = usernameField.getText();
+            String purposeValue = dropdown.getValue().toString();
+            Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
+            Organization organization = new Organization(name, purpose, 1, 0);
+            //Organizations.addOrganization(organization);
+            System.out.println(organization.toString());
+        });
+        root.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, acceptButton);
+        Scene scene = new Scene(root, 300, 250);
+        newStage.setScene(scene);
+        newStage.show();
+     }
+ });
+    }
+
 // }
