@@ -250,6 +250,8 @@ public class Organization {
         }
     }
 
+    
+
     /**
      * Overloaded method that sets the branches of the organization
      * by reading a .txt file
