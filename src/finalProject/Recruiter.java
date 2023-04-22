@@ -9,7 +9,7 @@ import java.util.logging.Level;
  * @author
  * @version 04/11/2023
  */
-public class Recruiter extends Leader {
+public class Recruiter extends Role {
 
     /** The chance the recruiter has to recruite someone **/
     private static final double RECRUITING_CHANCE = 50.0;
@@ -20,8 +20,8 @@ public class Recruiter extends Leader {
      * @param name The name of the recruiter
      * @param branch The branch the recruiter recruits for
      */
-    public Recruiter(String name, Branch branch) {
-        super(name, Role.RECRUITER, branch);
+    public Recruiter() {
+
     }
 
     /**
@@ -29,11 +29,11 @@ public class Recruiter extends Leader {
      * @param target The person to be recruiter
      * @return If the target was successfully recruited or not
      */
-    public boolean tryToRecruit(NonMember target) {
+    public boolean tryToRecruit(Person target, Organization organization) {
         Random rand = new Random();
         if(target != null) {
             if(rand.nextDouble(100) > RECRUITING_CHANCE) {
-                recruit(target);
+                recruit(target, organization);
                 return true;
             }
             else return false;
@@ -48,7 +48,7 @@ public class Recruiter extends Leader {
      * Successfully recruit a non member
      * @param recruitee The non member
      */
-    public void recruit(NonMember recruitee) {
-        this.getBranch().getMembers().add(recruitee);
+    public void recruit(Person recruitee, Organization organization) {
+        organization.getMembers().add(recruitee);
     }
 }

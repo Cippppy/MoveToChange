@@ -27,7 +27,8 @@ public class Branch {
     /** The location of the branch **/
     private String location;
 
-    private Organization org;
+    /** The organization the branch belongs to **/
+    private Organization organization;
 
     /** The number of members the branch has **/
     private int numBranchMembers;
@@ -60,6 +61,7 @@ public class Branch {
             this.location = location;
             this.numBranchMembers = numBranchMembers;
             org.getBranches().add(this);
+            this.organization = org;
         }
         else {
             logger.log(Level.WARNING, "One or more of the inputs to create this branch is null.");
@@ -167,15 +169,15 @@ public class Branch {
      */
     public void addMember(Person person) {
         if(person != null) {
-            if(person.getRole() == Role.NON_MEMBER || person.getRole() == null) {
-                person.setRole(Role.MEMBER);
+            if(person.getRole(organization) instanceof NonMember || person.getRole(organization) == null) {
+                person.setRole(organization, new Member());
                 logger.log(Level.INFO, "Member trying to be added is a non-member or did not have a role." +
                                       " They are now a member.");
             }
             this.members.add(person);
             this.numBranchMembers = this.members.size();
-            if(!((Member) person).getBranches().contains(this)) {
-                ((Member) person).addBranch(this);
+            if(person.getBranches().contains(this)) {
+                person.addBranch(this);
             }
         }
         else logger.log(Level.WARNING, "The member you are trying to add is null.");
@@ -185,10 +187,11 @@ public class Branch {
      * Removes a single member to the branch and decrements numBranchMembers
      * @param member The member to be removed
      */
-    public void removeMember(Member member) {
-        if(member != null) {
-            this.members.remove(member);
-            member.removeBranch(this);
+    public void removeMember(Person person) {
+        if(person != null) {
+            this.members.remove(person);
+            person.removeBranch(this);
+            person.setRole(this.organization, new NonMember());
             this.numBranchMembers = this.members.size();
             logger.log(Level.INFO, "Member successfully removed from " + this);
         }
@@ -240,7 +243,7 @@ public class Branch {
             membersWriter.write("Member Name, Member Role");
             membersWriter.write(System.lineSeparator());
             members.forEach(member -> {try { 
-                                            membersWriter.write(member.getName() + ", " + member.getRole()); 
+                                            membersWriter.write(member.getName() + ", " + member.getRole(organization));
                                             membersWriter.write(System.lineSeparator());
                                         } catch (IOException i) {} });
             membersWriter.close();
@@ -260,10 +263,10 @@ public class Branch {
             membersWriter.write("Member Name, Member Role");
             membersWriter.write(System.lineSeparator());
             filteredMembers.forEach(member -> {try {
-                                                    membersWriter.write(member.getName() + ", " + member.getOrganizationsAndRoles().forEach(member.getOrganizationsAndRoles.get()));
+                                                    membersWriter.write(member.getName() + ", " + member.getRole(organization));
                                                     membersWriter.write(System.lineSeparator());
             } catch (IOException i) {
-
+                i.printStackTrace();
             } });
 
         } catch (IOException i) {
@@ -292,8 +295,9 @@ public class Branch {
                     if(linesRead > numHeaderRows && line != null)
                     {
                         String[] data = line.split(delims);
-                        Member member = new Member(data[0], Role.valueOf(data[1].toUpperCase().trim()));
-                        members.add(member);
+                        Person person = new Person(data[0]);
+                        person.setRole(organization, new Member());
+                        members.add(person);
                     }
                 }
             } catch (FileNotFoundException f) {
@@ -308,6 +312,14 @@ public class Branch {
     }
     
     
+
+    public Organization getOrganization() {
+        return this.organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
     @Override
     public String toString() {

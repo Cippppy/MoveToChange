@@ -1,5 +1,8 @@
 package finalProject;
 import java.util.HashMap;
+import java.util.List;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.function.Predicate;
@@ -8,12 +11,17 @@ import java.util.function.Predicate;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public abstract class Person {
+public class Person implements Comparable<Person> {
 
     /** The name of the person **/
     private String name;
 
-    private HashMap<Organization, Role> organizationsAndRoles;
+    private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
+
+    private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+
+    /** The branches the member is a part of **/
+    private List<Branch> branches = new ArrayList<Branch>();
 
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
@@ -22,9 +30,19 @@ public abstract class Person {
      * 
      * @param name The name of the person
      */
+    public Person(String name, String username, String password) {
+        if(name != null)
+            this.name = name;
+        else
+            logger.log(Level.WARNING, "Name is null");
+        if(username != null && password != null) 
+            this.usernameAndPassword = new SimpleImmutableEntry<String,String>(username, password);
+        else
+            logger.log(Level.WARNING, "Username or password is null");
+    }
+
     public Person(String name) {
-        if(name != null) this.name = name;
-        else logger.log(Level.WARNING, "Name is null");
+        this.name = name;
     }
 
     /**
@@ -56,5 +74,92 @@ public abstract class Person {
      */
     public HashMap<Organization, Role> getOrganizationsAndRoles() {
         return this.organizationsAndRoles;
+    }
+
+    /**
+     * This will hold the person's username and password.
+     * The Login will have a TreeSet of Person and will match
+     * the Key which is the username to the Value which is the password.
+     * 
+     * @return Username and Password
+     */
+    public SimpleImmutableEntry<String, String> getUsernameAndPassword() {
+        return this.usernameAndPassword;
+    }
+
+     /* 
+     * @param organizationsAndRoles
+     */
+    public void setOrganizationsAndRoles(HashMap<Organization, Role> organizationsAndRoles) {
+        this.organizationsAndRoles = organizationsAndRoles;
+    }
+
+    public void setRole(Organization organization, Role role) {
+        organizationsAndRoles.put(organization,role);
+    }
+    
+    public Role getRole(Organization organization) {
+        return organizationsAndRoles.get(organization);
+    }
+
+        /**
+     * Adds a single branch to this member
+     * @param branch The branch to add
+     */
+    public void addBranch(Branch branch) {
+        if(branch != null){
+            this.branches.add(branch);
+            if(!branch.getMembers().contains(this)) {
+                branch.addMember(this);
+                logger.log(Level.INFO, getName() + " added to " + branch);
+            }
+            else logger.log(Level.INFO, getName() + " already belongs to that branch");
+        }
+        else logger.log(Level.WARNING, "That branch is null");
+        
+    }
+
+    /**
+     * Removes a single branch from this member
+     * @param branch The branc to remove
+     */
+    public void removeBranch(Branch branch) {
+        if(branch != null) this.branches.remove(branch);
+        else logger.log(Level.WARNING, "Branch is null");
+        if(branch.getMembers().contains(this)) {
+            branch.removeMember(this);
+        }
+        else logger.log(Level.INFO, getName() + " does not belong to that branch");
+    }
+
+    /**
+     * Return the branches
+     * @return The branches
+     */
+    public List<Branch> getBranches() {
+        return this.branches;
+    }
+
+    /**
+     * Set the branches
+     * @param branches The branches
+     */
+    public void setBranches(List<Branch> branches) {
+        if(branches != null) this.branches = branches;
+        else logger.log(Level.WARNING, "Branches is null");
+        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
+            branch.addMember(this);}});
+    }
+
+    public String getUsername() {
+        return usernameAndPassword.getKey();
+    }
+
+    public String getPassword() {
+        return usernameAndPassword.getValue();
+    }
+
+    public int compareTo(Person person) {
+        return this.name.compareTo(person.getName());
     }
 }

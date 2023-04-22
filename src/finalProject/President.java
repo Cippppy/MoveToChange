@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 /**
  * 
  */
-public class President extends Leader implements Lead, Organize {
+public class President extends Role implements Lead, Organize {
 
     Logger logger = Logger.getLogger(President.class.getName());
     /**
@@ -13,18 +13,17 @@ public class President extends Leader implements Lead, Organize {
      * @param name The president's name
      * @param branch The branch the president leads
      */
-    public President(String name, Branch branch) {
-        super(name, Role.PRESIDENT, branch);
+    public President() {
+
     }
 
     /**
      * Remove a member from the member list
      * @param member The member to be removed
      */
-    public void kickMember(Member member) {
-        member.setRole(Role.NON_MEMBER);
-        branch.removeMember(member);
-        member.removeBranch(branch);
+    public void kickMember(Organization organization, Person person) {
+            person.setRole(organization, new NonMember());
+            organization.removeMember(person);
     }
 
     /**
@@ -32,19 +31,19 @@ public class President extends Leader implements Lead, Organize {
      * @param member The member to be changed
      * @param role The new role of the member
      */
-    public void changePosition(Member member, String role) {
-        if(member != null && role != null) {
-            if(!this.branch.getMembers().contains(member)){
-                this.branch.getMembers().add(member);
-                logger.log(Level.INFO, "Member successfully added to " + this.branch);
+    public void changePosition(Organization organization, Person person, Role role) {
+        if(person != null && role != null) {
+            if(!organization.getMembers().contains(person)){
+                organization.getMembers().add(person);
+                logger.log(Level.INFO, "Member successfully added to " + organization);
             }
-            if(Role.valueOf(role.toUpperCase()).equals(Role.NON_MEMBER)){
-                kickMember(member);
+            if(role instanceof NonMember) {
+                kickMember(organization, person);
                 logger.log(Level.INFO, "Member kicked successfully");
             }
             else {
                 try {
-                    member.setRole(Role.valueOf(role.toUpperCase()));
+                    person.setRole(organization, role);
                 } catch (IllegalArgumentException i) {
                     logger.log(Level.WARNING, "The input role, " + role + ", does not exist.");
                 } catch (Exception e) {

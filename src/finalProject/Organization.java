@@ -36,6 +36,8 @@ public class Organization {
     /** A list of all the branches of the organization **/
     private List<Branch> branches = new ArrayList<Branch>();
 
+    private List<Person> members = new ArrayList<Person>();
+
     /** A list of all the announcements of the organization **/
     private List<Announcement> announcements = new ArrayList<Announcement>();
     
@@ -137,7 +139,10 @@ public class Organization {
      * @param branches The list of branches
      */
     public void setBranches(List<Branch> branches) {
-        if(branches != null) this.branches = branches;
+        if(branches != null) {
+            this.branches = branches;
+            branches.forEach(branch -> branch.getMembers().forEach(member -> members.add(member)));
+        }
         else logger.log(Level.WARNING, "Branches is null");
     }
 
@@ -283,6 +288,24 @@ public class Organization {
         }
         else {
             logger.log(Level.WARNING, "The input file does not end with .txt");
+        }
+    }
+
+    public List<Person> getMembers() {
+        return this.members;
+    }
+
+        /**
+     * Removes a single member to the branch and decrements numBranchMembers
+     * @param member The member to be removed
+     */
+    public void removeMember(Person person) {
+        if(person != null) {
+            this.members.remove(person);
+            logger.log(Level.INFO, "Member successfully removed from " + this);
+        }
+        else {
+            logger.log(Level.WARNING, "The member you are trying to remove is null.");
         }
     }
 }
