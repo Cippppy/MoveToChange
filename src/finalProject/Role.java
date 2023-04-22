@@ -11,7 +11,7 @@ public abstract class Role {
 
     }
 
-        /**
+    /**
      * Allows the member to attend an event
      * @param event The event to attend
      * @author Christian Cipolletta

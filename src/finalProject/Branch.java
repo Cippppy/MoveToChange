@@ -183,6 +183,7 @@ public class Branch {
         if(person != null) {
             this.members.remove(person);
             person.removeBranch(this);
+            person.setRole(this.organization, new NonMember());
             this.numBranchMembers = this.members.size();
             logger.log(Level.INFO, "Member successfully removed from " + this);
         }
