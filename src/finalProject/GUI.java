@@ -118,21 +118,26 @@
 //             test.setText("I am a guest.");
 //         }
 
-//         Text test2 = new Text("sdfds");
-//         Text test3 = new Text("sdfgsdfsdf");
+    Button button = new Button("Create Organization");
+    addOrganization(button);
 
-//         VBox leftPanel = new VBox(test2);
-//         stylePanels(leftPanel, Pos.TOP_LEFT);
+    VBox buttontest = new VBox(button);
+    stylePanels(buttontest, Pos.TOP_LEFT);
+        Text test2 = new Text("sdfds");
+        Text test3 = new Text("sdfgsdfsdf");
 
-//         VBox center = new VBox(test);
-//         styleCenter(center);
+        VBox leftPanel = new VBox(test2);
+        stylePanels(leftPanel, Pos.TOP_LEFT);
 
-//         VBox rightPanel = new VBox(test3);
-//         stylePanels(rightPanel, Pos.TOP_RIGHT);
+        VBox center = new VBox(test);
+        styleCenter(center);
+
+        VBox rightPanel = new VBox(test3);
+        stylePanels(rightPanel, Pos.TOP_RIGHT);
         
-//         HBox root = new HBox(3, leftPanel, center, rightPanel);
+        HBox root = new HBox(3, buttontest, center, rightPanel);
 
-//         pane.getChildren().add(root);
+        pane.getChildren().add(root);
 //     }
 
 //     private void setupLoginControls(Pane pane) {
