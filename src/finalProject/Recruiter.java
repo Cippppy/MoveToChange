@@ -1,6 +1,7 @@
 package finalProject;
 
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * 
@@ -38,7 +39,7 @@ public class Recruiter extends Leader {
             else return false;
         }
         else {
-            System.err.println("Object target is null");
+            logger.log(Level.WARNING, "Object target is null");
             return false;
         }
     }

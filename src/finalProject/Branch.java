@@ -12,7 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.function.Predicate;
 /**
  * 
  * 
@@ -25,6 +27,8 @@ public class Branch {
     /** The location of the branch **/
     private String location;
 
+    private Organization org;
+
     /** The number of members the branch has **/
     private int numBranchMembers;
 
@@ -36,6 +40,12 @@ public class Branch {
 
     /** Logger to tell log what is going on **/
     private Logger logger = Logger.getLogger(Branch.class.getName());
+
+    /**Used to set file write mode to overwrite **/
+    final boolean OVERWRITE_MODE = false;
+
+    /**Used to set file write mode to append **/
+    final boolean APPEND_MODE = true;
 
     /**
      * Overloaded Constructor
@@ -225,13 +235,12 @@ public class Branch {
      * Autogenerates the name as the branch location and the local date now!
      */
     public void saveMembers() {
-        final boolean OVERWRITE_MODE = false;
         String fileName = getLocation().strip() + LocalDate.now() + ".txt";
         try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
             membersWriter.write("Member Name, Member Role");
             membersWriter.write(System.lineSeparator());
             members.forEach(member -> {try { 
-                                            membersWriter.write(member.getName() + ", " + member.getRole());
+                                            membersWriter.write(member.getName() + ", " + member.getRole()); 
                                             membersWriter.write(System.lineSeparator());
                                         } catch (IOException i) {} });
             membersWriter.close();
@@ -239,6 +248,28 @@ public class Branch {
             System.err.println("There was an issue.");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void saveMembersByRole(Role role) {
+        String filename = getLocation().strip() + role.toString() + ".txt";
+        List<Person> filteredMembers = members.parallelStream()
+        .filter(m -> (m.getOrganizationsAndRoles().get(org).equals(role)))
+        .collect(Collectors.toList());
+        try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(filename, OVERWRITE_MODE))) {
+            membersWriter.write("Member Name, Member Role");
+            membersWriter.write(System.lineSeparator());
+            filteredMembers.forEach(member -> {try {
+                                                    membersWriter.write(member.getName() + ", " + member.getOrganizationsAndRoles().forEach(member.getOrganizationsAndRoles.get()));
+                                                    membersWriter.write(System.lineSeparator());
+            } catch (IOException i) {
+
+            } });
+
+        } catch (IOException i) {
+
+        } catch (Exception e) {
+
         }
     }
 
@@ -275,6 +306,8 @@ public class Branch {
             System.err.println("The input file does not end with .txt");
         }
     }
+    
+    
 
     @Override
     public String toString() {

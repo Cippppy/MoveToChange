@@ -170,4 +170,13 @@ public class Member extends Person {
     public String toString() {
         return name + " (" + role + ")";
     }
+
+    public void setRole(Role role) {
+        if(role != null) this.role = role; 
+        else logger.log(Level.WARNING, "Role is null");
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
 }
