@@ -160,4 +160,39 @@
 //         }
 //         return valid;
 //     }
+
+    private void addOrganization(Button button){
+    button.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent event) {
+        Label dropdownLabel = new Label("Enter Organization name: ");
+        ComboBox<String> dropdown = new ComboBox<>();
+        ObservableList<String> options = FXCollections.observableArrayList();
+            for(Purpose p : Purpose.values()){
+                options.add(p.name());
+            }
+        dropdown.setItems(options);
+        Stage newStage = new Stage();
+        VBox root = new VBox();
+        root.setPadding(new Insets(20));
+        root.setSpacing(10);
+        Label usernameLabel = new Label("Enter Organization name: ");
+        TextField usernameField = new TextField();
+        Button acceptButton = new Button("OK");
+        acceptButton.setOnAction(e -> {
+            String name = usernameField.getText();
+            String purposeValue = dropdown.getValue().toString();
+            Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
+            Organization organization = new Organization(name, purpose, 1, 0);
+            //Organizations.addOrganization(organization);
+            System.out.println(organization.toString());
+        });
+        root.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, acceptButton);
+        Scene scene = new Scene(root, 300, 250);
+        newStage.setScene(scene);
+        newStage.show();
+     }
+ });
+    }
+
 // }
