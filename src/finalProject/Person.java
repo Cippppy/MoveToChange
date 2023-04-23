@@ -16,13 +16,16 @@ public class Person implements Comparable<Person> {
     /** The name of the person **/
     private String name;
 
+    /** Hashmap of the person's organizations and the roles they hold **/
     private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
+    /** An entry of username and password of the person **/
     private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
 
     /** The branches the member is a part of **/
     private List<Branch> branches = new ArrayList<Branch>();
 
+    /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
     /**
@@ -41,8 +44,18 @@ public class Person implements Comparable<Person> {
             logger.log(Level.WARNING, "Username or password is null");
     }
 
+    /**
+     * Creates a new person
+     * @param name The name of the person
+     */
     public Person(String name) {
-        this.name = name;
+        if(name != null) {
+            this.name = name;
+            this.usernameAndPassword = new SimpleImmutableEntry<String,String>("default", "default");
+        }
+        else {
+            logger.log(Level.WARNING, "The input name is null.");
+        }
     }
 
     /**
@@ -87,17 +100,28 @@ public class Person implements Comparable<Person> {
         return this.usernameAndPassword;
     }
 
-     /* 
-     * @param organizationsAndRoles
+    /**
+     * Set the person's organizations and roles 
+     * @param organizationsAndRoles The person's organizations and roles 
      */
     public void setOrganizationsAndRoles(HashMap<Organization, Role> organizationsAndRoles) {
         this.organizationsAndRoles = organizationsAndRoles;
     }
 
+    /**
+     * Set the person's role inside a specific organization
+     * @param organization The organization
+     * @param role The role of the person
+     */
     public void setRole(Organization organization, Role role) {
         organizationsAndRoles.put(organization,role);
     }
     
+    /**
+     * Return the person's role inside a specific organization
+     * @param organization The organization
+     * @return The role of the person
+     */
     public Role getRole(Organization organization) {
         return organizationsAndRoles.get(organization);
     }
@@ -151,14 +175,27 @@ public class Person implements Comparable<Person> {
             branch.addMember(this);}});
     }
 
+    /**
+     * Return the person's username
+     * @return The person's username
+     */
     public String getUsername() {
         return usernameAndPassword.getKey();
     }
 
+    /**
+     * Return the person's password
+     * @return The person's password
+     */
     public String getPassword() {
         return usernameAndPassword.getValue();
     }
 
+    /**
+     * Compares a person to a person by their name.
+     * Used for the tree set
+     * @param person The person to compare to
+     */
     public int compareTo(Person person) {
         return this.name.compareTo(person.getName());
     }

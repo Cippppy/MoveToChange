@@ -14,10 +14,10 @@ import java.util.logging.Logger;
  * @version 04/10/2023
  */
 public class Member extends Role {
-
-    /** Logger for the me **/
-    Logger logger = Logger.getLogger(Member.class.getName());
     
+    public Member() {
+        
+    }
 
     @Override
     public String toString() {

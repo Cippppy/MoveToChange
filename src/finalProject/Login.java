@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.time.LocalDate;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 public class Login {
     
@@ -15,15 +17,22 @@ public class Login {
 
     String fileName;
 
+    Logger logger = Logger.getLogger(Login.class.getName());
+
     public Login(String fileName) {
         this.fileName = fileName;
         credentials = new TreeSet<Person>();
+        setCredentials(0);
     }
 
     public void addLogin(Person person) {
-        credentials.add(person);
+        if(person != null) {
+            credentials.add(person);
+        }
+        else {
+            logger.log(Level.WARNING, "The input person is null.");
+        }
     }
-
 
     /**
      * Save the members of the branch to a .txt file
@@ -40,7 +49,7 @@ public class Login {
                                         } catch (IOException i) {} });
                                         credWriter.close();
         } catch (IOException i) {
-            System.err.println("There was an issue.");
+            logger.log(Level.WARNING, "There was an issue saving the credentials.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,13 +80,13 @@ public class Login {
                     }
                 }
             } catch (FileNotFoundException f) {
-                System.err.println("The file, " + fileName + ", could not be found.");
+                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         else {
-            System.err.println("The input file does not end with .txt");
+            logger.log(Level.WARNING, "File name does not end with .txt");
         }
     }
 
