@@ -15,7 +15,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.function.Predicate;
 /**
  * 
  * 
@@ -54,6 +56,16 @@ public class Organization {
 
     /** **/
     private static final String FILE_NAME = "organizations.ser";
+
+    // Used by branchPredicate to find branches with over a certain number of members
+    private int minMembers = 20;
+
+    private int minEvents = 3;
+
+    // Tests to see if a branch has above a certain number of members
+    private Predicate<Branch> filterByMemberCount = b -> b.getNumBranchMembers() > minMembers;
+
+    private Predicate<Branch> filterByEventCount = b -> b.getEvents().size() > minEvents;
 
     /**
      * Constructor
@@ -266,6 +278,101 @@ public class Organization {
             i.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a file containing all branches with at least a certain number of members
+     * @author Jimmy McCarry
+     * @param size
+     */
+    public void saveBranchesBySize(int size) {
+        final boolean OVERWRITE_MODE = false;
+        String filename = getName().strip() + size + ".txt";
+        minMembers = size;
+        List<Branch> filteredBranches = branches.parallelStream()
+        .filter(filterByMemberCount)
+        .collect(Collectors.toList());
+        try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(filename, OVERWRITE_MODE))) {
+            branchesWriter.write("Member Name, Member Role");
+            branchesWriter.write(System.lineSeparator());
+            filteredBranches.forEach(branch -> {try {
+                                                    branchesWriter.write(branch.getLocation() + ", " + branch.getNumBranchMembers());
+                                                    branchesWriter.write(System.lineSeparator());
+            } catch (IOException i) {
+                i.printStackTrace();
+            } });
+
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void filterBranches(String method) {
+        ArrayList<Branch> filteredBranches = new ArrayList<Branch>();
+        String filename = getName().strip() + method + ".txt";
+        if(method != null) {
+            if(method.equalsIgnoreCase("member count")) {
+                filteredBranches.parallelStream()
+                .filter(filterByMemberCount)
+                .collect(Collectors.toList());
+                try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(filename, false))) {
+                    branchesWriter.write("Branch Location, Branch Size");
+                    branchesWriter.write(System.lineSeparator());
+                    filteredBranches.forEach(branch -> {try {
+                                                            branchesWriter.write(branch.getLocation() + ", " + branch.getNumBranchMembers());
+                                                            branchesWriter.write(System.lineSeparator());
+                    } catch (IOException i) {
+                        i.printStackTrace();
+                }});
+                } catch (IOException i) {
+                    i.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(method.equalsIgnoreCase("event count")) {
+                filteredBranches.parallelStream()
+                .filter(filterByEventCount)
+                .collect(Collectors.toList());
+                    try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(filename, false))) {
+                        branchesWriter.write("Branch Location, Number of Events");
+                        branchesWriter.write(System.lineSeparator());
+                        filteredBranches.forEach(branch -> {try {
+                                                                branchesWriter.write(branch.getLocation() + ", " + branch.getEvents().size());
+                                                                branchesWriter.write(System.lineSeparator());
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                    }});
+                    } catch (IOException i) {
+                        i.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+            else if(method.equalsIgnoreCase("both")) {
+                filteredBranches.parallelStream()
+                    .filter(filterByEventCount)
+                    .filter(filterByMemberCount)
+                    .collect(Collectors.toList());
+                    try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(filename, false))) {
+                        branchesWriter.write("Member Name, Member Role");
+                        branchesWriter.write(System.lineSeparator());
+                        filteredBranches.forEach(branch -> {try {
+                                                                branchesWriter.write(branch.getLocation() + ", " + branch.getNumBranchMembers());
+                                                                branchesWriter.write(System.lineSeparator());
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                    }});
+                    } catch (IOException i) {
+                        i.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+        
         }
     }
 

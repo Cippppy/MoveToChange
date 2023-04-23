@@ -49,6 +49,8 @@ public class Branch {
     /**Used to set file write mode to append **/
     final boolean APPEND_MODE = true;
 
+    private Predicate<Person> filterByRole = m -> m.getOrganizationsAndRoles().get(organization).equals(0);
+
     /**
      * Overloaded Constructor
      * 
