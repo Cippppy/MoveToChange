@@ -56,9 +56,6 @@ public class Organization {
     /** The dashboard of the organization **/
     private VBox orgDashBoard = new VBox(3);
 
-    /** A list of all the branches of the organization **/
-    private List<Branch> branches = new ArrayList<Branch>();
-
     /** A list of all the members of the organization **/
     private List<Person> members = new ArrayList<Person>();
 
@@ -159,28 +156,6 @@ public class Organization {
     }
 
     /**
-     * Gets the List of Branches that belong to this organization
-     * @author Jimmy McCarry
-     * @return The list of branches
-     */
-    public List<Branch> getBranches() {
-        return this.branches;
-    }
-
-    /**
-     * Sets the List of Branches that belong to this organization
-     * @author Jimmy McCarry
-     * @param branches The list of branches
-     */
-    public void setBranches(List<Branch> branches) {
-        if(branches != null) {
-            this.branches = branches;
-            branches.forEach(branch -> branch.getMembers().forEach(member -> members.add(member)));
-        }
-        else logger.log(Level.WARNING, "Branches is null");
-    }
-
-    /**
      * Gets the List of Posts that this Organization has
      * @author Jimmy McCarry
      * @return The list of Posts of this organization
@@ -197,130 +172,6 @@ public class Organization {
     public void setAnnouncements(List<Post> posts) {
         if(posts != null) this.posts = posts;
         else logger.log(Level.WARNING, "Announcements is null");
-    }
-
-    /**
-     * Returns a branch based on a location
-     * @param location The desired location
-     * @return The branch
-     * @author Christian Cipolletta
-     */
-    public Branch findBranch(String location) {
-        location = location.toLowerCase();
-        Branch desiredBranch = null;
-        for(int i = 0; i < branches.size(); i++)
-        {
-            if(branches.get(i).getLocation().toLowerCase() == location)
-            {
-                desiredBranch = branches.get(i);
-                logger.log(Level.INFO, "Branch found");
-            }
-        }
-        return desiredBranch;
-    }
-
-    /**
-     * Adds a single branch to the organization
-     * @param branch The branch to be added
-     */
-    public void addBranch(Branch branch) {
-        if(branch != null) {
-            branches.add(branch);
-            numOfBranches = branches.size();
-        }
-        else {
-            logger.log(Level.WARNING, "The branch trying to be added is null.");
-        }
-    }
-
-    /**
-     * Adds a single branch to the organization by its location
-     * @param location The location of the branch to be added
-     */
-    public void addBranch(String location) {
-        if(location != null) {
-            branches.add(new Branch(location, this));
-        }
-        else {
-            logger.log(Level.WARNING, "The input location is null.");
-        }
-    }
-
-    /**
-     * Removes a single branch from the organization
-     * @param branch The branch to be removed
-     */
-    public void removeBranch(Branch branch) {
-        if(branch != null) {
-            try {
-                branches.remove(branch);
-                numOfBranches = branches.size();
-            } catch (NullPointerException n) {
-                logger.log(Level.WARNING, "The branch trying to be removed does not exist.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            logger.log(Level.WARNING, "The branch trying to be removed is null.");
-        }
-    }
-
-    /**
-     * Saves the branches of the organization to a .txt file
-     * Autogenerates the name as the organization name and the local date now!
-     */
-    public void saveBranches() {
-        final boolean OVERWRITE_MODE = false;
-        String fileName = name.trim() + LocalDate.now() + ".txt";
-        try (BufferedWriter branchesWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
-            branchesWriter.write("Branch Location, # of Branch Members");
-            branchesWriter.write(System.lineSeparator());
-            branches.forEach(branch -> {try { 
-                                            branchesWriter.write(branch.getLocation() + ", " + branch.getNumBranchMembers());
-                                            branchesWriter.write(System.lineSeparator());
-                                        } catch (IOException i) {} });
-            branchesWriter.close();
-        } catch (IOException i) {
-            logger.log(Level.WARNING, "IO Exception, ");
-            i.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Overloaded method that sets the branches of the organization
-     * by reading a .txt file
-     * @param fileName The name of the file to read
-     * @param numHeaderRows The number of header rows in the file
-     */
-    public void setBranches(String fileName, int numHeaderRows) {
-        if(fileName.endsWith(".txt")) {
-            try (BufferedReader branchesReader = new BufferedReader(new FileReader(fileName))) {
-                branches.clear();
-                String line = branchesReader.readLine();
-                int linesRead = 0;
-                String delims = "[,]";
-                while(line != null) {
-                    linesRead++;
-                    line = branchesReader.readLine();
-                    if(linesRead > numHeaderRows && line != null)
-                    {
-                        String[] data = line.split(delims);
-                        Branch branch = new Branch(data[0], Integer.parseInt(data[1].trim()), this);
-                    }
-                }
-            } catch (FileNotFoundException f) {
-                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
-            } catch (Exception e) {
-                e.printStackTrace();
-                
-            }
-        }
-        else {
-            logger.log(Level.WARNING, "The input file does not end with .txt");
-        }
     }
 
     /**

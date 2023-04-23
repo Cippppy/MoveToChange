@@ -11,7 +11,7 @@ public interface Organize {
         }
     }
 
-    public default void removeEvent(Organization organization, Branch branch, Event event) {
+    public default void removeEvent(Organization organization, Event event) {
         if(event != null)
         {
             organization.getPosts().remove(event);

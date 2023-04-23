@@ -8,9 +8,9 @@ public class Driver {
         Organization nullOrganization = new Organization(null, null, 0, 0);
 
         // Branch constructors
-        Branch animalBranch = new Branch("Dog House", 3, animals);
-        Branch nullBranch = new Branch(null, null);
-        Branch testBranch = new Branch("Test", nullOrganization);
+        // Branch animalBranch = new Branch("Dog House", 3, animals);
+        // Branch nullBranch = new Branch(null, null);
+        // Branch testBranch = new Branch("Test", nullOrganization);
 
         // Event constructors
         Event animalEvent = new Event("Animals", "Animals", "Cat House");
@@ -46,14 +46,14 @@ public class Driver {
         // animalBranch.addMember(animalTestMember);
         // animalBranch.addMember(animalMember);
 
-        animalBranch.saveMembers();
-        animalBranch.setMembers("testMembers.txt", 0);
-        System.out.println(animalBranch.getMembers());
+        // animalBranch.saveMembers();
+        // animalBranch.setMembers("testMembers.txt", 0);
+        // System.out.println(animalBranch.getMembers());
 
-        animals.saveBranches();
-        animals.setBranches("testBranches.txt", 0);
-        System.out.println(animals.getBranches());
-        animalBranch.removeMember(null);
+        // animals.saveBranches();
+        // animals.setBranches("testBranches.txt", 0);
+        // System.out.println(animals.getBranches());
+        // animalBranch.removeMember(null);
         Person person = new Person("person", "user", "pass");
         System.out.println(person.getUsernameAndPassword());
 

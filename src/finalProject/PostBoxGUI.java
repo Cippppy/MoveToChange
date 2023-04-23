@@ -12,10 +12,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class EventBoxGUI extends Application {
+public class PostBoxGUI extends Application {
 
+    Organization organization = new Organization("PETA", Purpose.ANIMAL_RIGHTS,1,0);
+    Post event = new Event("Event", "Event", "Event");
     private String[] args;
-    EventBox eventBox = new EventBox();
+    PostBox eventBox = new PostBox(organization);
 
     public static void main(String[] args) {
         launch(args);
@@ -23,6 +25,7 @@ public class EventBoxGUI extends Application {
 
     @Override
     public void start(Stage mainStage) {
+        organization.addPost(event);
         BorderPane mainPane = new BorderPane(); // make layout to hold controls
         setupControls(mainPane, mainStage); // initialize and place controls
         Scene scene = new Scene(mainPane); // Set up the main scene

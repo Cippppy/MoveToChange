@@ -22,9 +22,6 @@ public class Person implements Comparable<Person> {
     /** An entry of username and password of the person **/
     private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
 
-    /** The branches the member is a part of **/
-    private List<Branch> branches = new ArrayList<Branch>();
-
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
@@ -126,55 +123,6 @@ public class Person implements Comparable<Person> {
      */
     public Role getRole(Organization organization) {
         return organizationsAndRoles.get(organization);
-    }
-
-        /**
-     * Adds a single branch to this member
-     * @param branch The branch to add
-     */
-    public void addBranch(Branch branch) {
-        if(branch != null){
-            this.branches.add(branch);
-            if(!branch.getMembers().contains(this)) {
-                branch.addMember(this);
-                logger.log(Level.INFO, getName() + " added to " + branch);
-            }
-            else logger.log(Level.INFO, getName() + " already belongs to that branch");
-        }
-        else logger.log(Level.WARNING, "That branch is null");
-        
-    }
-
-    /**
-     * Removes a single branch from this member
-     * @param branch The branc to remove
-     */
-    public void removeBranch(Branch branch) {
-        if(branch != null) this.branches.remove(branch);
-        else logger.log(Level.WARNING, "Branch is null");
-        if(branch.getMembers().contains(this)) {
-            branch.removeMember(this);
-        }
-        else logger.log(Level.INFO, getName() + " does not belong to that branch");
-    }
-
-    /**
-     * Return the branches
-     * @return The branches
-     */
-    public List<Branch> getBranches() {
-        return this.branches;
-    }
-
-    /**
-     * Set the branches
-     * @param branches The branches
-     */
-    public void setBranches(List<Branch> branches) {
-        if(branches != null) this.branches = branches;
-        else logger.log(Level.WARNING, "Branches is null");
-        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);}});
     }
 
     /**
