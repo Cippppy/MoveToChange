@@ -36,6 +36,12 @@ public class GUI extends Application {
     private String orgLog = "organizer";
     private String leadLog = "lead";
     private Role rank = null; 
+    
+    private static Person person = setupPerson();
+    private OrganizationBox organizationBox = new OrganizationBox(person);
+    private static VBox leftBox = new VBox();
+    private static VBox centerBox = new VBox();
+    private static VBox rightBox = new VBox();
 
     // needed for login setup
     private Button loginButton = new Button("Login");
@@ -111,7 +117,7 @@ public class GUI extends Application {
     private void styleLogin(Pane pane) {
         pane.setStyle("-fx-padding: 20px;");
     }
-
+/*
     private void setupControls(Pane pane) {
         Text test = new Text("test");
         if (rank.equals(new Member())) {
@@ -154,7 +160,43 @@ public class GUI extends Application {
 
         pane.getChildren().add(root);
     }
-
+*/
+    private void setupControls(Pane pane) {
+        Text test = new Text("test");
+     /*    if (rank.equals(new Member())) {
+            test.setText("I am a member.");
+        } else if (rank.equals(new Organizer())) {
+            test.setText("I am an organizer.");
+        } else if (rank.equals(new President())) {
+            test.setText("I am a leader.");
+        } else {
+            test.setText("I am a guest.");
+        }
+        */
+        Button button = new Button("Create Organization");
+        addOrganization(button);
+        
+        
+        VBox buttontest = new VBox(button);
+        stylePanels(buttontest, Pos.TOP_LEFT);
+        
+            VBox leftPanel = organizationBox.getVBox();
+            stylePanels(leftPanel, Pos.TOP_LEFT);
+        
+            centerBox.getChildren().add(test);
+            styleCenter(centerBox);
+        
+            RecommendationBox.setupBox();
+            //VBox rightPanel = recommendationBox;
+         //   RecommendationBox.setupBox();
+            stylePanels(rightBox, Pos.TOP_RIGHT);
+            
+            HBox root = new HBox(3, leftPanel, centerBox, rightBox);
+        
+            pane.getChildren().add(root);
+    }
+    
+    
     private void setupLoginControls(Pane pane) {
         Label usernameLabel = new Label("Enter Username: ");
         Label passwordLabel = new Label("Enter Password: ");
@@ -215,4 +257,29 @@ public class GUI extends Application {
  });
     }
 
+private static Person setupPerson(){
+        person = new Person("abe", "John42", "vbucks");
+        person.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1), new President());
+        person.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1), new President());
+        person.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1), new President());
+        person.addOrganization(new Organization("ALBERT", Purpose.VETERANS, 1, 1), new President());
+        Organization.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1));
+        Organization.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1));
+        Organization.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1));
+        Organization.addOrganization(new Organization("ARNOLD", Purpose.VETERANS, 1, 1));
+        return person;
+    }
+
+    public static VBox getLeftBox(){
+        return leftBox;
+    }
+    public static VBox getCenterBox(){
+        return centerBox;
+    }
+    public static VBox getRightBox(){
+        return rightBox;
+    }
+    public static Person getPerson(){
+        return person;
+    }
 }
