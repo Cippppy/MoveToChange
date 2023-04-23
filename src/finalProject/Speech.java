@@ -7,7 +7,7 @@ import java.util.logging.Level;
 public class Speech extends Event {
 
     //I think this should maybe be a person but leaving for now just to get things set up
-    List<Person> speakers;
+    private List<Person> speakers;
 
     /**
      * Overloaded Constructor

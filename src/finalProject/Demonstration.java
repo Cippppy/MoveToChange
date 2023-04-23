@@ -35,6 +35,6 @@ public class Demonstration extends Event {
 
     // TODO - Figure out what demonstrate means
     public void demonstrate() {
-
+        
     }
 }
