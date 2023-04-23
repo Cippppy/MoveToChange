@@ -3,10 +3,14 @@ package finalProject;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -36,12 +40,21 @@ public class Organization {
     /** A list of all the branches of the organization **/
     private List<Branch> branches = new ArrayList<Branch>();
 
+    /** A list of all the members of the organization **/
     private List<Person> members = new ArrayList<Person>();
 
     /** A list of all the announcements of the organization **/
     private List<Announcement> announcements = new ArrayList<Announcement>();
     
+    /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
+
+    /**  **/
+    public static List<Organization> allOrganizations = Organization.deserialize();
+
+    /** **/
+    private static final String FILE_NAME = "organizations.ser";
+
     /**
      * Constructor
      * 
@@ -57,6 +70,7 @@ public class Organization {
             this.purpose = purpose;
             this.numOfBranches = numOfBranches;
             this.totalMembers = totalMembers;
+            allOrganizations.add(this);
         }
         else if(numOfBranches <= 0){
             logger.log(Level.WARNING, "Number of branches must be at least 1");
@@ -255,8 +269,6 @@ public class Organization {
         }
     }
 
-    
-
     /**
      * Overloaded method that sets the branches of the organization
      * by reading a .txt file
@@ -291,10 +303,18 @@ public class Organization {
         }
     }
 
+    /**
+     * Return the list of members
+     * @return The list of members
+     */
     public List<Person> getMembers() {
         return this.members;
     }
 
+    /**
+     * Set the name of the organization
+     * @param name The name of the organization
+     */
     public void setName(String name) {
         if(name != null) {
             this.name = name;
@@ -304,6 +324,10 @@ public class Organization {
         }
     }
 
+    /**
+     * Return the name of the organization
+     * @return The name of the organization
+     */
     public String getName() {
         return name;
     }
@@ -320,5 +344,95 @@ public class Organization {
         else {
             logger.log(Level.WARNING, "The member you are trying to remove is null.");
         }
+    }
+
+    public void setOrganizations(int numHeaderRows) {
+        final String fileName = "Organizations.txt";
+        if(fileName.endsWith(".txt")) {
+            try (BufferedReader branchesReader = new BufferedReader(new FileReader(fileName))) {
+                branches.clear();
+                String line = branchesReader.readLine();
+                int linesRead = 0;
+                String delims = "[,]";
+                while(line != null) {
+                    linesRead++;
+                    line = branchesReader.readLine();
+                    if(linesRead > numHeaderRows && line != null)
+                    {
+                        String[] data = line.split(delims);
+                        Organization organization = new Organization(data[0], Purpose.valueOf(data[1].trim()), Integer.parseInt(data[2].trim()), Integer.parseInt(data[3].trim()));
+                    }
+                }
+            } catch (FileNotFoundException f) {
+                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                
+            }
+        }
+        else {
+            logger.log(Level.WARNING, "The input file does not end with .txt");
+        }
+    }
+
+    /**
+	 * Serializes the instance of the Statistic to a file
+	 * @param fileName The name of the file to be saved to
+	 * @author Christian Cipolletta
+	 */
+	public static void serialize() {
+
+		try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(allOrganizations);
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data for all organizations stored in " + FILE_NAME);
+		} catch (IOException e) {
+				System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Deserializes the instance of the Statistic stored in a file
+     * @param fileName The name of the file to be read
+	 * @return The deserialized StateStatistic.
+	 * @throws StatisticDataNotFoundException
+     * @author Christian Cipolletta
+	 */
+	public static List<Organization> deserialize() {
+
+		List<Organization> organizations = null;
+		FileInputStream fileIn = null;
+		ObjectInputStream in = null;
+
+		try {
+			fileIn = new FileInputStream(FILE_NAME);
+			in = new ObjectInputStream(fileIn);
+			organizations = (List<Organization>) in.readObject();
+			in.close();
+			fileIn.close();
+			System.out.println("Deserializing all organizations in " + FILE_NAME);
+		} catch (ClassNotFoundException c) {
+			System.out.println("The target organizations have a different version ID.");
+			c.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.getClass().getSimpleName() + 
+					": " + e.getMessage() + "\n");
+		} 
+		return organizations;
+	}
+
+    public static void setAllOrganizations(List<Organization> allOrgs) {
+        if(allOrganizations != null && !allOrganizations.isEmpty()) {
+            allOrganizations = allOrgs;
+        }
+        else {
+            logger.log(Level.WARNING, "The input list of organizations is null or empty.");
+        }
+    }
+
+    public static List<Organization> getAllOrganizations() {
+        return allOrganizations;
     }
 }

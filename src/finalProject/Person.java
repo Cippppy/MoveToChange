@@ -42,6 +42,7 @@ public class Person implements Comparable<Person> {
             this.usernameAndPassword = new SimpleImmutableEntry<String,String>(username, password);
         else
             logger.log(Level.WARNING, "Username or password is null");
+        this.organizationsAndRoles = new HashMap<Organization, Role>();
     }
 
     /**
@@ -52,6 +53,7 @@ public class Person implements Comparable<Person> {
         if(name != null) {
             this.name = name;
             this.usernameAndPassword = new SimpleImmutableEntry<String,String>("default", "default");
+            this.organizationsAndRoles = new HashMap<Organization, Role>();
         }
         else {
             logger.log(Level.WARNING, "The input name is null.");

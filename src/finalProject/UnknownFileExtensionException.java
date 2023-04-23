@@ -7,10 +7,11 @@ import java.time.LocalDate;
  * @author Ana Oharciuc
  */
 public class UnknownFileExtensionException extends Exception {
+
     // Name of the file
     private static String file = "";
     // Timestamp of the error
-    private static LocalDate timestamp = LocalDate.now();
+    private static LocalDate timestamp;
 
     /**
      * Throw a new UnknownFileExtensionException
@@ -20,6 +21,7 @@ public class UnknownFileExtensionException extends Exception {
     public UnknownFileExtensionException(String filename) {
         super("[" + timestamp + "] Incorrect file extension: " + filename + ". Correct file extensions are .txt and .ser.");
         file = filename;
+        timestamp = LocalDate.now();
         printStackTrace();
     }
 

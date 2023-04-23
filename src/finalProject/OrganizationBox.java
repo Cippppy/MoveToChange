@@ -16,7 +16,6 @@ import javafx.scene.text.Font;
 
 public class OrganizationBox {
     
-
     private VBox vbox = new VBox();
     private Person person;
 
@@ -24,6 +23,7 @@ public class OrganizationBox {
         this.person = person;
         defaultBox(person);
     }
+
     public void styleLink(Hyperlink hyperlink){
         hyperlink.setStyle("-fx-text-fill: blue; -fx-underline-color: blue;-fx-focus-color: transparent;");
         hyperlink.setFont(Font.font("Arial", 24));
@@ -32,17 +32,21 @@ public class OrganizationBox {
         hyperlink.setOnMouseEntered(e -> hyperlink.setStyle("-fx-underline: true;"));
         hyperlink.setOnMouseExited(e -> hyperlink.setStyle("-fx-underline: false;"));
     }
+
     public void styleLabel(Label label){
         label.setStyle("-fx-font-size: 16px; -fx-text-fill: grey;");
         label.setPadding(new Insets(0, 0, 0, 20));
     }
+
     public void styleHeader(Label label){
         label.setStyle("-fx-font-size: 30px; -fx-text-fill: black;");
         label.setPadding(new Insets(10, 0, 20, 20));
     }
+
     public VBox getVBox(){
         return vbox;
     }
+
     public void addOrganization(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
@@ -83,6 +87,7 @@ public class OrganizationBox {
             defaultBox(person);
         });
     }
+
     public void defaultBox(Person person){
         HBox hbox = new HBox();
         Button button = new Button("Click me");

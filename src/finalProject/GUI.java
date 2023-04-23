@@ -47,7 +47,6 @@ public class GUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        
     }
     
     public void start(final Stage stage) throws Exception {
