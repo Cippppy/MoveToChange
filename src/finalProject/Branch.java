@@ -314,7 +314,7 @@ public class Branch {
             }
         }
         else {
-            System.err.println("The input file does not end with .txt");
+            logger.log(Level.WARNING, "The input file name does not end with .txt");
         }
     }
     
