@@ -15,20 +15,12 @@ import java.util.logging.Logger;
  */
 public class Member extends Role {
 
+    /** Logger for the me **/
     Logger logger = Logger.getLogger(Member.class.getName());
     
 
     @Override
     public String toString() {
         return "";
-    }
-
-    public void setRole(Role role) {
-        if(role != null) this.role = role; 
-        else logger.log(Level.WARNING, "Role is null");
-    }
-
-    public Role getRole() {
-        return this.role;
     }
 }

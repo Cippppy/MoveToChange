@@ -23,7 +23,7 @@ public class Speech extends Event {
             this.speakers = speakers;
         }
         else {
-            logger.log(Level.WARNING, "The input speakers is null.");
+            logger.log(Level.WARNING, "The input speakers are null.");
         }
     }
 
@@ -52,7 +52,7 @@ public class Speech extends Event {
             this.speakers = speakers;
         }
         else {
-            System.err.println("The input speakers is null.");
+            logger.log(Level.WARNING, "The input speakers are null.");
         }
     }
 
@@ -84,7 +84,7 @@ public class Speech extends Event {
             this.speakers = speakers;
         }
         else {
-            System.err.println("The input speakers is null.");
+            logger.log(Level.WARNING, "The input speakers are null.");
         }
     }
     

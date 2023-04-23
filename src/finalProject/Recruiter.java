@@ -16,9 +16,6 @@ public class Recruiter extends Role {
     
     /**
      * Constructor
-     * 
-     * @param name The name of the recruiter
-     * @param branch The branch the recruiter recruits for
      */
     public Recruiter() {
 
@@ -27,6 +24,7 @@ public class Recruiter extends Role {
     /**
      * Try to recruit a non member
      * @param target The person to be recruiter
+     * @param organization The organization
      * @return If the target was successfully recruited or not
      */
     public boolean tryToRecruit(Person target, Organization organization) {
@@ -47,8 +45,14 @@ public class Recruiter extends Role {
     /**
      * Successfully recruit a non member
      * @param recruitee The non member
+     * @param organization The organization
      */
     public void recruit(Person recruitee, Organization organization) {
-        organization.getMembers().add(recruitee);
+        if(recruitee != null && organization != null) {
+            organization.getMembers().add(recruitee);
+        }
+        else {
+            logger.log(Level.WARNING, "The input recruitee or organization is null.");
+        }
     }
 }

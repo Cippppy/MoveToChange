@@ -1,17 +1,15 @@
 package finalProject;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * 
  */
 public class President extends Role implements Lead, Organize {
 
-    Logger logger = Logger.getLogger(President.class.getName());
     /**
-     * Creates a instance of President with a name
-     * 
-     * @param name The president's name
-     * @param branch The branch the president leads
+     * Constructor
      */
     public President() {
 

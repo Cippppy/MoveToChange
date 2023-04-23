@@ -5,6 +5,7 @@ import java.util.logging.Level;
 
 public abstract class Role {
 
+    /** The logger for the role **/
     public static Logger logger = Logger.getLogger(Logger.class.getName());
 
     public Role() {
