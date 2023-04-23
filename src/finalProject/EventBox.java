@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class EventBox extends HBox {
+public class EventBox extends VBox {
     
     private Label eventsTitle = new Label("Upcoming Events");
 

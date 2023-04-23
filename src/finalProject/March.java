@@ -17,8 +17,8 @@ public class March extends Event {
      * @param attendees The peopling attending the march
      * @param location The location of the march
      */
-    public March(String reason, ArrayList<Person> attendees, String location) {
-        super(reason, attendees, location);
+    public March(String reason, String text, ArrayList<Person> attendees, String location) {
+        super(reason, text, attendees, location);
     }
 
     /**
@@ -27,8 +27,8 @@ public class March extends Event {
      * @param reason The reason for the march
      * @param location The location of the march
      */
-    public March(String reason, String location) {
-        super(reason, location);
+    public March(String reason, String text, String location) {
+        super(reason, text, location);
     }
 
     // TODO - Figure out what march means

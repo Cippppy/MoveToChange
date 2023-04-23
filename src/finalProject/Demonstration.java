@@ -20,8 +20,8 @@ public class Demonstration extends Event {
      * @param attendees Used for super constructor Event
      * @param location Used for super constructor Event
      */
-    public Demonstration(String reason, ArrayList<Person> attendees, String location) {
-        super(reason, attendees, location);
+    public Demonstration(String reason, String text, ArrayList<Person> attendees, String location) {
+        super(reason, text, attendees, location);
     }
 
     /**
@@ -29,8 +29,8 @@ public class Demonstration extends Event {
      * @param reason
      * @param location
      */
-    public Demonstration(String reason, String location) {
-        super(reason, location);
+    public Demonstration(String reason, String text, String location) {
+        super(reason, text, location);
     }
 
     // TODO - Figure out what demonstrate means

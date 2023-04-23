@@ -68,8 +68,8 @@ public class Organizer extends Role implements Organize, Lead {
      * @param reason The reason for the event
      * @param location The location of the event
      */
-    public void planEvent(String reason, String location) {
-        events.add(new Event(reason, location));
+    public void planEvent(String reason, String text, String location) {
+        events.add(new Event(reason, text, location));
     }
 
     /**

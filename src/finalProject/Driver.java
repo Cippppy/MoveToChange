@@ -13,13 +13,13 @@ public class Driver {
         Branch testBranch = new Branch("Test", nullOrganization);
 
         // Event constructors
-        Event animalEvent = new Event("Animals", "Cat House");
-        Speech animalSpeech = new Speech("Animals", "Cat House");
-        March animalMarch = new March("Animals", "Cat House");
-        Meeting animalMeeting = new Meeting("Animals", "Cat House");
+        Event animalEvent = new Event("Animals", "Animals", "Cat House");
+        Speech animalSpeech = new Speech("Animals", "Animals", "Cat House");
+        March animalMarch = new March("Animals", "Animals", "Cat House");
+        Meeting animalMeeting = new Meeting("Animals", "Animals", "Cat House");
 
-        Event greenEnergyEvent = new Event("Green Energy", "Power Grid");
-        Event nullEvent = new Event(null, null);
+        Event greenEnergyEvent = new Event("Green Energy", "Animals", "Power Grid");
+        Event nullEvent = new Event(null, null, null);
 
         // // People Constuctors
         // President animalPresident = new President("President Lizard", animalBranch);

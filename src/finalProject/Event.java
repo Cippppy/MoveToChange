@@ -11,10 +11,7 @@ import java.util.ArrayList;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Event implements Participable {
-
-    /** The reason for the event **/
-    String reason;
+public class Event extends Post implements Participable {
 
     /** The list of people attending the event **/
     List<Person> attendees;
@@ -22,9 +19,8 @@ public class Event implements Participable {
     /** The location of the event **/
     String location;
 
+    /**  **/
     Logger logger = Logger.getLogger(Event.class.getName());
-
-
 
     /**
      * Full Constructor for Event
@@ -33,13 +29,13 @@ public class Event implements Participable {
      * @param reason The reason for the event
      * @param attendees The people attending the event
      */
-    public Event(String reason, ArrayList<Person> attendees, String location) {
-        if(reason != null && attendees != null && location != null){
+    public Event(String reason, String text, ArrayList<Person> attendees, String location) {
+        super(reason, text);
+        if(attendees != null && location != null){
             this.attendees = attendees;
             if(!reason.isEmpty() || !location.isEmpty()) {
                 logger.log(Level.INFO, "Either reason or location is empty");
             }
-            this.reason = reason;
             this.location = location;
         }
         else logger.log(Level.WARNING, "One or more values are null");
@@ -53,37 +49,17 @@ public class Event implements Participable {
      * @param reason The reason for the event
      * @param attendees The people attending the event
      */
-    public Event(String reason, String location) {
-        if(reason != null && location != null){
+    public Event(String reason, String text, String location) {
+        super(reason, text);
+        if(location != null){
             if(reason.isEmpty() || location.isEmpty()) {
                 logger.log(Level.INFO, "Either reason or location is empty");
             }
-            this.reason = reason;
             this.location = location;
         }
         else logger.log(Level.WARNING, "One or more values are null");
         this.attendees = new ArrayList<Person>();
         
-    }
-
-    /**
-     * Gets the reason for this event
-     * @author Jimmy McCarry
-     * @return The reason for the event
-     */
-    public String getReason() {
-        return this.reason;
-    }
-
-    /**
-     * Sets the reason for this event
-     * @author Jimmy McCarry
-     * @param reason reason for this event
-     */
-    public void setReason(String reason) {
-        if(reason != null) this.reason = reason;
-        else logger.log(Level.WARNING, "Reason is null");
-        if(reason.isEmpty()) logger.log(Level.INFO, "Reason is empty");
     }
 
     /**

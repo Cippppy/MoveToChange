@@ -30,11 +30,12 @@ public class EventBoxGUI extends Application {
     }
 
     private void setupControls(BorderPane mainPane, Stage mainStage) {
-        mainPane.setRight(eventBox);
+        mainPane.setCenter(eventBox);
     }
 
     private static void setStage(Stage mainStage, Scene scene) {
-        mainStage.setWidth(250);
+        mainStage.setWidth(500);
+        mainStage.setHeight(500);
         mainStage.setTitle("Login");
         mainStage.setScene(scene);
         mainStage.show();

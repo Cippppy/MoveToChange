@@ -19,8 +19,8 @@ public class Meeting extends Event {
      * @param attendees The attendees of the meeting
      * @param location The location of the meeting
      */
-    public Meeting(String reason, ArrayList<Person> attendees, String location) {
-        super(reason, attendees, location);
+    public Meeting(String reason, String text, ArrayList<Person> attendees, String location) {
+        super(reason, text, attendees, location);
     }
     
     /**
@@ -30,8 +30,8 @@ public class Meeting extends Event {
      * @param reason The reason for the meeting
      * @param location The location of the meeting
      */
-    public Meeting(String reason, String location) {
-        super(reason, location);
+    public Meeting(String reason, String text, String location) {
+        super(reason, text, location);
     }
 
     // TODO - Figure out what meet does

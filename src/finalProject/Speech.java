@@ -17,8 +17,8 @@ public class Speech extends Event {
      * @param location The location of the speech
      * @param speakers The people speaking
      */
-    public Speech(String reason, ArrayList<Person> attendees, String location, ArrayList<Person> speakers) {
-        super(reason, attendees, location);
+    public Speech(String reason, String text, ArrayList<Person> attendees, String location, ArrayList<Person> speakers) {
+        super(reason, text, attendees, location);
         if(speakers != null) {
             this.speakers = speakers;
         }
@@ -34,8 +34,8 @@ public class Speech extends Event {
      * @param attendees The people attending the speech
      * @param location The location of the speech
      */
-    public Speech(String reason, ArrayList<Person> attendees, String location) {
-        super(reason, attendees, location);
+    public Speech(String reason, String text, ArrayList<Person> attendees, String location) {
+        super(reason, text, attendees, location);
         this.speakers = new ArrayList<Person>();
     }
 
@@ -46,8 +46,8 @@ public class Speech extends Event {
      * @param location The location of the speech
      * @param speakers The people speaking
      */
-    public Speech(String reason, String location, ArrayList<Person> speakers) {
-        super(reason, location);
+    public Speech(String reason, String text, String location, ArrayList<Person> speakers) {
+        super(reason, text, location);
         if(speakers != null) {
             this.speakers = speakers;
         }
@@ -62,8 +62,8 @@ public class Speech extends Event {
      * @param reason The reason for the speech
      * @param location The location of the speech
      */
-    public Speech(String reason, String location) {
-        super(reason, location);
+    public Speech(String reason, String text, String location) {
+        super(reason, text, location);
         this.speakers = new ArrayList<Person>();
     }
 
