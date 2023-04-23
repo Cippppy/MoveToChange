@@ -151,7 +151,7 @@ public class Branch {
      */
     public void addMember(Person person) {
         if(person != null) {
-            if(person.getRole(organization) instanceof NonMember || person.getRole(organization) == null) {
+            if(person.getRole(organization) == null) {
                 person.setRole(organization, new Member());
                 logger.log(Level.INFO, "Member trying to be added is a non-member or did not have a role." +
                                       " They are now a member.");
@@ -173,7 +173,7 @@ public class Branch {
         if(person != null) {
             this.members.remove(person);
             person.removeBranch(this);
-            person.setRole(this.organization, new NonMember());
+            person.getOrganizationsAndRoles().remove(organization);
             this.numBranchMembers = this.members.size();
             logger.log(Level.INFO, "Member successfully removed from " + this);
         }

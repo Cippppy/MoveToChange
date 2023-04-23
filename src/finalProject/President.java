@@ -20,7 +20,7 @@ public class President extends Role implements Lead, Organize {
      * @param member The member to be removed
      */
     public void kickMember(Organization organization, Person person) {
-            person.setRole(organization, new NonMember());
+            person.getOrganizationsAndRoles().remove(organization, person);
             organization.removeMember(person);
     }
 
@@ -34,10 +34,6 @@ public class President extends Role implements Lead, Organize {
             if(!organization.getMembers().contains(person)){
                 organization.getMembers().add(person);
                 logger.log(Level.INFO, "Member successfully added to " + organization);
-            }
-            if(role instanceof NonMember) {
-                kickMember(organization, person);
-                logger.log(Level.INFO, "Member kicked successfully");
             }
             else {
                 try {
