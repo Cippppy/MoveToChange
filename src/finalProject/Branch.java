@@ -39,7 +39,7 @@ public class Branch {
     /** The list of events the branch has **/
     private List<Event> events = new ArrayList<Event>();
 
-    /** Logger to tell log what is going on **/
+    /** Logger to tell log what is going on in the branch **/
     private Logger logger = Logger.getLogger(Branch.class.getName());
 
     /**Used to set file write mode to overwrite **/
@@ -101,8 +101,8 @@ public class Branch {
      * @param location Location to be set as the branch location
      */
     public void setLocation(String location) {
-        if(location != null) this.location = location;
-        else logger.log(Level.WARNING, "The input string for the setLocation method is null.");
+        if(location != null && !location.isEmpty()) this.location = location;
+        else logger.log(Level.WARNING, "The input string for the setLocation method is null or empty.");
     }
 
     /**
@@ -142,6 +142,7 @@ public class Branch {
         if(members != null) { this.members = members; 
                               this.numBranchMembers = members.size(); }
         else logger.log(Level.WARNING, "The input list of members is null.");
+        if(members.isEmpty()) logger.log(Level.INFO, "The input list of members was set, but it is empty.");
     }
 
     /**
@@ -161,6 +162,7 @@ public class Branch {
     public void setEvents(List<Event> events) {
         if(events != null) this.events = events;
         else logger.log(Level.WARNING, "The input list of events is null.");
+        if(events.isEmpty()) logger.log(Level.INFO, "The input list of events was set, but it is empty.");
     }
 
     /**
@@ -254,10 +256,15 @@ public class Branch {
         }
     }
 
+    /**
+     * Save the members of the branch with a specific role to a .txt file
+     * Autogenerates the name as the branch location and the role.
+     * @param role The role to be filtered
+     */
     public void saveMembersByRole(Role role) {
         String filename = getLocation().strip() + role.toString() + ".txt";
         List<Person> filteredMembers = members.parallelStream()
-        .filter(m -> (m.getOrganizationsAndRoles().get(org).equals(role)))
+        .filter(m -> (m.getOrganizationsAndRoles().get(organization).equals(role)))
         .collect(Collectors.toList());
         try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(filename, OVERWRITE_MODE))) {
             membersWriter.write("Member Name, Member Role");
@@ -311,14 +318,25 @@ public class Branch {
         }
     }
     
-    
-
+    /**
+     * Return the organization of the branch
+     * @return The organization of the branch
+     */
     public Organization getOrganization() {
         return this.organization;
     }
 
+    /**
+     * Set the organization of the branch
+     * @param organization Set the organization of the branch
+     */
     public void setOrganization(Organization organization) {
-        this.organization = organization;
+        if(organization != null) {
+            this.organization = organization;
+        }
+        else {
+            logger.log(Level.WARNING, "The input organization is null.");
+        }
     }
 
     @Override

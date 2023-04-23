@@ -17,7 +17,9 @@ public class Announcement implements Distributable {
     /** The text of the announcement **/
     String text;
 
+    /** Logger for the announcment class **/
     Logger logger = Logger.getLogger(Announcement.class.getName());
+
     /**
      * Constructor
      * 
@@ -53,7 +55,6 @@ public class Announcement implements Distributable {
     public void setReason(String reason) {
         if(reason != null) this.reason = reason; 
         else logger.log(Level.WARNING, "Reason is null");
-
         if(reason.isEmpty()) logger.log(Level.INFO, "Reason is empty");
     }
 

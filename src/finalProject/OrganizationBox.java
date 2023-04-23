@@ -77,7 +77,7 @@ public class OrganizationBox {
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
-            person.addOrganization(organization, new President());
+            person.setRole(organization, new President());
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);

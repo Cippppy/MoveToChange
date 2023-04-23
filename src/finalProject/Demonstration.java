@@ -24,6 +24,15 @@ public class Demonstration extends Event {
         super(reason, attendees, location);
     }
 
+    /**
+     * 
+     * @param reason
+     * @param location
+     */
+    public Demonstration(String reason, String location) {
+        super(reason, location);
+    }
+
     // TODO - Figure out what demonstrate means
     public void demonstrate() {
 

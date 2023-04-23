@@ -295,7 +295,20 @@ public class Organization {
         return this.members;
     }
 
-        /**
+    public void setName(String name) {
+        if(name != null) {
+            this.name = name;
+        }
+        else {
+            logger.log(Level.WARNING, "The input name is null.");
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Removes a single member to the branch and decrements numBranchMembers
      * @param member The member to be removed
      */
