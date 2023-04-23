@@ -69,11 +69,13 @@ public class Organization {
     public static Logger logger = Logger.getLogger(Organization.class.getName());
 
     /**  **/
-    public static List<Organization> allOrganizations = Organization.deserialize();
+    public static List<Organization> allOrganizations = new ArrayList<Organization>();
+
 
     /** **/
     private static final String FILE_NAME = "organizations.ser";
 
+    
     /**
      * Constructor
      * 
@@ -438,7 +440,9 @@ public class Organization {
      * @author Christian Cipolletta
 	 */
 	public static List<Organization> deserialize() {
-
+        if(allOrganizations == null) {
+            allOrganizations = Organization.deserialize();
+        }
 		List<Organization> organizations = null;
 		FileInputStream fileIn = null;
 		ObjectInputStream in = null;

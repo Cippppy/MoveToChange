@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class EventBoxGUI extends Application {
 
     private String[] args;
+    EventBox eventBox = new EventBox();
 
     public static void main(String[] args) {
         launch(args);
@@ -29,37 +30,7 @@ public class EventBoxGUI extends Application {
     }
 
     private void setupControls(BorderPane mainPane, Stage mainStage) {
-        // name field
-        Label nameLabel = new Label("Enter Name: ");
-        TextField nameField = new TextField();
-        // username field
-        Label usernameLabel = new Label("Enter Username: ");
-        TextField usernameField = new TextField();
-        //password field
-        Label passwordLabel = new Label("Enter Password: ");
-        TextField passwordField = new TextField();
-        // buttons
-        Button loginButton = new Button();
-        loginButton.setText("Login");
-        Button backButton = new Button();
-        backButton.setText("Back");
-        Label errorLabel = new Label();
-        // holds buttons horizontally
-        HBox buttonBox = new HBox(2);
-        buttonBox.getChildren().addAll(loginButton, backButton);
-        // Holds everything vertically
-        VBox loginLayout = new VBox();
-        loginLayout.setPadding(new Insets(20));
-        loginLayout.getChildren().addAll(nameLabel, nameField, usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
-        // setting functionality
-        loginButton.setOnAction(e -> errorLabel.setText("Poop Dollah"));
-        backButton.setOnAction(e -> {
-                                    mainStage.close();
-                                    Application.launch(LoginGUI.class, args);
-                                    });
-        // Add everything to border pane
-        BorderPane.setAlignment(loginLayout, Pos.CENTER);
-        mainPane.setCenter(loginLayout);
+        mainPane.setRight(eventBox);
     }
 
     private static void setStage(Stage mainStage, Scene scene) {

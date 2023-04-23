@@ -1,36 +1,29 @@
-// package finalProject;
+package finalProject;
 
-// import javafx.geometry.Insets;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.Label;
-// import javafx.scene.control.TextField;
-// import javafx.scene.layout.HBox;
-// import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
-// public class EventBox extends VBox {
+public class EventBox extends HBox {
     
-//     // username field
-//     Label usernameLabel;
-//     TextField usernameField;
+    private Label eventsTitle = new Label("Upcoming Events");
 
-//     /**
-//      * Constructor
-//      */
-//     public EventBox() {
-//        // buttons
-//        Button loginButton = new Button();
-//        loginButton.setText("Login");
-//        Button newAccountButton = new Button();
-//        newAccountButton.setText("Create New Account");
-//        Label errorLabel = new Label();
-//        // holds buttons horizontally
-//        HBox buttonBox = new HBox(2);
-//        buttonBox.getChildren().addAll(loginButton, newAccountButton);
-//        // Holds everything vertically
-//        VBox loginLayout = new VBox();
-//        loginLayout.setPadding(new Insets(20));
-//        loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
-//        // setting functionality
-//        loginButton.setOnAction(e -> errorLabel.setText("Poop Dollah"));
-//     }
-// }
+    /**
+     * Constructor
+     */
+    public EventBox() {
+        this.getChildren().add(eventsTitle);
+        eventsTitle.setFont(new Font("Verdana", 14));
+		eventsTitle.setTextFill(Color.IVORY);
+		eventsTitle.setStyle("-fx-text-color: Ivory;");
+		eventsTitle.setPadding(new Insets(10));
+		this.setStyle("-fx-background-color: #773d22;");
+		this.setAlignment(Pos.CENTER);
+    }
+}
