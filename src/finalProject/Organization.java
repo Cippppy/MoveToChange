@@ -63,14 +63,13 @@ public class Organization {
     private List<Person> members = new ArrayList<Person>();
 
     /** A list of all the announcements of the organization **/
-    private List<Announcement> announcements = new ArrayList<Announcement>();
+    private List<Post> posts = new ArrayList<Post>();
     
     /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
 
     /**  **/
     public static List<Organization> allOrganizations = new ArrayList<Organization>();
-
 
     /** **/
     private static final String FILE_NAME = "organizations.ser";
@@ -182,21 +181,21 @@ public class Organization {
     }
 
     /**
-     * Gets the List of Announcements that this Organization has
+     * Gets the List of Posts that this Organization has
      * @author Jimmy McCarry
-     * @return The list of announcements of this organization
+     * @return The list of Posts of this organization
      */
-    public List<Announcement> getAnnouncements() {
-        return this.announcements;
+    public List<Post> getPosts() {
+        return this.posts;
     }
 
     /**
-     * Sets the List of Announcements that this Organization has
+     * Sets the List of Posts that this Organization has
      * @author Jimmy McCarry
-     * @param announcements The list of announcements
+     * @param announcements The list of posts
      */
-    public void setAnnouncements(List<Announcement> announcements) {
-        if(announcements != null) this.announcements = announcements;
+    public void setAnnouncements(List<Post> posts) {
+        if(posts != null) this.posts = posts;
         else logger.log(Level.WARNING, "Announcements is null");
     }
 
@@ -385,35 +384,6 @@ public class Organization {
         }
     }
 
-    public void setOrganizations(int numHeaderRows) {
-        final String fileName = "Organizations.txt";
-        if(fileName.endsWith(".txt")) {
-            try (BufferedReader branchesReader = new BufferedReader(new FileReader(fileName))) {
-                branches.clear();
-                String line = branchesReader.readLine();
-                int linesRead = 0;
-                String delims = "[,]";
-                while(line != null) {
-                    linesRead++;
-                    line = branchesReader.readLine();
-                    if(linesRead > numHeaderRows && line != null)
-                    {
-                        String[] data = line.split(delims);
-                        Organization organization = new Organization(data[0], Purpose.valueOf(data[1].trim()), Integer.parseInt(data[2].trim()), Integer.parseInt(data[3].trim()));
-                    }
-                }
-            } catch (FileNotFoundException f) {
-                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
-            } catch (Exception e) {
-                e.printStackTrace();
-                
-            }
-        }
-        else {
-            logger.log(Level.WARNING, "The input file does not end with .txt");
-        }
-    }
-
     /**
 	 * Serializes the instance of the Statistic to a file
 	 * @param fileName The name of the file to be saved to
@@ -477,7 +447,7 @@ public class Organization {
         return allOrganizations;
     }
 
-        /**
+    /**
      * Displays the organization dashboard by
      * setting up and styling its VBox and returning it
      * to be used by the GUI
@@ -541,5 +511,23 @@ public class Organization {
 
         orgDashBoard.getChildren().addAll(header, sep, bottom);
         return orgDashBoard;
+    }
+
+    public void addPost(Post post) {
+        if(post != null) {
+            posts.add(post);
+        }
+        else {
+            logger.log(Level.WARNING, "The post you are trying to add is null.");
+        }
+    }
+
+    public void removePost(Post post) {
+        if(post != null) {
+            posts.remove(post);
+        }
+        else {
+            logger.log(Level.WARNING, "The post you are trying to remove is null.");
+        }
     }
 }

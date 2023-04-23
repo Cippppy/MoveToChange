@@ -37,9 +37,6 @@ public class Branch {
     /** The list of members the branch has **/
     private List<Person> members = new ArrayList<Person>();
 
-    /** The list of events the branch has **/
-    private List<Event> events = new ArrayList<Event>();
-
     /** Logger to tell log what is going on in the branch **/
     private Logger logger = Logger.getLogger(Branch.class.getName());
 
@@ -149,26 +146,6 @@ public class Branch {
     }
 
     /**
-     * Gets the List of Events this branch has
-     * @author Jimmy McCarry
-     * @return List of Events this branch has
-     */
-    public List<Event> getEvents() {
-        return this.events;
-    }
-
-    /**
-     * Sets the List of Events this branch has
-     * @author Jimmy McCarry
-     * @param events List to be passed in and set as the events of this branch
-     */
-    public void setEvents(List<Event> events) {
-        if(events != null) this.events = events;
-        else logger.log(Level.WARNING, "The input list of events is null.");
-        if(events.isEmpty()) logger.log(Level.INFO, "The input list of events was set, but it is empty.");
-    }
-
-    /**
      * Adds a single member to the branch and increments numBranchMembers
      * @param member The member to be added
      */
@@ -202,39 +179,6 @@ public class Branch {
         }
         else {
             logger.log(Level.WARNING, "The member you are trying to remove is null.");
-        }
-    }
-
-    /**
-     * Adds a single event to the branch
-     * @param event The event to be added
-     */
-    public void addEvent(Event event) {
-        if(event != null) {
-            this.events.add(event);
-            logger.log(Level.INFO, "Event added successfully to " + this);
-        }
-        else {
-            logger.log(Level.WARNING, "The event you are trying to add is null.");
-        }
-    }
-
-    /**
-     * Remove a single event from the branch
-     * @param event The event to be removed
-     */
-    public void removeEvent(Event event) {
-        if(event != null) {
-            try {
-                this.events.remove(event);
-            } catch (NullPointerException n) {
-                System.err.println("The input event does not exist.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            logger.log(Level.WARNING, "The event you are trying to remove is null.");
         }
     }
 
