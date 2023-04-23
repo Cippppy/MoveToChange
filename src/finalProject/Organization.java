@@ -15,6 +15,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.text.FontWeight; 
+import javafx.scene.text.Font; 
+import javafx.scene.text.TextAlignment; 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Separator;
+import javafx.geometry.Orientation;
 
 /**
  * 
@@ -36,6 +49,12 @@ public class Organization {
 
     /** The total number of members the organization has **/
     private int totalMembers;
+
+    /** The respective button for the organization **/
+    private Button orgButton = new Button();
+
+    /** The dashboard of the organization **/
+    private VBox orgDashBoard = new VBox(3);
 
     /** A list of all the branches of the organization **/
     private List<Branch> branches = new ArrayList<Branch>();
@@ -71,6 +90,7 @@ public class Organization {
             this.numOfBranches = numOfBranches;
             this.totalMembers = totalMembers;
             allOrganizations.add(this);
+            orgButton.setText(name);
         }
         else if(numOfBranches <= 0){
             logger.log(Level.WARNING, "Number of branches must be at least 1");
@@ -78,7 +98,6 @@ public class Organization {
         else {
             logger.log(Level.WARNING, "One or more values are null");
         }
-        
     }
 
     /**
@@ -333,6 +352,24 @@ public class Organization {
     }
 
     /**
+     * Gets the respective button for the organization
+     * @author Ana Oharciuc
+     * @return
+     */
+    public Button getButton() {
+        return orgButton;
+    }
+
+    /**
+     * Sets the text of the org's button
+     * @author Ana Oharciuc
+     * @param text
+     */
+    public void setButton(String text) {
+        orgButton.setText(text);
+    }
+
+    /**
      * Removes a single member to the branch and decrements numBranchMembers
      * @param member The member to be removed
      */
@@ -434,5 +471,71 @@ public class Organization {
 
     public static List<Organization> getAllOrganizations() {
         return allOrganizations;
+    }
+
+        /**
+     * Displays the organization dashboard by
+     * setting up and styling its VBox and returning it
+     * to be used by the GUI
+     * @author Ana Oharciuc
+     * @return
+     */
+    public VBox displayDash() {
+        orgDashBoard.setMinWidth(1020);
+        orgDashBoard.setPrefWidth(1020);
+        orgDashBoard.setAlignment(Pos.TOP_CENTER);
+
+        Label orgName = new Label(name);
+        orgName.setFont(Font.font("arial", FontWeight.BOLD, 48));
+        orgName.setTextAlignment(TextAlignment.LEFT);
+        Label orgPurposeLabel = new Label("PURPOSE: ");
+        orgPurposeLabel.setFont(Font.font("arial", FontWeight.BOLD, 15));
+        Label orgPurpose = new Label(purpose.toString());
+        orgPurpose.setFont(Font.font("arial", 15));
+        HBox purposeBox = new HBox(orgPurposeLabel, orgPurpose);
+        VBox orgInfo = new VBox(orgName, purposeBox);
+        orgInfo.setAlignment(Pos.TOP_LEFT);
+        orgInfo.setMinWidth(550);
+
+        Button leaveOrg = new Button("Leave Organization");
+        Button showRoster = new Button("Show Roster");
+        HBox interactionTopRow = new HBox(leaveOrg, showRoster);
+        VBox interactionBox = new VBox(interactionTopRow);
+        interactionBox.setAlignment(Pos.CENTER_RIGHT);
+        interactionBox.setMinWidth(470);
+
+        HBox header = new HBox(2, orgInfo, interactionBox);
+        header.setMinWidth(1020);
+        header.setMinHeight(100);
+
+        Separator sep = new Separator();
+        sep.setMinWidth(1020);
+        sep.setHalignment(HPos.CENTER);
+
+        Label announcementsLabel = new Label("Announcements");
+        announcementsLabel.setTextAlignment(TextAlignment.CENTER);
+        announcementsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        VBox announcementsList = new VBox();
+        VBox announcements = new VBox(announcementsLabel, announcementsList);
+        announcements.setMinWidth(550);
+
+        Separator bottomSep = new Separator(Orientation.VERTICAL);
+        bottomSep.setHalignment(HPos.CENTER);
+        bottomSep.setValignment(VPos.CENTER);
+        bottomSep.setMinHeight(890);
+
+        Label eventsLabel = new Label("Events");
+        eventsLabel.setTextAlignment(TextAlignment.CENTER);
+        eventsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        VBox eventsList = new VBox();
+        VBox events = new VBox(eventsLabel, eventsList);
+        events.setMinWidth(550);
+
+        HBox bottom = new HBox(announcements, bottomSep, events);
+        bottom.setMinWidth(1020);
+        bottom.setMaxWidth(1020);
+
+        orgDashBoard.getChildren().addAll(header, sep, bottom);
+        return orgDashBoard;
     }
 }

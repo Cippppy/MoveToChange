@@ -5,19 +5,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
@@ -28,6 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font; 
+import javafx.scene.paint.Color; 
+import javafx.scene.text.FontWeight; 
+import javafx.scene.text.FontPosture; 
+import javafx.scene.control.ScrollPane;
 
 public class GUI extends Application {
     // used for user validation at login (user and pass the same for testing purposes)
@@ -123,24 +124,33 @@ public class GUI extends Application {
             test.setText("I am a guest.");
         }
 
-    Button button = new Button("Create Organization");
-    addOrganization(button);
+        Button newOrgButton = new Button("Create Organization");
+        addOrganization(newOrgButton);
 
-    VBox buttontest = new VBox(button);
-    stylePanels(buttontest, Pos.TOP_LEFT);
-        Text test2 = new Text("sdfds");
+        Text title = new Text("Move To Change");
+        Text startText = new Text("An organization is not currently selected. Please choose an organization from the left-hand panel to begin.");
+        startText.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        startText.setFill(Color.SILVER); 
+        startText.setWrappingWidth(800);
         Text test3 = new Text("sdfgsdfsdf");
 
-        VBox leftPanel = new VBox(test2);
+        VBox leftPanel = new VBox(title, newOrgButton);
+        ScrollPane leftPanelScroll = new ScrollPane(leftPanel);
+        leftPanelScroll.setMinWidth(450);
+        leftPanelScroll.setMinHeight(1080);
         stylePanels(leftPanel, Pos.TOP_LEFT);
 
-        VBox center = new VBox(test);
-        styleCenter(center);
+        /** TESTING WHILE WORKING ON DISPLAYDASH - MAY NOT BE FUNCTIONAL UNTIL THEN */
+        //VBox center = new VBox(startText, test);
+        //styleCenter(center);
+        Organization testOrg = new Organization("Test Org", Purpose.ENVIRONMENTALISM, 3, 40);
+        VBox center = testOrg.displayDash();
+        /** END TESTING SECTION */
 
         VBox rightPanel = new VBox(test3);
         stylePanels(rightPanel, Pos.TOP_RIGHT);
         
-        HBox root = new HBox(3, buttontest, center, rightPanel);
+        HBox root = new HBox(3, leftPanelScroll, center, rightPanel);
 
         pane.getChildren().add(root);
     }
