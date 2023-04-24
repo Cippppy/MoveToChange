@@ -81,7 +81,7 @@ public class GUI extends Application {
             // LOGIN GUI
             Organization.deserialize();
             Login.deserialize();
-            setupLogin();
+            // setupLogin();
             // mainStage.initModality(Modality.APPLICATION_MODAL);
             mainStage.setScene(loginScene);
             loginPane.setCenter(login);
@@ -252,7 +252,7 @@ public class GUI extends Application {
             String name = usernameField.getText();
             String purposeValue = dropdown.getValue().toString();
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
-            Organization organization = new Organization(name, purpose, 1, 0);
+            Organization organization = new Organization(name, purpose, 0);
             //Organizations.addOrganization(organization);
             System.out.println(organization.toString());
         });
@@ -266,12 +266,12 @@ public class GUI extends Application {
 
     private static Person setupPerson(){
         person = new Person("abe", "vbucks");
-        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
-        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
-        Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
-        Organization org4 = new Organization("ALBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
-        Organization org5 = new Organization("BLBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
-        Organization org6 = new Organization("Chris rocks", Purpose.VETERANS, 1, 1);
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
+        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1);
+        Organization org3 = new Organization("apes", Purpose.VETERANS, 1);
+        Organization org4 = new Organization("ALBERT", Purpose.ANIMAL_RIGHTS, 1);
+        Organization org5 = new Organization("BLBERT", Purpose.ANIMAL_RIGHTS, 1);
+        Organization org6 = new Organization("Chris rocks", Purpose.VETERANS, 1);
 
         person.addOrganization(org1, new President());
         person.addOrganization(org2, new President());
@@ -298,7 +298,7 @@ public class GUI extends Application {
     private static void setupLogin() {
         Login.addLogin("Po", "Po", "Po");
         Person testPerson = Login.findLogin("Po", "Po");
-        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
         testPerson.addOrganization(org1, new President());
     }
 

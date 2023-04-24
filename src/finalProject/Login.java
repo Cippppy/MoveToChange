@@ -95,11 +95,10 @@ public class Login {
 	 * @throws StatisticDataNotFoundException
      * @author Christian Cipolletta
 	 */
-	public static TreeMap<String, Person> deserialize() {
+	public static void deserialize() {
         if(credentials == null) {
             credentials = new TreeMap<String, Person>();
         }
-		TreeMap<String, Person> credentials = null;
 		FileInputStream fileIn = null;
 		ObjectInputStream in = null;
 
@@ -117,6 +116,5 @@ public class Login {
 			System.out.println(e.getClass().getSimpleName() + 
 					": " + e.getMessage() + "\n");
 		} 
-		return credentials;
 	}
 }

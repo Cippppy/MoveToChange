@@ -82,10 +82,9 @@ public class OrganizationBox /* extends VBox */ {
             String name = username.getText();
             String purposeValue = comboBox.getValue().toString();
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
-            Organization organization = new Organization(name, purpose, 1, 0);
-            //Organizations.addOrganization(organization);
-            person.addOrganization(organization, new President());
+            Organization organization = new Organization(name, purpose, 0);
             Organization.addOrganization(organization);
+            person.addOrganization(organization, new President());
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -94,10 +93,10 @@ public class OrganizationBox /* extends VBox */ {
     public void defaultBox(Person person){
         logger.log(Level.INFO, "Making default box");
         HBox hbox = new HBox();
-        Button button = new Button("Create New Organization");
-        addOrganization(button, vbox);
+        Button createButton = new Button("Create New Organization");
+        addOrganization(createButton, vbox);
         Label organizations = new Label("Your organizations");
-        hbox.getChildren().addAll(organizations, button);
+        hbox.getChildren().addAll(organizations, createButton);
         styleHeader(organizations);
         vbox.getChildren().add(hbox);
         ArrayList<String> sortedKeys = new ArrayList();

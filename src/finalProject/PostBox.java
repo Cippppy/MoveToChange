@@ -109,7 +109,7 @@ public class PostBox extends VBox {
             String name = username.getText();
             String purposeValue = comboBox.getValue().toString();
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
-            Organization organization = new Organization(name, purpose, 1, 0);
+            Organization organization = new Organization(name, purpose, 0);
             //Organizations.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();

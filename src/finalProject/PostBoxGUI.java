@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class PostBoxGUI extends Application {
 
-    Organization organization = new Organization("PETA", Purpose.ANIMAL_RIGHTS,1,0);
+    Organization organization = new Organization("PETA", Purpose.ANIMAL_RIGHTS,0);
     Post event = new Event("Event", "Event", "Event");
     WebView feed = new WebView();
     WebEngine engine = new WebEngine();

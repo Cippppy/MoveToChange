@@ -49,9 +49,6 @@ public class Organization implements Serializable {
     /** The purpose of the organization **/
     private Purpose purpose;
 
-    /** The number of branches the organization has **/
-    private int numOfBranches;
-
     /** The total number of members the organization has **/
     private int totalMembers;
 
@@ -85,19 +82,28 @@ public class Organization implements Serializable {
      * @param numOfBranches The number of branches the organization has
      * @param totalMembers The number of members the organization has
      */
-    public Organization(String name, Purpose purpose, int numOfBranches, int totalMembers) {
+    public Organization(String name, Purpose purpose, int totalMembers) {
         
-        if(name != null && purpose != null && numOfBranches > 0)
+        if(name != null && purpose != null)
         {
             this.name = name;
             this.purpose = purpose;
-            this.numOfBranches = numOfBranches;
             this.totalMembers = totalMembers;
             allOrganizations.add(this);
             orgButton.setText(name);
         }
-        else if(numOfBranches <= 0){
-            logger.log(Level.WARNING, "Number of branches must be at least 1");
+        else {
+            logger.log(Level.WARNING, "One or more values are null");
+        }
+    }
+
+    public Organization(String name, Purpose purpose) {
+        if(name != null && purpose != null)
+        {
+            this.name = name;
+            this.purpose = purpose;
+            allOrganizations.add(this);
+            orgButton.setText(name);
         }
         else {
             logger.log(Level.WARNING, "One or more values are null");
@@ -121,25 +127,6 @@ public class Organization implements Serializable {
     public void setPurpose(Purpose purpose) {
         if(purpose != null) this.purpose = purpose;
         else logger.log(Level.WARNING, "Purpose is null");
-    }
-
-    /**
-     * Gets the total number of branches
-     * @author Jimmy McCarry
-     * @return The total number of branches
-     */
-    public int getNumOfBranches() {
-        return this.numOfBranches;
-    }
-
-    /**
-     * Sets the total number of branches
-     * @author Jimmy McCarry
-     * @param numOfBranches The total number of branches
-     */
-    public void setNumOfBranches(int numOfBranches) {
-        if(numOfBranches > 0) this.numOfBranches = numOfBranches;
-        else logger.log(Level.WARNING, "Number of branches must be greater than 0");
     }
 
     /**
@@ -266,18 +253,18 @@ public class Organization implements Serializable {
 	 * @throws StatisticDataNotFoundException
      * @author Christian Cipolletta
 	 */
-	public static List<Organization> deserialize() {
+	public static void deserialize() {
         if(allOrganizations == null) {
-            allOrganizations = Organization.deserialize();
+            allOrganizations = new ArrayList<Organization>();
         }
-		List<Organization> organizations = null;
+		allOrganizations = null;
 		FileInputStream fileIn = null;
 		ObjectInputStream in = null;
 
 		try {
 			fileIn = new FileInputStream(FILE_NAME);
 			in = new ObjectInputStream(fileIn);
-			organizations = (List<Organization>) in.readObject();
+			allOrganizations = (List<Organization>) in.readObject();
 			in.close();
 			fileIn.close();
 			System.out.println("Deserializing all organizations in " + FILE_NAME);
@@ -288,7 +275,6 @@ public class Organization implements Serializable {
 			System.out.println(e.getClass().getSimpleName() + 
 					": " + e.getMessage() + "\n");
 		} 
-		return organizations;
 	}
 
     public static void setAllOrganizations(List<Organization> allOrgs) {
