@@ -45,7 +45,7 @@ public class Login {
      */
     public static void addLogin(String name, String username, String password) {
         if(name != null && username != null && password != null) {
-            credentials.put(username, new Person(name, password));
+            credentials.put(username, new Person(name, username, password));
         }
         else {
             logger.log(Level.WARNING, "The input person is null.");

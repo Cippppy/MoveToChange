@@ -78,7 +78,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organizations.addOrganization(organization);
+            Organization.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -94,7 +94,7 @@ public class OrganizationBox {
         vbox.getChildren().add(hbox);
         ArrayList<String> sortedKeys = new ArrayList();
         for(Organization organization : person.getOrganizationsAndRoles().keySet()){
-        sortedKeys.add(organization.getName());
+        //sortedKeys.add(organization.getName());
         }
         Collections.sort(sortedKeys, String.CASE_INSENSITIVE_ORDER);
         while(sortedKeys.size() != 0){
