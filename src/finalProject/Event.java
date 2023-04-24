@@ -13,6 +13,9 @@ import java.util.ArrayList;
  */
 public class Event extends Post implements Participable {
 
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
+
     /** The list of people attending the event **/
     List<Person> attendees;
 

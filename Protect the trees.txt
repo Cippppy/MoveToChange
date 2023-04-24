@@ -1,0 +1,4 @@
+Member Name, Member Role
+PO, President
+BOB, Member
+STEVE, Member

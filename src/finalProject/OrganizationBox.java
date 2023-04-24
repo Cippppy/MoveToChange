@@ -56,8 +56,8 @@ public class OrganizationBox /* extends VBox */ {
     public void addOrganization(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
-            Label dropdownLabel = new Label("Enter Organization Name: ");
-            ComboBox<String> dropdown = new ComboBox<>();
+            Label dropdownLabel = new Label("Enter Organization Purpose: ");
+            ComboBox<String> dropdown = new ComboBox<String>();
             ObservableList<String> options = FXCollections.observableArrayList();
                 for(Purpose p : Purpose.values()){
                     options.add(p.name());
@@ -71,6 +71,7 @@ public class OrganizationBox /* extends VBox */ {
             backButton(backButton, vbox);
             HBox finalButtons = new HBox();
             finalButtons.getChildren().addAll(acceptButton, backButton);
+            vbox.setPadding(new Insets(10));
             vbox.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, finalButtons);
         });
     }
@@ -87,6 +88,7 @@ public class OrganizationBox /* extends VBox */ {
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
             Organization organization = new Organization(name, purpose, 0);
             Organization.addOrganization(organization);
+            organization.getMembers().add(person);
             person.addOrganization(organization, new President());
             System.out.println(organization.toString());
             vbox.getChildren().clear();
@@ -103,11 +105,12 @@ public class OrganizationBox /* extends VBox */ {
         Label organizations = new Label("Your Organizations");
         VBox orgLabelContainer = new VBox(organizations);
         orgLabelContainer.setAlignment(Pos.CENTER);
-        VBox.setMargin(orgLabelContainer, new Insets(0, 0, -15, 0));
+        VBox.setMargin(orgLabelContainer, new Insets(0, 0, -30, 0));
         header.getChildren().addAll(orgLabelContainer, createButton);
         //hbox.getChildren().addAll(organizations, createButton);
         styleHeader(organizations);
         vbox.getChildren().add(header);
+        vbox.setSpacing(10);
         ArrayList<String> sortedKeys = new ArrayList();
         if(person.getOrganizationsAndRoles() == null) {
             person.setOrganizationsAndRoles(new HashMap<Organization, Role>());
@@ -137,10 +140,10 @@ public class OrganizationBox /* extends VBox */ {
                         GUI.getLeftBox().getChildren().add(new OrganizationBox(person).getVBox());
                     });
                     HBox line = new HBox(hyperlink, leave);
+                    line.setSpacing(10);
                     vbox.getChildren().addAll(line, label);
                     System.out.println(sortedKeys.get(0));
                     sortedKeys.remove(0);
-                    
                 }
             }
         }
@@ -156,15 +159,22 @@ public class OrganizationBox /* extends VBox */ {
             addAnnoucement.setOnAction(e -> {
                 addAnnoucement(organization);
             });
-            hbox.getChildren().addAll(addEvent, addAnnoucement);
+            Button saveMems = new Button("Save Members");
+            saveMems.setOnAction(e -> {
+                saveMembers(organization);
+            });
+            hbox.getChildren().addAll(addEvent, addAnnoucement, saveMems);
         }
     }
     public static void addEvent(Organization organization){
         GUI.getCenterBox().getChildren().clear();
-        Label reason = new Label("Reason");
-        Label text = new Label("Text");
-        Label location = new Label("Location");
+        Label reason = new Label("Reason for the Event");
+        Label text = new Label("Text for the Event");
+        Label location = new Label("Location of the Event");
         Button confirm = new Button("Post Event");
+        reason.setPadding(new Insets(10));
+        text.setPadding(new Insets(10));
+        location.setPadding(new Insets(10));
         confirm.setOnAction(e -> {
             String reasonString = reason.getText();
             String textString = text.getText();
@@ -181,6 +191,7 @@ public class OrganizationBox /* extends VBox */ {
         TextField reasonInput = new TextField();
         TextField textInput = new TextField();
         TextField locationInput = new TextField();
+        buttons.setPadding(new Insets(30));
         GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, location, locationInput, buttons);
     }
     public static void displayPost(Post post, VBox box){
@@ -209,17 +220,16 @@ public class OrganizationBox /* extends VBox */ {
 
     public static void addAnnoucement(Organization organization){
         GUI.getCenterBox().getChildren().clear();
-        Label reason = new Label("Reason");
+        Label reason = new Label("Reason for the Announcement");
         TextField reasonInput = new TextField();
-        Label text = new Label("text");
+        Label text = new Label("Text for the Announcement");
         TextField textInput = new TextField();
-        Label location = new Label("Location");
-        TextField locationInput = new TextField();
         Button confirm = new Button("Post Annoucment");
+        reason.setPadding(new Insets(10));
+        text.setPadding(new Insets(10));
         confirm.setOnAction(e -> {
             String reasonString = reasonInput.getText();
             String textString = textInput.getText();
-            String locationString = locationInput.getText();
             organization.addAnnoucement(reasonString, textString);
             GUI.organizationClicked(organization);
         });
@@ -228,7 +238,52 @@ public class OrganizationBox /* extends VBox */ {
             GUI.organizationClicked(organization);
         });
         HBox buttons = new HBox(confirm, back);
+        buttons.setPadding(new Insets(30));
         GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, buttons);
+    }
+
+    public static void saveMembers(Organization organization) {
+        GUI.getCenterBox().getChildren().clear();
+        Label dropdownLabel = new Label("Choose which members to save");
+        ComboBox<String> dropdown = new ComboBox<String>();
+        dropdown.setEditable(true);   
+        ObservableList<String> options = FXCollections.observableArrayList();
+        options.add("All Members");
+        options.add(Member.class.getSimpleName());
+        options.add(President.class.getSimpleName());
+        options.add(Organizer.class.getSimpleName());
+        options.add(Recruiter.class.getSimpleName());
+        dropdown.setItems(options);
+        Button saveMems = new Button("Save Members");
+        saveMems.setOnAction(e -> {
+            Role role;
+            String roleValue = dropdown.getValue().toString().trim().toLowerCase();
+            switch(roleValue) {
+                case "member" : 
+                    role = new Member();
+                    break;
+                case "president" : role = new President();
+                    break;
+                case "organizer" : role = new Organizer();
+                    break;
+                case "recruiter" : role = new Recruiter();
+                    break;
+                default : role = null;
+            }
+            if(role != null) {
+                organization.saveMembersByRole(role);
+            }
+            else {
+                organization.saveMembers();
+            }
+            GUI.organizationClicked(organization);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(organization);
+        });
+        HBox buttons = new HBox(saveMems, back);
+        GUI.getCenterBox().getChildren().addAll(dropdownLabel, dropdown, buttons);
     }
 
 

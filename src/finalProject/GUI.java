@@ -82,6 +82,7 @@ public class GUI extends Application {
             // LOGIN GUI
             Organization.deserialize();
             Login.deserialize();
+            setupLogin();
             // setupLogin();
             // mainStage.initModality(Modality.APPLICATION_MODAL);
             mainStage.setScene(loginScene);
@@ -277,6 +278,14 @@ public class GUI extends Application {
         Person testPerson = Login.findLogin("Po", "Po");
         Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
         testPerson.addOrganization(org1, new President());
+
+        Login.addLogin("Bob", "Bob", "Bob");
+        Person bob = Login.findLogin("Bob", "Bob");
+        bob.addOrganization(org1, new Member());
+
+        Login.addLogin("Steve", "Steve", "Steve");
+        Person Steve = Login.findLogin("Steve", "Steve");
+        Steve.addOrganization(org1, new Member());
     }
 
     @Override

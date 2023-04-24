@@ -3,6 +3,7 @@ package finalProject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
@@ -11,9 +12,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RecommendationBox {
+public class RecommendationBox extends VBox{
     
-    private Label header = new Label("Recommended Organizations");
+    private static Label recTitle = new Label("Recommended Organizations");
+    private static VBox header = new VBox(recTitle);
     private ComboBox purposes = new ComboBox<>();
     private ObservableList<String> options = FXCollections.observableArrayList();
     private VBox box = new VBox();
@@ -56,6 +58,9 @@ public class RecommendationBox {
     }
 
     public static void setupBox(){
+        recTitle.setStyle("-fx-font-size: 30px; -fx-text-fill: black;");
+        header.setAlignment(Pos.CENTER);
+        GUI.getRightBox().getChildren().add(header);
         ComboBox<String> dropdown = new ComboBox<>();
             ObservableList<String> options = FXCollections.observableArrayList();
                 for(Purpose p : Purpose.values()){

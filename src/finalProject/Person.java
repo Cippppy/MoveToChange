@@ -1,6 +1,7 @@
 package finalProject;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -114,6 +115,12 @@ public class Person implements Comparable<Person>, Serializable {
      */
     public void setOrganizationsAndRoles(HashMap<Organization, Role> organizationsAndRoles) {
         this.organizationsAndRoles = organizationsAndRoles;
+        Set<Organization> orgs = this.organizationsAndRoles.keySet();
+        for (Organization o : orgs) {
+            if(!o.getMembers().contains(this)) {
+                o.getMembers().add(this);
+            }
+        }
     }
 
     /**
@@ -150,5 +157,6 @@ public class Person implements Comparable<Person>, Serializable {
 
     public void leaveOrg(Organization organization){
         organizationsAndRoles.remove(organization);
+        organization.getMembers().remove(this);
     }
 }

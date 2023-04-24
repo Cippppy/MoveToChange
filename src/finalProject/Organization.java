@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.logging.Level;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -23,9 +24,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.text.FontWeight; 
+import javafx.scene.control.ListView;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.Font; 
-import javafx.scene.text.TextAlignment; 
+import javafx.scene.text.TextAlignment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.geometry.Insets;
@@ -74,6 +79,8 @@ public class Organization implements Serializable {
     /** **/
     private static final String FILE_NAME = "organizations.ser";
 
+        /**Used to set file write mode to overwrite **/
+        final boolean OVERWRITE_MODE = false;
     
     /**
      * Constructor
@@ -93,6 +100,9 @@ public class Organization implements Serializable {
             if(allOrganizations == null) {
                 allOrganizations = new ArrayList<Organization>();
             }
+            if(members == null) {
+                members = new ArrayList<Person>();
+            }
             allOrganizations.add(this);
             orgButton.setText(name);
         }
@@ -108,6 +118,9 @@ public class Organization implements Serializable {
             this.purpose = purpose;
             if(allOrganizations == null) {
                 allOrganizations = new ArrayList<Organization>();
+            }
+            if(members == null) {
+                members = new ArrayList<Person>();
             }
             allOrganizations.add(this);
             orgButton.setText(name);
@@ -304,8 +317,8 @@ public class Organization implements Serializable {
      * @return
      */
     public VBox displayDash() {
-        orgDashBoard.setMinWidth(1020);
-        orgDashBoard.setPrefWidth(1020);
+        orgDashBoard.setMinWidth(800);
+        orgDashBoard.setPrefWidth(800);
         orgDashBoard.setAlignment(Pos.TOP_CENTER);
 
         Label orgName = new Label(name);
@@ -341,36 +354,49 @@ public class Organization implements Serializable {
         }*/
         interactionTopRow.getChildren().add(showRoster);
         OrganizationBox.roleLabels(this, interactionTopRow);
+        showRoster.setOnAction(e -> {
+            showMembers();
+        });
         
         VBox interactionBox = new VBox(interactionTopRow);
+        interactionBox.setPadding(new Insets(20));
         interactionBox.setAlignment(Pos.CENTER_RIGHT);
         interactionBox.setMinWidth(470);
 
         HBox header = new HBox(2, orgInfo, interactionBox);
         header.setMinWidth(1020);
-        header.setMinHeight(100);
+        header.setMinHeight(1020);
 
         Separator sep = new Separator();
         sep.setMinWidth(1020);
+        sep.setMinHeight(100);
         sep.setHalignment(HPos.CENTER);
 
+        HBox bottom = new HBox(2);
+        bottom.setMinWidth(1020);
+        bottom.setMaxWidth(1020);
+
         Label postsLabel = new Label("Announcements & Events");
-        postsLabel.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+        postsLabel.setMinSize(550, 1020);
         postsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        postsLabel.setPadding(new Insets(100,0,0,0));
+        postsLabel.setAlignment(Pos.TOP_LEFT);
         VBox postsList = new VBox();
-        VBox postsContainer = new VBox(postsLabel, postsList);
-        postsContainer.setMinWidth(1020);
+        postsList.setPadding(new Insets(200,0,0,0));
+        postsList.setAlignment(Pos.TOP_LEFT);
+        // VBox postsList = new VBox();
+        // VBox postsContainer = new VBox(postsLabel, postsList);
+        // postsContainer.setMinWidth(1020);
+        bottom.getChildren().addAll(postsLabel, postsList);
+        Post event = new Event("animal", "animal", "animal");
+        displayPost(event, postsList);
    //     for(int i = 0; i < this.posts.size(); i++){
    //         displayPost(this.posts.get(i), postsContainer);
    //         System.out.println(i);
    //         System.out.println(this.posts.get(i).getReason());
    //     }
 
-        HBox bottom = new HBox(postsLabel, postsContainer);
-        bottom.setMinWidth(1020);
-        bottom.setMaxWidth(1020);
-
-        orgDashBoard.getChildren().addAll(header, sep);
+        orgDashBoard.getChildren().addAll(header, sep, bottom);
         return orgDashBoard;
     }
 
@@ -442,5 +468,87 @@ public class Organization implements Serializable {
     }
     public void addAnnoucement(String purpose, String text) {
         posts.add(new Announcement(purpose, text));
+    }
+
+    public void saveMembersByRole(Role role) {
+        String filename = name + role.toString() + ".txt";
+        List<Person> filteredMembers = members.parallelStream()
+        .filter(m -> (m.getOrganizationsAndRoles().get(this).equals(role)))
+        .collect(Collectors.toList());
+        try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(filename, OVERWRITE_MODE))) {
+            membersWriter.write("Member Name, Member Role");
+            membersWriter.write(System.lineSeparator());
+            filteredMembers.forEach(member -> {try {
+                                                    membersWriter.write(member.getName() + ", " + member.getRole(this));
+                                                    membersWriter.write(System.lineSeparator());
+            } catch (IOException i) {
+                i.printStackTrace();
+            } });
+
+        } catch (IOException i) {
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
+     * Save the members of the branch to a .txt file
+     * Autogenerates the name as the branch location and the local date now!
+     */
+    public void saveMembers() {
+        String fileName = name + ".txt";;
+        try (BufferedWriter membersWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
+            membersWriter.write("Member Name, Member Role");
+            membersWriter.write(System.lineSeparator());
+            members.forEach(member -> {try { 
+                                            membersWriter.write(member.getName() + ", " + member.getRole(this).getClass().getSimpleName());
+                                            membersWriter.write(System.lineSeparator());
+                                        } catch (IOException i) {} });
+            membersWriter.close();
+        } catch (IOException i) {
+            System.err.println("There was an issue.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String names;
+    public void showMembers() {
+        GUI.getCenterBox().getChildren().clear();
+        Text text = new Text();
+        names = "";
+        members.forEach(member -> {
+            String memberLabel = member.getName() + ", " + member.getRole(this).getClass().getSimpleName();
+            names = names.concat("\n" + memberLabel);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(this);
+        });
+        text.setText(names);
+        System.out.println(names);
+        HBox buttons = new HBox(back);
+        buttons.setPadding(new Insets(30));
+        GUI.getCenterBox().getChildren().addAll(text,buttons);
+    }
+
+    private String postText;
+    public void showPosts() {
+        Text text = new Text();
+        postText = "";
+        members.forEach(member -> {
+            String memberLabel = member.getName() + ", " + member.getRole(this).getClass().getSimpleName();
+            names = names.concat("\n" + memberLabel);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(this);
+        });
+        text.setText(names);
+        System.out.println(names);
+        HBox buttons = new HBox(back);
+        buttons.setPadding(new Insets(30));
+        GUI.getCenterBox().getChildren().addAll(text,buttons);
     }
 }
