@@ -103,13 +103,22 @@ public class OrganizationBox {
                     Hyperlink hyperlink = new Hyperlink(organization.getName());
                     hyperlink.setOnAction(e -> {
                         GUI.organizationClicked(organization);
+                        System.out.println(organization);
                     });
                     styleLink(hyperlink);
                     Label label = new Label(person.getOrganizationsAndRoles().get(organization).getClass().getSimpleName());
                     styleLabel(label);
-                    vbox.getChildren().addAll(hyperlink, label);
+                    Button leave = new Button("Leave");
+                    leave.setOnAction(e -> {
+                        GUI.getPerson().leaveOrg(organization);
+                        GUI.getLeftBox().getChildren().clear();
+                        GUI.getLeftBox().getChildren().add(new OrganizationBox(person).getVBox());
+                    });
+                    HBox line = new HBox(hyperlink, leave);
+                    vbox.getChildren().addAll(line, label);
                     System.out.println(sortedKeys.get(0));
                     sortedKeys.remove(0);
+                    
                 }
             }
         }
