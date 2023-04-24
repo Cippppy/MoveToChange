@@ -78,7 +78,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organization.addOrganization(organization);
+            Organizations.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -94,7 +94,7 @@ public class OrganizationBox {
         vbox.getChildren().add(hbox);
         ArrayList<String> sortedKeys = new ArrayList();
         for(Organization organization : person.getOrganizationsAndRoles().keySet()){
-        //sortedKeys.add(organization.getName());
+        sortedKeys.add(organization.getName());
         }
         Collections.sort(sortedKeys, String.CASE_INSENSITIVE_ORDER);
         while(sortedKeys.size() != 0){
@@ -137,20 +137,42 @@ public class OrganizationBox {
             addAnnoucement.setOnAction(e -> {
                 
             });
-            HBox presidentButtons = new HBox(addEvent, addAnnoucement);
-
+            hbox.getChildren().addAll(addEvent, addAnnoucement);
         }
     }
-    private static void addEvent(Organization organization){
+    public static void addEvent(Organization organization){
         GUI.getCenterBox().getChildren().clear();
         Label reason = new Label("Reason");
         Label location = new Label("Location");
-        Label description = new Label("Description");
         Button confirm = new Button("Post event");
+        confirm.setOnAction(e -> {
+            String reasonString = reason.getText();
+            String locationString = location.getText();
+            organization.addEvent(reasonString, locationString);
+            GUI.getCenterBox().getChildren().clear();
+            GUI.organizationClicked(organization);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(organization);
+        });
+        HBox buttons = new HBox(confirm, back);
         TextField reasonInput = new TextField();
         TextField locationInput = new TextField();
-        TextField descriptionInput = new TextField();
-        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, description, descriptionInput, confirm);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, buttons);
+    }
+    public static void displayEvent(Event event, VBox box){
+        Label purpose = new Label(event.getReason());
+        Label location = new Label(event.getLocation());
+        Button attendEvent = new Button();
+        attendEvent.setOnAction(e -> {
+            event.addAttendee(GUI.getPerson());
+            attendEvent.setDisable(true);
+        });
+        Label attendes = new Label("" + event.getAttendees().size());
+        HBox upper = new HBox(purpose, attendEvent);
+        HBox lower = new HBox(location, attendes);
+        box.getChildren().addAll(upper, lower);
     }
 
 
