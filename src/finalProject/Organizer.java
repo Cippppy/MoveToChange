@@ -2,6 +2,7 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,8 @@ public class Organizer extends Role implements Organize, Lead {
     /** Logger for the organizer class **/
     Logger logger = Logger.getLogger(Organizer.class.getName());
 
+    int testVal = 0;
+    private Predicate<Event> successMeasure = e -> e.getAttendees().size() > testVal;
     /**
      * Constructor
      * 
@@ -129,5 +132,15 @@ public class Organizer extends Role implements Organize, Lead {
         else {
             logger.log(Level.WARNING, "The input event is null.");
         }
+    }
+
+    public void checkEventSuccess(Event event, int minAttendees) {
+        testVal = minAttendees;
+        if(event != null) {
+            if (!successMeasure.test(event)) removeEvent(event);
+            else if(successMeasure.test(event)) {
+                planEvent("Because it was so popular last time", event.getText(),  event.getLocation());
+            }
+        }    
     }
 }
