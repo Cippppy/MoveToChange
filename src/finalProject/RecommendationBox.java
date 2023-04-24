@@ -82,10 +82,16 @@ public class RecommendationBox {
                                 GUI.getPerson().addOrganization(Organization.getAllOrganizations().get(count), new Member());
                                 GUI.getLeftBox().getChildren().clear();
                                 GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox());
+                                GUI.getRightBox().getChildren().clear();
+                                RecommendationBox.setupBox();
                             });
                             hyperlink.setOnAction(e1 -> {
                                 GUI.organizationClicked(Organization.getAllOrganizations().get(count));  
-                                System.out.println(Organization.getAllOrganizations().get(count));
+                            //    for(int i = 0; i < Organization.getAllOrganizations().size(); i++){
+                            //        System.out.println(Organization.getAllOrganizations().get(i).getName());
+                            //        System.out.println(i);
+                            //    }
+                            //    System.out.println(Organization.getAllOrganizations().get(count));
                             });
                             styleLink(hyperlink);
                             line.getChildren().addAll(hyperlink, joinButton);
