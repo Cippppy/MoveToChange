@@ -94,7 +94,7 @@ public class OrganizationBox /* extends VBox */ {
     public void defaultBox(Person person){
         logger.log(Level.INFO, "Making default box");
         HBox hbox = new HBox();
-        Button button = new Button("Click me");
+        Button button = new Button("Create New Organization");
         addOrganization(button, vbox);
         Label organizations = new Label("Your organizations");
         hbox.getChildren().addAll(organizations, button);

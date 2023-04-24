@@ -105,7 +105,7 @@ public class GUI extends Application {
                     BorderPane mainPane = new BorderPane();
                     styleMainPane(mainPane);
                     setupControls(mainPane);
-                    Scene mainScene = new Scene(mainPane);
+                    Scene mainScene = new Scene(mainPane, 700, 700);
                     setStage(mainStage, mainScene);
                     mainStage.show();
                 }
