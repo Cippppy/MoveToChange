@@ -66,7 +66,6 @@ public class GUI extends Application {
             styleLogin(loginLayout);
             setupLoginControls(loginLayout);
             guestButton.setOnAction(e -> {
-                rank = new NonMember();
                 BorderPane mainPane = new BorderPane();
                 styleMainPane(mainPane);
                 setupControls(mainPane);
@@ -222,7 +221,7 @@ public class GUI extends Application {
     }
 
     private static Person setupPerson(){
-        person = new Person("abe", "John42", "vbucks");
+        person = new Person("abe", "vbucks");
         Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
         Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
         Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
