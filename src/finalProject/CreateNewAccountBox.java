@@ -27,7 +27,7 @@ public class CreateNewAccountBox extends VBox {
     // for printing incorrect username or password
     Label errorLabel;
 
-    Logger logger = Logger.getLogger(CreateNewAccountBox.class.getName());
+    transient Logger logger = Logger.getLogger(CreateNewAccountBox.class.getName());
 
     public CreateNewAccountBox() {
         // name field

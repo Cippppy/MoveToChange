@@ -71,7 +71,7 @@ public class GUI extends Application {
     private static VBox centerBox = new VBox();
     private static VBox rightBox = new VBox();
 
-    Logger logger = Logger.getLogger(GUI.class.getName());
+    transient Logger logger = Logger.getLogger(GUI.class.getName());
 
     public static void main(String[] args) {
         launch(args);
