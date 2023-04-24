@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Demonstration extends Event {
     
     /**
-     * Constructor for Demonstration 
+     * Overloaded Constructor for Demonstration 
      * 
      * @author Jimmy McCarry
      * @author Christian Cipolletta
@@ -25,6 +25,7 @@ public class Demonstration extends Event {
     }
 
     /**
+     * Overloaded Constructor
      * 
      * @param reason
      * @param location
@@ -36,5 +37,12 @@ public class Demonstration extends Event {
     // TODO - Figure out what demonstrate means
     public void demonstrate() {
         
+    }
+
+    @Override
+    public String toString() {
+        return "<h1> Demonstration </h1>"
+        + "<h2>" + reason + "</h2>"
+        + "<p>" + text + "</p>";
     }
 }

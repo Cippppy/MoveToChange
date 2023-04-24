@@ -3,9 +3,11 @@ package finalProject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -15,6 +17,7 @@ public class RecommendationBox {
     private ComboBox purposes = new ComboBox<>();
     private ObservableList<String> options = FXCollections.observableArrayList();
     private VBox box = new VBox();
+    private static OrganizationBox organizationBox;
 
     public RecommendationBox(){
  /*        ComboBox<String> dropdown = new ComboBox<>();
@@ -70,14 +73,25 @@ public class RecommendationBox {
                 if(Organization.getAllOrganizations() != null){
                     System.out.println(Organization.getAllOrganizations().size());
                     for(int j = 0; j < Organization.getAllOrganizations().size()-1 && j < 200; j++){
-                        if(Organization.getAllOrganizations().get(j).getPurpose() == purposeEnum){
+                        if(Organization.getAllOrganizations().get(j).getPurpose() == purposeEnum && !GUI.getPerson().getOrganizationsAndRoles().containsKey(Organization.getAllOrganizations().get(j))){
+                            HBox line = new HBox();
                             Hyperlink hyperlink = new Hyperlink(Organization.getAllOrganizations().get(j).getName());
+                            Button joinButton = new Button("Join");
                             int count = j;
+                            joinButton.setOnAction(e2 -> {
+                                GUI.getPerson().addOrganization(Organization.getAllOrganizations().get(count), new Member());
+                                joinButton.setText("Joined!");
+                                joinButton.setDisable(true);
+                                GUI.getLeftBox().getChildren().clear();
+                                organizationBox = new OrganizationBox(GUI.getPerson());
+                                GUI.getLeftBox().getChildren().add(organizationBox.getVBox());
+                            });
                             hyperlink.setOnAction(e1 -> {
                                 GUI.organizationClicked(Organization.getAllOrganizations().get(count));  
                             });
                             styleLink(hyperlink);
-                            GUI.getRightBox().getChildren().add(hyperlink);
+                            line.getChildren().addAll(hyperlink, joinButton);
+                            GUI.getRightBox().getChildren().add(line);
                         }
                     } 
                 }

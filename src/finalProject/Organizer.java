@@ -17,6 +17,7 @@ public class Organizer extends Role implements Organize, Lead {
     /** List of events created by the organizer **/
     private List<Event> events = new ArrayList<Event>();
 
+    /** Logger for the organizer class **/
     Logger logger = Logger.getLogger(Organizer.class.getName());
 
     /**
@@ -66,6 +67,7 @@ public class Organizer extends Role implements Organize, Lead {
     /**
      * Created a single event
      * @param reason The reason for the event
+     * @param text The text for the event
      * @param location The location of the event
      */
     public void planEvent(String reason, String text, String location) {
@@ -110,6 +112,10 @@ public class Organizer extends Role implements Organize, Lead {
         }
     }
 
+    /**
+     * Rem
+     * @param event
+     */
     public void removeEvent(Event event) {
         if(event != null) {
             try {

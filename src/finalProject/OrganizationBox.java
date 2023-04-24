@@ -16,15 +16,15 @@ import javafx.scene.text.Font;
 
 public class OrganizationBox {
     
-    private VBox vbox = new VBox();
-    private Person person;
+
+    private static VBox vbox = new VBox();
+    private static Person person;
 
     public OrganizationBox(Person person){
         this.person = person;
         defaultBox(person);
     }
-
-    public void styleLink(Hyperlink hyperlink){
+    public static void styleLink(Hyperlink hyperlink){
         hyperlink.setStyle("-fx-text-fill: blue; -fx-underline-color: blue;-fx-focus-color: transparent;");
         hyperlink.setFont(Font.font("Arial", 24));
         hyperlink.setPadding(new Insets(10, 0, 10, 20));
@@ -32,22 +32,18 @@ public class OrganizationBox {
         hyperlink.setOnMouseEntered(e -> hyperlink.setStyle("-fx-underline: true;"));
         hyperlink.setOnMouseExited(e -> hyperlink.setStyle("-fx-underline: false;"));
     }
-
-    public void styleLabel(Label label){
+    public static void styleLabel(Label label){
         label.setStyle("-fx-font-size: 16px; -fx-text-fill: grey;");
         label.setPadding(new Insets(0, 0, 0, 20));
     }
-
-    public void styleHeader(Label label){
+    public static void styleHeader(Label label){
         label.setStyle("-fx-font-size: 30px; -fx-text-fill: black;");
         label.setPadding(new Insets(10, 0, 20, 20));
     }
-
-    public VBox getVBox(){
+    public static VBox getVBox(){
         return vbox;
     }
-
-    public void addOrganization(Button button, VBox vbox){
+    public static void addOrganization(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
             Label dropdownLabel = new Label("Enter Organization name: ");
@@ -68,27 +64,27 @@ public class OrganizationBox {
             vbox.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, finalButtons);
         });
     }
-    public void backButton(Button button, VBox vbox){
+    public static void backButton(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
             defaultBox(person);
         });
     }
-    public void acceptButton(Button button, VBox vbox, TextField username, ComboBox<String> comboBox){
+    public static void acceptButton(Button button, VBox vbox, TextField username, ComboBox<String> comboBox){
         button.setOnAction(e1 -> {
             String name = username.getText();
             String purposeValue = comboBox.getValue().toString();
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
-            person.setRole(organization, new President());
+            person.addOrganization(organization, new President());
+            Organizations.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
         });
     }
-
-    public void defaultBox(Person person){
+    public static void defaultBox(Person person){
         HBox hbox = new HBox();
         Button button = new Button("Click me");
         addOrganization(button, vbox);
@@ -106,7 +102,7 @@ public class OrganizationBox {
                 if(sortedKeys.size() != 0 && organization.getName() == sortedKeys.get(0)){
                     Hyperlink hyperlink = new Hyperlink(organization.getName());
                     hyperlink.setOnAction(e -> {
-                        //function when clicked
+                        GUI.organizationClicked(organization);
                     });
                     styleLink(hyperlink);
                     Label label = new Label(person.getOrganizationsAndRoles().get(organization).getClass().getSimpleName());
@@ -154,6 +150,16 @@ public class OrganizationBox {
             newStage.show();
          }
      });
+
+
+                             GUI.getCenterBox().getChildren().clear();
+                        if(organization.getAnnouncements().size() != 0)
+                        for(int i = 0; i < organization.getAnnouncements().size() || i < 10; i++){
+                            Hyperlink link = new Hyperlink(organization.getAnnouncements().get(i).getReason());
+                            Label label = new Label(organization.getAnnouncements().get(i).getText());
+                            styleLink(hyperlink);
+                            styleLabel(label);
+                            GUI.getCenterBox().getChildren().addAll(link, label);
+                        }
         }*/
 }
-

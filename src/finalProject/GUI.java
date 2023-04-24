@@ -180,8 +180,8 @@ public class GUI extends Application {
         VBox buttontest = new VBox(button);
         stylePanels(buttontest, Pos.TOP_LEFT);
         
-            VBox leftPanel = organizationBox.getVBox();
-            stylePanels(leftPanel, Pos.TOP_LEFT);
+            leftBox = organizationBox.getVBox();
+            stylePanels(leftBox, Pos.TOP_LEFT);
         
             centerBox.getChildren().add(test);
             styleCenter(centerBox);
@@ -191,7 +191,7 @@ public class GUI extends Application {
          //   RecommendationBox.setupBox();
             stylePanels(rightBox, Pos.TOP_RIGHT);
             
-            HBox root = new HBox(3, leftPanel, centerBox, rightBox);
+            HBox root = new HBox(3, leftBox, centerBox, rightBox);
         
             pane.getChildren().add(root);
     }

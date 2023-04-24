@@ -14,6 +14,12 @@ public abstract class Post {
     /** Logger for the announcment class **/
     Logger logger = Logger.getLogger(Announcement.class.getName());
 
+    /**
+     * Constructor
+     * 
+     * @param reason The reason for the Post
+     * @param text The text of the post
+     */
     public Post(String reason, String text) {
         if(reason != null && text != null){
             this.reason = reason;
@@ -23,19 +29,19 @@ public abstract class Post {
     }
     
     /**
-     * Gets the reason for the announcement
+     * Gets the reason for the post
      * @author Jimmy McCarry
      * @version 03/27/2023
-     * @return The reason for the announcement
+     * @return The reason for the post
      */
     public String getReason() {
         return this.reason;
     }
 
     /**
-     * Sets the reason for the announcement
+     * Sets the reason for the post
      * @author Jimmy McCarry
-     * @param reason Reason for the announcement
+     * @param reason Reason for the post
      */
     public void setReason(String reason) {
         if(reason != null) this.reason = reason; 
@@ -44,18 +50,18 @@ public abstract class Post {
     }
 
     /**
-     * Gets the text of the announcement
+     * Gets the text of the post
      * @author Jimmy McCarry
-     * @return The contents of this announcement
+     * @return The contents of this post
      */
     public String getText() {
         return this.text;
     }
     
     /**
-     * Sets the text of the announcement
+     * Sets the text of the post
      * @author Jimmy McCarry
-     * @param text Content of the announcement
+     * @param text Content of the post
      */
     public void setText(String text) {
         if(text != null) this.text = text;
