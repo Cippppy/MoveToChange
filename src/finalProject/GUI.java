@@ -53,11 +53,6 @@ public class GUI extends Application {
     private static VBox centerBox = new VBox();
     private static VBox rightBox = new VBox();
 
-    private static Organization trees = new Organization("Tree Rights", Purpose.ENVIRONMENTALISM, 2, 20);
-    private static Organization arnold = new Organization("idk", Purpose.SOCIAL_JUSTICE, 1, 12);
-    private static Organization vetRights = new Organization("Veteran ", Purpose.VETERANS, 2, 20);
-    private static Organization apes = new Organization("Ape Rights", Purpose.ANIMAL_RIGHTS, 2, 20);
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -71,6 +66,7 @@ public class GUI extends Application {
             styleLogin(loginLayout);
             setupLoginControls(loginLayout);
             guestButton.setOnAction(e -> {
+                rank = new NonMember();
                 BorderPane mainPane = new BorderPane();
                 styleMainPane(mainPane);
                 setupControls(mainPane);
@@ -78,6 +74,7 @@ public class GUI extends Application {
                 setStage(stage, mainScene);
             });
             loginButton.setOnAction(e -> {
+                if (isLoginValid()) {
                     login.close();
                     // MAIN GUI
                     BorderPane mainPane = new BorderPane();
@@ -85,6 +82,9 @@ public class GUI extends Application {
                     setupControls(mainPane);
                     Scene mainScene = new Scene(mainPane);
                     setStage(stage, mainScene);
+                } else {
+                    errorLabel.setText("Invalid username or password. Please try again.");
+                }
             });
             login.show();
         } catch (Exception e) {
@@ -127,6 +127,17 @@ public class GUI extends Application {
     }
 
     private void setupControls(Pane pane) {
+        Text test = new Text("test");
+     /*    if (rank.equals(new Member())) {
+            test.setText("I am a member.");
+        } else if (rank.equals(new Organizer())) {
+            test.setText("I am an organizer.");
+        } else if (rank.equals(new President())) {
+            test.setText("I am a leader.");
+        } else {
+            test.setText("I am a guest.");
+        }
+        */
         Button button = new Button("Create Organization");
         addOrganization(button);
         
@@ -211,15 +222,20 @@ public class GUI extends Application {
     }
 
     private static Person setupPerson(){
-        person = new Person("Name", "John42", "vbucks");
-        Recruiter rec = new Recruiter();
-        President pres = new President();
-        Member mem = new Member();
-        Organizer org = new Organizer();
-        person.setRole(trees, rec);
-        person.setRole(arnold, pres);
-        person.setRole(vetRights, mem);
-        person.setRole(apes, org);
+        person = new Person("abe", "John42", "vbucks");
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
+        Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
+        Organization org4 = new Organization("ALBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
+        Organization org5 = new Organization("BLBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
+        Organization org6 = new Organization("Chris rocks", Purpose.VETERANS, 1, 1);
+
+        person.addOrganization(org1, new President());
+        person.addOrganization(org2, new President());
+        person.addOrganization(org3, new President());
+        person.addOrganization(org4, new President());
+        person.addOrganization(org5, new President());
+        person.addOrganization(org6, new President());
         return person;
     }
 
