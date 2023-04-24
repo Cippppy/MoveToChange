@@ -17,14 +17,14 @@ import javafx.scene.text.Font;
 public class OrganizationBox {
     
 
-    private static VBox vbox = new VBox();
-    private static Person person;
+    private VBox vbox = new VBox();
+    private Person person;
 
     public OrganizationBox(Person person){
         this.person = person;
         defaultBox(person);
     }
-    public static void styleLink(Hyperlink hyperlink){
+    public void styleLink(Hyperlink hyperlink){
         hyperlink.setStyle("-fx-text-fill: blue; -fx-underline-color: blue;-fx-focus-color: transparent;");
         hyperlink.setFont(Font.font("Arial", 24));
         hyperlink.setPadding(new Insets(10, 0, 10, 20));
@@ -32,18 +32,18 @@ public class OrganizationBox {
         hyperlink.setOnMouseEntered(e -> hyperlink.setStyle("-fx-underline: true;"));
         hyperlink.setOnMouseExited(e -> hyperlink.setStyle("-fx-underline: false;"));
     }
-    public static void styleLabel(Label label){
+    public void styleLabel(Label label){
         label.setStyle("-fx-font-size: 16px; -fx-text-fill: grey;");
         label.setPadding(new Insets(0, 0, 0, 20));
     }
-    public static void styleHeader(Label label){
+    public void styleHeader(Label label){
         label.setStyle("-fx-font-size: 30px; -fx-text-fill: black;");
         label.setPadding(new Insets(10, 0, 20, 20));
     }
-    public static VBox getVBox(){
+    public VBox getVBox(){
         return vbox;
     }
-    public static void addOrganization(Button button, VBox vbox){
+    public void addOrganization(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
             Label dropdownLabel = new Label("Enter Organization name: ");
@@ -64,13 +64,13 @@ public class OrganizationBox {
             vbox.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, finalButtons);
         });
     }
-    public static void backButton(Button button, VBox vbox){
+    public void backButton(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
             defaultBox(person);
         });
     }
-    public static void acceptButton(Button button, VBox vbox, TextField username, ComboBox<String> comboBox){
+    public void acceptButton(Button button, VBox vbox, TextField username, ComboBox<String> comboBox){
         button.setOnAction(e1 -> {
             String name = username.getText();
             String purposeValue = comboBox.getValue().toString();
@@ -84,7 +84,7 @@ public class OrganizationBox {
             defaultBox(person);
         });
     }
-    public static void defaultBox(Person person){
+    public void defaultBox(Person person){
         HBox hbox = new HBox();
         Button button = new Button("Click me");
         addOrganization(button, vbox);
