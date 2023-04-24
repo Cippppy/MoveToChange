@@ -122,7 +122,8 @@ public class GUI extends Application {
     public static void organizationClicked(Organization organization){
         GUI.centerBox.getChildren().clear();
         GUI.centerBox.getChildren().add(organization.displayDash());
-     //   GUI.centerBox.getChildren().clear();
+        GUI.leftBox.getChildren().clear();
+        GUI.leftBox.getChildren().add(new OrganizationBox(person).getVBox());
     }
 
     private void setupControls(Pane pane) {
