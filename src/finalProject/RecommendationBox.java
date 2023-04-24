@@ -80,14 +80,12 @@ public class RecommendationBox {
                             int count = j;
                             joinButton.setOnAction(e2 -> {
                                 GUI.getPerson().addOrganization(Organization.getAllOrganizations().get(count), new Member());
-                                joinButton.setText("Joined!");
-                                joinButton.setDisable(true);
                                 GUI.getLeftBox().getChildren().clear();
-                                organizationBox = new OrganizationBox(GUI.getPerson());
-                                GUI.getLeftBox().getChildren().add(organizationBox.getVBox());
+                                GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox());
                             });
                             hyperlink.setOnAction(e1 -> {
                                 GUI.organizationClicked(Organization.getAllOrganizations().get(count));  
+                                System.out.println(Organization.getAllOrganizations().get(count));
                             });
                             styleLink(hyperlink);
                             line.getChildren().addAll(hyperlink, joinButton);
