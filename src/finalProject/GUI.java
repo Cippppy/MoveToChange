@@ -223,14 +223,15 @@ public class GUI extends Application {
 
     private static Person setupPerson(){
         person = new Person("abe", "John42", "vbucks");
-        person.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1), new President());
-        person.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1), new President());
-        person.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1), new President());
-        person.addOrganization(new Organization("ALBERT", Purpose.VETERANS, 1, 1), new President());
-        Organization.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1));
-        Organization.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1));
-        Organization.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1));
-        Organization.addOrganization(new Organization("ARNOLD", Purpose.VETERANS, 1, 1));
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
+        Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
+        Organization org4 = new Organization("ALBERT", Purpose.VETERANS, 1, 1);
+
+        person.addOrganization(org1, new President());
+        person.addOrganization(org2, new President());
+        person.addOrganization(org3, new President());
+        person.addOrganization(org4, new President());
         return person;
     }
 
