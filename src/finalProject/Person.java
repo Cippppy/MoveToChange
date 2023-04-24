@@ -24,7 +24,7 @@ public class Person implements Comparable<Person>, Serializable {
     transient private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
-    transient private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+    private String password; // The person's user name and password
 
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
@@ -35,13 +35,13 @@ public class Person implements Comparable<Person>, Serializable {
      * 
      * @param name The name of the person
      */
-    public Person(String name, String username, String password) {
+    public Person(String name, String password) {
         if(name != null)
             this.name = name;
         else
             logger.log(Level.WARNING, "Name is null");
-        if(username != null && password != null) 
-            this.usernameAndPassword = new SimpleImmutableEntry<String,String>(username, password);
+        if(name != null && password != null) 
+            this.password = password;
         else
             logger.log(Level.WARNING, "Username or password is null");
         this.organizationsAndRoles = new HashMap<Organization, Role>();
@@ -54,7 +54,7 @@ public class Person implements Comparable<Person>, Serializable {
     public Person(String name) {
         if(name != null) {
             this.name = name;
-            this.usernameAndPassword = new SimpleImmutableEntry<String,String>("default", "default");
+            this.password = "abc123";
             this.organizationsAndRoles = new HashMap<Organization, Role>();
         }
         else {
@@ -100,8 +100,12 @@ public class Person implements Comparable<Person>, Serializable {
      * 
      * @return Username and Password
      */
-    public SimpleImmutableEntry<String, String> getUsernameAndPassword() {
-        return this.usernameAndPassword;
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -131,22 +135,6 @@ public class Person implements Comparable<Person>, Serializable {
     }
 
     /**
-     * Return the person's username
-     * @return The person's username
-     */
-    public String getUsername() {
-        return usernameAndPassword.getKey();
-    }
-
-    /**
-     * Return the person's password
-     * @return The person's password
-     */
-    public String getPassword() {
-        return usernameAndPassword.getValue();
-    }
-
-    /**
      * Compares a person to a person by their name.
      * Used for the tree set
      * @param person The person to compare to
@@ -158,5 +146,9 @@ public class Person implements Comparable<Person>, Serializable {
     public void addOrganization(Organization organization, Role role){
         organizationsAndRoles.put(organization, role);
         organization.getMembers().add(this);
+    }
+
+    public void leaveOrg(Organization organization){
+        organizationsAndRoles.remove(organization);
     }
 }

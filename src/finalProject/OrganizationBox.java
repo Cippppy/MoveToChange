@@ -103,16 +103,96 @@ public class OrganizationBox {
                     Hyperlink hyperlink = new Hyperlink(organization.getName());
                     hyperlink.setOnAction(e -> {
                         GUI.organizationClicked(organization);
+                    //    System.out.println(organization);
+                    //    for(int i = 0; i < GUI.getPerson().getOrganizationsAndRoles().size(); i++){
+                    //        System.out.println("i");
+                    //    }
                     });
                     styleLink(hyperlink);
                     Label label = new Label(person.getOrganizationsAndRoles().get(organization).getClass().getSimpleName());
                     styleLabel(label);
-                    vbox.getChildren().addAll(hyperlink, label);
+                    Button leave = new Button("Leave");
+                    leave.setOnAction(e -> {
+                        GUI.getPerson().leaveOrg(organization);
+                        GUI.getLeftBox().getChildren().clear();
+                        GUI.getLeftBox().getChildren().add(new OrganizationBox(person).getVBox());
+                    });
+                    HBox line = new HBox(hyperlink, leave);
+                    vbox.getChildren().addAll(line, label);
                     System.out.println(sortedKeys.get(0));
                     sortedKeys.remove(0);
+                    
                 }
             }
         }
+    }
+
+    public static void roleLabels(Organization organization, HBox hbox){
+        if(GUI.getPerson().getRole(organization) instanceof President || GUI.getPerson().getRole(organization) instanceof Organizer){
+            Button addEvent = new Button("Add event");
+            addEvent.setOnAction(e -> {
+                addEvent(organization);
+            });
+            Button addAnnoucement = new Button("Add announcement");
+            addAnnoucement.setOnAction(e -> {
+                addAnnoucement(organization);
+            });
+            hbox.getChildren().addAll(addEvent, addAnnoucement);
+        }
+    }
+    public static void addEvent(Organization organization){
+        GUI.getCenterBox().getChildren().clear();
+        Label reason = new Label("Reason");
+        Label location = new Label("Location");
+        Button confirm = new Button("Post event");
+        TextField reasonInput = new TextField();
+        TextField locationInput = new TextField();
+        confirm.setOnAction(e -> {
+            String reasonString = reasonInput.getText();
+            String locationString = locationInput.getText();
+            organization.addEvent(reasonString, locationString);
+            GUI.getCenterBox().getChildren().clear();
+            GUI.organizationClicked(organization);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(organization);
+        });
+        HBox buttons = new HBox(confirm, back);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, buttons);
+    }
+    public static void addAnnoucement(Organization organization){
+        GUI.getCenterBox().getChildren().clear();
+        Label reason = new Label("Reason");
+        TextField reasonInput = new TextField();
+        Label text = new Label("text");
+        TextField textInput = new TextField(null);
+        Button confirm = new Button("Post Annoucment");
+        confirm.setOnAction(e -> {
+            String reasonString = reasonInput.getText();
+            String textString = textInput.getText();
+            organization.addAnnoucement(reasonString, textString);
+            GUI.organizationClicked(organization);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(organization);
+        });
+        HBox buttons = new HBox(confirm, back);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, buttons);
+    }
+    public static void displayEvent(Event event, VBox box){
+        Label purpose = new Label(event.getReason());
+        Label location = new Label(event.getLocation());
+        Button attendEvent = new Button();
+        attendEvent.setOnAction(e -> {
+            event.addAttendee(GUI.getPerson());
+            attendEvent.setDisable(true);
+        });
+        Label attendes = new Label("" + event.getAttendees().size());
+        HBox upper = new HBox(purpose, attendEvent);
+        HBox lower = new HBox(location, attendes);
+        box.getChildren().addAll(upper, lower);
     }
 
 

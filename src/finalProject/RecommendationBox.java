@@ -72,7 +72,7 @@ public class RecommendationBox {
                 Purpose purposeEnum = Enum.valueOf(Purpose.class, purposeString);
                 if(Organization.getAllOrganizations() != null){
                     System.out.println(Organization.getAllOrganizations().size());
-                    for(int j = 0; j < Organization.getAllOrganizations().size()-1 && j < 200; j++){
+                    for(int j = 0; j < Organization.getAllOrganizations().size() && j < 200; j++){
                         if(Organization.getAllOrganizations().get(j).getPurpose() == purposeEnum && !GUI.getPerson().getOrganizationsAndRoles().containsKey(Organization.getAllOrganizations().get(j))){
                             HBox line = new HBox();
                             Hyperlink hyperlink = new Hyperlink(Organization.getAllOrganizations().get(j).getName());
@@ -80,14 +80,18 @@ public class RecommendationBox {
                             int count = j;
                             joinButton.setOnAction(e2 -> {
                                 GUI.getPerson().addOrganization(Organization.getAllOrganizations().get(count), new Member());
-                                joinButton.setText("Joined!");
-                                joinButton.setDisable(true);
                                 GUI.getLeftBox().getChildren().clear();
-                                organizationBox = new OrganizationBox(GUI.getPerson());
-                                GUI.getLeftBox().getChildren().add(organizationBox.getVBox());
+                                GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox());
+                                GUI.getRightBox().getChildren().clear();
+                                RecommendationBox.setupBox();
                             });
                             hyperlink.setOnAction(e1 -> {
                                 GUI.organizationClicked(Organization.getAllOrganizations().get(count));  
+                            //    for(int i = 0; i < Organization.getAllOrganizations().size(); i++){
+                            //        System.out.println(Organization.getAllOrganizations().get(i).getName());
+                            //        System.out.println(i);
+                            //    }
+                            //    System.out.println(Organization.getAllOrganizations().get(count));
                             });
                             styleLink(hyperlink);
                             line.getChildren().addAll(hyperlink, joinButton);

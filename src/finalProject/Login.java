@@ -2,106 +2,121 @@ package finalProject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 public class Login {
     
     /** Tree set of people who use the program **/
-    TreeSet<Person> credentials;
+   // TreeSet<Person> credentials;
 
-    /** The file name of credentials **/
-    String fileName;
+    private static TreeMap<String, Person> credentials = new TreeMap<String, Person>();
 
     /** Logger for the login class **/
-    Logger logger = Logger.getLogger(Login.class.getName());
+    private static Logger logger = Logger.getLogger(Login.class.getName());
+
+    private static final String FILE_NAME = "credentials.ser";
 
     /**
      * Constructor. Populates credentials with the file
      * 
      * @param fileName The name of the file to read
      */
-    public Login(String fileName) {
-        if(fileName != null) {
-            this.fileName = fileName;
-            credentials = new TreeSet<Person>();
-            setCredentials(0);
-        }
-        else {
-            logger.log(Level.WARNING, "The input file name was null.");
-        }
+    public Login() {
+        credentials = new TreeMap<String, Person>();
+        credentials.put("ballfart", new Person("shid", "fart"));
+        credentials.put("Po", new Person("Po", "Po"));
     }
 
     /**
      * Adds a person to credentials
      * @param person The person to add
      */
-    public void addLogin(Person person) {
-        if(person != null) {
-            credentials.add(person);
+    public static void addLogin(String name, String username, String password) {
+        if(name != null && username != null && password != null) {
+            credentials.put(username.toUpperCase(), new Person(name.toUpperCase(), password.toUpperCase()));
+            logger.log(Level.INFO, "Login Successfully added");
         }
         else {
             logger.log(Level.WARNING, "The input person is null.");
         }
     }
 
-    /**
-     * Save the credentials to a .txt file.
-     * Overwrites the last file.
-     */
-    public void saveCredentials() {
-        final boolean OVERWRITE_MODE = false;
-        try (BufferedWriter credWriter = new BufferedWriter(new FileWriter(fileName, OVERWRITE_MODE))) {
-            credWriter.write("Member Name, Member Role");
-            credWriter.write(System.lineSeparator());
-            credentials.forEach(person -> {try { 
-                                            credWriter.write(person.getName() + ", " + person.getUsername() + ", " + person.getPassword());
-                                            credWriter.write(System.lineSeparator());
-                                        } catch (IOException i) {} });
-                                        credWriter.close();
-        } catch (IOException i) {
-            logger.log(Level.WARNING, "There was an issue saving the credentials.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Overloaded method that sets the credentials
-     * by reading a .txt file
-     * @param numHeaderRows The number of header rows in the file
-     */
-    public void setCredentials(int numHeaderRows) {
-        if(fileName.endsWith(".txt")) {
-            try (BufferedReader credReader = new BufferedReader(new FileReader(fileName))) {
-                if(!credentials.isEmpty() || !(credentials == null))
-                    credentials.clear();
-                String line = credReader.readLine();
-                int linesRead = 0;
-                String delims = "[,]";
-                while(line != null) {
-                    linesRead++;
-                    line = credReader.readLine();
-                    if(linesRead > numHeaderRows && line != null)
-                    {
-                        String[] data = line.split(delims);
-                        Person person = new Person(data[0].trim(), data[1].trim(), data[2].trim());
-                        credentials.add(person); 
-                    }
-                }
-            } catch (FileNotFoundException f) {
-                logger.log(Level.WARNING, "The file, " + fileName + ", could not be found.");
-            } catch (Exception e) {
-                e.printStackTrace();
+    public static Person findLogin(String username, String password) {
+        Person person = null;
+        if (credentials.containsKey(username.toUpperCase())) {
+            logger.log(Level.INFO, "Contains Key!");
+            if (credentials.get(username.toUpperCase()).getPassword().toUpperCase().equals(password.toUpperCase())) {
+                logger.log(Level.INFO, "Found the person!");
+                return credentials.get(username.toUpperCase());
             }
         }
-        else {
-            logger.log(Level.WARNING, "File name does not end with .txt");
-        }
+        return person;
     }
+
+    public static boolean isLoginValid(Person person) {
+        boolean valid = false;
+        if (credentials.values().contains(person)) {
+            logger.log(Level.INFO, "Valid");
+            valid = true;
+        }
+        return valid;
+    }
+
+    public static void serialize() {
+
+		try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(credentials);
+			out.close();
+			fileOut.close();
+			System.out.printf("Serialized data for login stored in " + FILE_NAME);
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+	}
+
+    /**
+	 * Deserializes the instance of the Statistic stored in a file
+     * @param fileName The name of the file to be read
+	 * @return The deserialized StateStatistic.
+	 * @throws StatisticDataNotFoundException
+     * @author Christian Cipolletta
+	 */
+	public static TreeMap<String, Person> deserialize() {
+        if(credentials == null) {
+            credentials = new TreeMap<String, Person>();
+        }
+		TreeMap<String, Person> credentials = null;
+		FileInputStream fileIn = null;
+		ObjectInputStream in = null;
+
+		try {
+			fileIn = new FileInputStream(FILE_NAME);
+			in = new ObjectInputStream(fileIn);
+			credentials = (TreeMap<String, Person>) in.readObject();
+			in.close();
+			fileIn.close();
+			System.out.println("Deserializing login in " + FILE_NAME);
+		} catch (ClassNotFoundException c) {
+			System.out.println("The target login have a different version ID.");
+			c.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.getClass().getSimpleName() + 
+					": " + e.getMessage() + "\n");
+		} 
+		return credentials;
+	}
 }
