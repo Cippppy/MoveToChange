@@ -78,7 +78,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organization.addOrganization(organization);
+            Organizations.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -125,6 +125,32 @@ public class OrganizationBox {
                 }
             }
         }
+    }
+
+    public static void roleLabels(Organization organization, HBox hbox){
+        if(GUI.getPerson().getRole(organization) instanceof President || GUI.getPerson().getRole(organization) instanceof Organizer){
+            Button addEvent = new Button("Add event");
+            addEvent.setOnAction(e -> {
+                addEvent(organization);
+            });
+            Button addAnnoucement = new Button("Add announcement");
+            addAnnoucement.setOnAction(e -> {
+                
+            });
+            HBox presidentButtons = new HBox(addEvent, addAnnoucement);
+
+        }
+    }
+    private static void addEvent(Organization organization){
+        GUI.getCenterBox().getChildren().clear();
+        Label reason = new Label("Reason");
+        Label location = new Label("Location");
+        Label description = new Label("Description");
+        Button confirm = new Button("Post event");
+        TextField reasonInput = new TextField();
+        TextField locationInput = new TextField();
+        TextField descriptionInput = new TextField();
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, description, descriptionInput, confirm);
     }
 
 
