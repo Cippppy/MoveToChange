@@ -64,8 +64,6 @@ public class Organization {
     private List<Post> posts = new ArrayList<Post>();
 
     private List<Event> events = new ArrayList<Event>();
-
-    private List<Announcement> annoucments = new ArrayList<Announcement>();
     
     /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
@@ -312,7 +310,6 @@ public class Organization {
      * @return
      */
     public VBox displayDash() {
-        GUI.getCenterBox().getChildren().clear();
         orgDashBoard.setMinWidth(1020);
         orgDashBoard.setPrefWidth(1020);
         orgDashBoard.setAlignment(Pos.TOP_CENTER);
@@ -378,11 +375,10 @@ public class Organization {
         Label eventsLabel = new Label("Events");
         eventsLabel.setTextAlignment(TextAlignment.CENTER);
         eventsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
-       // VBox eventsList = new VBox();
-       // VBox events = new VBox(eventsLabel, eventsList);
-        VBox events = new VBox(eventsLabel);
+        VBox eventsList = new VBox();
+        VBox events = new VBox(eventsLabel, eventsList);
         for(int i = 0; i < this.events.size(); i++){
-            OrganizationBox.displayEvent(this.events.get(i), events);
+            OrganizationBox.displayEvent(this.events.get(i), GUI.getLeftBox());
             System.out.println(i);
             System.out.println(this.events.get(i).getReason());
         }
@@ -435,10 +431,7 @@ public class Organization {
     public List<Event> getEvents(){
         return events;
     }
-    public void addEvent(String purpose, String location){
-        events.add(new Event(purpose, location));
-    }
-    public void addAnnoucement(String purpose, String text){
-        annoucments.add(new Announcement(purpose, text));
+    public void addEvent(String purpose, String text, String location){
+        events.add(new Event(purpose, text, location));
     }
 }
