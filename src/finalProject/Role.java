@@ -10,7 +10,7 @@ public abstract class Role implements Serializable {
 	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The logger for the role **/
-    public static Logger logger = Logger.getLogger(Logger.class.getName());
+    transient public static Logger logger = Logger.getLogger(Logger.class.getName());
 
     /**
      * Constructor
