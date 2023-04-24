@@ -25,6 +25,7 @@ public class Person implements Comparable<Person> {
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
+    
     /**
      * Create's a person with a name
      * 
@@ -149,7 +150,9 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person person) {
         return this.name.compareTo(person.getName());
     }
-        public void addOrganization(Organization organization, Role role){
+
+    public void addOrganization(Organization organization, Role role){
         organizationsAndRoles.put(organization, role);
+        organization.getMembers().add(this);
     }
 }
