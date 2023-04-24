@@ -35,13 +35,9 @@ public class GUI extends Application {
     private String memLog = "member";
     private String orgLog = "organizer";
     private String leadLog = "lead";
-    private Role rank = null; 
-    
     private static Person person = setupPerson();
-    private OrganizationBox organizationBox = new OrganizationBox(person);
-    private static VBox leftBox = new VBox();
-    private static VBox centerBox = new VBox();
-    private static VBox rightBox = new VBox();
+    private Role rank = null; 
+    private ObservableList<String> objects = FXCollections.observableArrayList();
 
     // needed for login setup
     private Button loginButton = new Button("Login");
@@ -51,6 +47,11 @@ public class GUI extends Application {
     private VBox loginLayout = new VBox();
     private Label errorLabel = new Label();
     private Stage login = new Stage();
+    private OrganizationBox organizationBox = new OrganizationBox(person);
+
+    private static VBox leftBox = new VBox();
+    private static VBox centerBox = new VBox();
+    private static VBox rightBox = new VBox();
 
     public static void main(String[] args) {
         launch(args);
@@ -117,48 +118,11 @@ public class GUI extends Application {
     private void styleLogin(Pane pane) {
         pane.setStyle("-fx-padding: 20px;");
     }
-/*
-    private void setupControls(Pane pane) {
-        Text test = new Text("test");
-        if (rank.equals(new Member())) {
-            test.setText("I am a member.");
-        } else if (rank.equals(new Organizer())) {
-            test.setText("I am an organizer.");
-        } else if (rank.equals(new President())) {
-            test.setText("I am a leader.");
-        } else {
-            test.setText("I am a guest.");
-        }
 
-        Button newOrgButton = new Button("Create Organization");
-        addOrganization(newOrgButton);
-
-        Text title = new Text("Move To Change");
-        Text startText = new Text("An organization is not currently selected. Please choose an organization from the left-hand panel to begin.");
-        startText.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        startText.setFill(Color.SILVER); 
-        startText.setWrappingWidth(800);
-        Text test3 = new Text("sdfgsdfsdf");
-
-        VBox leftPanel = new VBox(title, newOrgButton);
-        ScrollPane leftPanelScroll = new ScrollPane(leftPanel);
-        leftPanelScroll.setMinWidth(450);
-        leftPanelScroll.setMinHeight(1080);
-        stylePanels(leftPanel, Pos.TOP_LEFT);
-
-        /** TESTING WHILE WORKING ON DISPLAYDASH - MAY NOT BE FUNCTIONAL UNTIL THEN */
-        //VBox center = new VBox(startText, test);
-        //styleCenter(center);
-        Organization testOrg = new Organization("Test Org", Purpose.ENVIRONMENTALISM, 3, 40);
-        VBox center = testOrg.displayDash();
-        /** END TESTING SECTION */
-
-        VBox rightPanel = new VBox(test3);
-        stylePanels(rightPanel, Pos.TOP_RIGHT);
-        
-        HBox root = new HBox(3, leftPanelScroll, center, rightPanel);
-
-        pane.getChildren().add(root);
+    public static void organizationClicked(Organization organization){
+        GUI.centerBox.getChildren().clear();
+        GUI.centerBox.getChildren().add(organization.displayDash());
+     //   GUI.centerBox.getChildren().clear();
     }
 
     private void setupControls(Pane pane) {
@@ -195,8 +159,7 @@ public class GUI extends Application {
         
             pane.getChildren().add(root);
     }
-    
-    
+
     private void setupLoginControls(Pane pane) {
         Label usernameLabel = new Label("Enter Username: ");
         Label passwordLabel = new Label("Enter Password: ");
@@ -257,7 +220,7 @@ public class GUI extends Application {
  });
     }
 
-private static Person setupPerson(){
+    private static Person setupPerson(){
         person = new Person("abe", "John42", "vbucks");
         person.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1), new President());
         person.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1), new President());
