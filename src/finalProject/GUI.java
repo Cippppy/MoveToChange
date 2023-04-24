@@ -161,24 +161,6 @@ public class GUI extends Application {
         loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
     }
 
-    private boolean isLoginValid() {
-        boolean valid = false;
-        if (usernameField.getText().equals(memLog) && passwordField.getText().equals(memLog)) {
-            login.close();
-            rank = new Member();
-            valid = true;
-        } else if (usernameField.getText().equals(orgLog) && passwordField.getText().equals(orgLog)) {
-            login.close();
-            rank = new Organizer();
-            valid = true;
-        } else if (usernameField.getText().equals(leadLog) && passwordField.getText().equals(leadLog)) {
-            login.close();
-            rank = new President();
-            valid = true;
-        }
-        return valid;
-    }
-
     private void addOrganization(Button button){
     button.setOnAction(new EventHandler<ActionEvent>() {
     @Override

@@ -7,6 +7,15 @@ import javafx.stage.Stage;
 
 public class LoginGUI extends Application {
 
+    BorderPane loginPane = new BorderPane();
+    BorderPane createNewAccountPane = new BorderPane();
+    BorderPane programPane = new BorderPane();
+    Scene loginScene = new Scene(loginPane);
+    Scene createNewAccountScene = new Scene(createNewAccountPane, 250, 200);
+    Scene programScene = new Scene(programPane);
+    Scene currentScene;
+
+    CreateNewAccountBox createNewAccount = new CreateNewAccountBox();
     LoginBox login = new LoginBox();
     CreateNewAccountBox box = new CreateNewAccountBox();
 
@@ -16,22 +25,42 @@ public class LoginGUI extends Application {
 
     @Override
     public void start(Stage mainStage) {
-        BorderPane mainPane = new BorderPane(); // make layout to hold controls
-        setupControls(mainPane); // initialize and place controls
-        Scene scene = new Scene(mainPane); // Set up the main scene
-        setStage(mainStage, scene); // finalize and show the stage
-    }
-
-    private void setupControls(BorderPane mainPane) {
-        mainPane.setCenter(login);
+        //setupControls(mainPane); // initialize and place controls
+        //setStage(mainStage, scene); // finalize and show the stage
+        currentScene = loginScene;
+        loginPane.setCenter(login);
+        mainStage.setTitle("Login");
+        mainStage.setScene(currentScene);
+        mainStage.show();
         login.getCreateNewAccountButton().setOnAction(e -> {
-            mainPane.setCenter(box);
+            currentScene = createNewAccountScene;
+            createNewAccountPane.setCenter(createNewAccount);
+            mainStage.setScene(currentScene);
+            mainStage.setTitle("New Account");
+        });
+        box.getCreateAccountButton().setOnAction(e -> {
+            Login.addLogin(box.getNameField(), box.getUsernameField(), box.getPasswordField());
+            currentScene = loginScene;
+        //    loginPane.setCenter(login);
+            mainStage.setScene(currentScene);
+            mainStage.setTitle("Login");
         });
     }
 
-    private static void setStage(Stage mainStage, Scene scene) {
-        mainStage.setTitle("Login");
-        mainStage.setScene(scene);
-        mainStage.show();
+    public void setupLogin() {
+
     }
+
+   // private void setupControls(BorderPane mainPane) {
+   //     mainPane.setCenter(login);
+    //    login.getCreateNewAccountButton().setOnAction(e -> {
+    //        mainPane.setCenter(box);
+    //    });
+//}
+
+   // private static void setStage(Stage mainStage, Scene scene) {
+   //     mainStage.setTitle("Login");
+   //     mainStage.setScene(scene);
+   //     mainStage.show();
+   // }
 }
