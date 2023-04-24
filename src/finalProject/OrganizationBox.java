@@ -27,7 +27,7 @@ public class OrganizationBox /* extends VBox */ {
     private VBox vbox = new VBox();
     private Person person;
 
-    Logger logger = Logger.getLogger(OrganizationBox.class.getName());
+    transient Logger logger = Logger.getLogger(OrganizationBox.class.getName());
 
     public OrganizationBox(Person person){
         this.person = person;

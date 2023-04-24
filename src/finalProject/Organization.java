@@ -54,7 +54,7 @@ public class Organization implements Serializable {
     private int totalMembers;
 
     /** The respective button for the organization **/
-    private Button orgButton = new SerializableButton();
+    private SerializableButton orgButton = new SerializableButton();
 
     /** The dashboard of the organization **/
     private VBox orgDashBoard = new SerializableVBox(3);
@@ -66,7 +66,7 @@ public class Organization implements Serializable {
     private List<Post> posts = new ArrayList<Post>();
     
     /** Logger for the organization classes **/
-    public static Logger logger = Logger.getLogger(Organization.class.getName());
+    public transient static Logger logger = Logger.getLogger(Organization.class.getName());
 
     /**  **/
     public static List<Organization> allOrganizations = new ArrayList<Organization>();
@@ -208,7 +208,7 @@ public class Organization implements Serializable {
      * @author Ana Oharciuc
      * @return
      */
-    public Button getButton() {
+    public SerializableButton getButton() {
         return orgButton;
     }
 
@@ -319,7 +319,7 @@ public class Organization implements Serializable {
         VBox orgInfo = new VBox(orgName, purposeBox);
         orgInfo.setAlignment(Pos.TOP_LEFT);
         orgInfo.setMinWidth(550);
-        Button showRoster = new Button("Show Roster");
+        SerializableButton showRoster = new SerializableButton("Show Roster");
         HBox interactionTopRow = new HBox();
     /*     if(GUI.getPerson().getOrganizationsAndRoles().containsKey(this)){
             Button join = new Button();
@@ -370,7 +370,7 @@ public class Organization implements Serializable {
         bottom.setMinWidth(1020);
         bottom.setMaxWidth(1020);
 
-        orgDashBoard.getChildren().addAll(header, sep, bottom);
+        orgDashBoard.getChildren().addAll(header, sep);
         return orgDashBoard;
     }
 
@@ -406,7 +406,7 @@ public class Organization implements Serializable {
             GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox()); 
     }
 
-    private void joinOrg(Button joinOrg){
+    private void joinOrg(SerializableButton joinOrg){
         joinOrg.setText("Joined");
         joinOrg.setDisable(true);
         GUI.getPerson().addOrganization(this, new Member());

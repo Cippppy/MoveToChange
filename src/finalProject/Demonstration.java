@@ -42,7 +42,7 @@ public class Demonstration extends Event {
     @Override
     public String toString() {
         return "<h1> Demonstration </h1>"
-        + "<h2>" + reason + "</h2>"
-        + "<p>" + text + "</p>";
+        + "<h2>" + getReason() + "</h2>"
+        + "<p>" + getText() + "</p>";
     }
 }

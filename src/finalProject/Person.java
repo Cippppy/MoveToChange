@@ -27,7 +27,7 @@ public class Person implements Comparable<Person>, Serializable {
     private String password; // The person's user name and password
 
     /** Logger for the person class **/
-    public static Logger logger = Logger.getLogger(Person.class.getName());
+    public transient static Logger logger = Logger.getLogger(Person.class.getName());
 
     
     /**

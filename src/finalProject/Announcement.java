@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.io.Serializable;
+import javax.crypto.SecretKey;
+
 /**
  * 
  * 
@@ -23,7 +26,7 @@ public class Announcement extends Post implements Distributable {
     @Override
     public String toString() {
         return "<h1> Announcement </h1>"
-               + "<h2>" + reason + "</h2>"
-               + "<p>" + text + "</p>";
+               + "<h2>" + getReason() + "</h2>"
+               + "<p>" + getText() + "</p>";
     }
 }

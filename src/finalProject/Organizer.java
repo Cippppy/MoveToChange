@@ -19,7 +19,7 @@ public class Organizer extends Role implements Organize, Lead {
     private List<Event> events = new ArrayList<Event>();
 
     /** Logger for the organizer class **/
-    Logger logger = Logger.getLogger(Organizer.class.getName());
+    transient Logger logger = Logger.getLogger(Organizer.class.getName());
 
     int testVal = 0;
     private Predicate<Event> successMeasure = e -> e.getAttendees().size() > testVal;

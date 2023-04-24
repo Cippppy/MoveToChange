@@ -25,7 +25,7 @@ public class Login {
     private static TreeMap<String, Person> credentials = new TreeMap<String, Person>();
 
     /** Logger for the login class **/
-    private static Logger logger = Logger.getLogger(Login.class.getName());
+    transient private static Logger logger = Logger.getLogger(Login.class.getName());
 
     private static final String FILE_NAME = "credentials.ser";
 
