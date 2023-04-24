@@ -24,7 +24,11 @@ public class Person implements Comparable<Person>, Serializable {
     transient private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
+<<<<<<< HEAD
     private String password; // The person's user name and password
+=======
+    private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+>>>>>>> master
 
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
@@ -134,6 +138,25 @@ public class Person implements Comparable<Person>, Serializable {
         return organizationsAndRoles.get(organization);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Return the person's username
+     * @return The person's username
+     */
+    public String getUsername() {
+        return usernameAndPassword.getKey();
+    }
+
+    /**
+     * Return the person's password
+     * @return The person's password
+     */
+    public String getPassword() {
+        return usernameAndPassword.getValue();
+    }
+
+>>>>>>> master
     /**
      * Compares a person to a person by their name.
      * Used for the tree set
@@ -146,9 +169,5 @@ public class Person implements Comparable<Person>, Serializable {
     public void addOrganization(Organization organization, Role role){
         organizationsAndRoles.put(organization, role);
         organization.getMembers().add(this);
-    }
-
-    public void leaveOrg(Organization organization){
-        organizationsAndRoles.remove(organization);
     }
 }

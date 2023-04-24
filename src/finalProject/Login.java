@@ -37,7 +37,6 @@ public class Login {
     public Login() {
         credentials = new TreeMap<String, Person>();
         credentials.put("ballfart", new Person("shid", "fart"));
-        credentials.put("Po", new Person("Po", "Po"));
     }
 
     /**
@@ -46,30 +45,26 @@ public class Login {
      */
     public static void addLogin(String name, String username, String password) {
         if(name != null && username != null && password != null) {
-            credentials.put(username.toUpperCase(), new Person(name.toUpperCase(), password.toUpperCase()));
-            logger.log(Level.INFO, "Login Successfully added");
+            credentials.put(username, new Person(name, username, password));
         }
         else {
             logger.log(Level.WARNING, "The input person is null.");
         }
     }
 
-    public static Person findLogin(String username, String password) {
+    private static Person findLogin(String username, String password) {
         Person person = null;
-        if (credentials.containsKey(username.toUpperCase())) {
-            logger.log(Level.INFO, "Contains Key!");
-            if (credentials.get(username.toUpperCase()).getPassword().toUpperCase().equals(password.toUpperCase())) {
-                logger.log(Level.INFO, "Found the person!");
-                return credentials.get(username.toUpperCase());
+        if (credentials.get(username) != null) {
+            if (credentials.get(username).getPassword().equals(password)) {
+                return credentials.get(username);
             }
         }
         return person;
     }
 
-    public static boolean isLoginValid(Person person) {
+    private static boolean isLoginValid(Person person) {
         boolean valid = false;
         if (credentials.values().contains(person)) {
-            logger.log(Level.INFO, "Valid");
             valid = true;
         }
         return valid;
