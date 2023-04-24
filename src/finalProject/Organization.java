@@ -381,4 +381,7 @@ public class Organization {
             logger.log(Level.WARNING, "The post you are trying to remove is null.");
         }
     }
+    public static void addOrganization(Organization organization){
+        allOrganizations.add(organization);
+    }
 }
