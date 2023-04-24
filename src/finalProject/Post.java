@@ -1,18 +1,22 @@
 package finalProject;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class Post {
+public abstract class Post implements Serializable {
+
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The reason for the announcement **/
-    String reason;
+    private String reason;
 
     /** The text of the announcement **/
-    String text;
+    private String text;
     
     /** Logger for the announcment class **/
-    Logger logger = Logger.getLogger(Announcement.class.getName());
+    public static transient Logger logger = Logger.getLogger(Announcement.class.getName());
 
     /**
      * Constructor
