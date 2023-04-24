@@ -1,9 +1,13 @@
 package finalProject;
 
 import java.util.logging.Logger;
+import java.io.Serializable;
 import java.util.logging.Level;
 
-public abstract class Role {
+public abstract class Role implements Serializable {
+
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The logger for the role **/
     public static Logger logger = Logger.getLogger(Logger.class.getName());

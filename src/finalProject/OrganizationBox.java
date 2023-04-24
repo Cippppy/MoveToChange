@@ -2,6 +2,7 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -100,6 +101,9 @@ public class OrganizationBox /* extends VBox */ {
         styleHeader(organizations);
         vbox.getChildren().add(hbox);
         ArrayList<String> sortedKeys = new ArrayList();
+        if(person.getOrganizationsAndRoles() == null) {
+            person.setOrganizationsAndRoles(new HashMap<Organization, Role>());
+        }
         for(Organization organization : person.getOrganizationsAndRoles().keySet()){
         sortedKeys.add(organization.getName());
         }

@@ -21,7 +21,7 @@ public class Person implements Comparable<Person>, Serializable {
     private String name;
 
     /** Hashmap of the person's organizations and the roles they hold **/
-    transient private HashMap<Organization, Role> organizationsAndRoles = new HashMap<Organization, Role>(); // Holds the organzations with their roles
+    private HashMap<Organization, Role> organizationsAndRoles = new HashMap<Organization, Role>(); // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
     private String password; // The person's user name and password

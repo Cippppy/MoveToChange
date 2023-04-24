@@ -89,6 +89,9 @@ public class Organization implements Serializable {
             this.name = name;
             this.purpose = purpose;
             this.totalMembers = totalMembers;
+            if(allOrganizations == null) {
+                allOrganizations = new ArrayList<Organization>();
+            }
             allOrganizations.add(this);
             orgButton.setText(name);
         }
@@ -102,6 +105,9 @@ public class Organization implements Serializable {
         {
             this.name = name;
             this.purpose = purpose;
+            if(allOrganizations == null) {
+                allOrganizations = new ArrayList<Organization>();
+            }
             allOrganizations.add(this);
             orgButton.setText(name);
         }
@@ -257,7 +263,6 @@ public class Organization implements Serializable {
         if(allOrganizations == null) {
             allOrganizations = new ArrayList<Organization>();
         }
-		allOrganizations = null;
 		FileInputStream fileIn = null;
 		ObjectInputStream in = null;
 
@@ -414,6 +419,9 @@ public class Organization implements Serializable {
         }
     }
     public static void addOrganization(Organization organization){
+        if(allOrganizations == null) {
+            allOrganizations = new ArrayList<Organization>();
+        }
         allOrganizations.add(organization);
     }
     public void addEvent(String purpose, String text, String location){
