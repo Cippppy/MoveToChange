@@ -54,10 +54,10 @@ public class Organization implements Serializable {
     private int totalMembers;
 
     /** The respective button for the organization **/
-    transient private Button orgButton = new Button();
+    private Button orgButton = new SerializableButton();
 
     /** The dashboard of the organization **/
-    transient private VBox orgDashBoard = new VBox(3);
+    private VBox orgDashBoard = new SerializableVBox(3);
 
     /** A list of all the members of the organization **/
     private List<Person> members = new ArrayList<Person>();
