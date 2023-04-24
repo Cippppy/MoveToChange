@@ -121,4 +121,10 @@ public class Speech extends Event {
             logger.log(Level.WARNING, "The input speaker is null.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "<h2>" + reason + "</h2>"
+               + "<p>" + text + "</p>";
+    }
 }

@@ -35,4 +35,10 @@ public class March extends Event {
     public void march() {
 
     }
+
+    @Override
+    public String toString() {
+        return "<h2>" + reason + "</h2>"
+               + "<p>" + text + "</p>";
+    }
 }

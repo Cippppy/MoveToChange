@@ -22,4 +22,10 @@ public class Announcement extends Post implements Distributable {
     public Announcement(String reason, String text) {
         super(reason, text);
     }
+    
+    @Override
+    public String toString() {
+        return "<h2>" + reason + "</h2>"
+               + "<p>" + text + "</p>";
+    }
 }

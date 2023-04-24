@@ -38,4 +38,10 @@ public class Meeting extends Event {
     public void meet() {
 
     }
+
+    @Override
+    public String toString() {
+        return "<h2>" + reason + "</h2>"
+               + "<p>" + text + "</p>";
+    }
 }
