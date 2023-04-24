@@ -103,7 +103,10 @@ public class OrganizationBox {
                     Hyperlink hyperlink = new Hyperlink(organization.getName());
                     hyperlink.setOnAction(e -> {
                         GUI.organizationClicked(organization);
-                        System.out.println(organization);
+                    //    System.out.println(organization);
+                    //    for(int i = 0; i < GUI.getPerson().getOrganizationsAndRoles().size(); i++){
+                    //        System.out.println("i");
+                    //    }
                     });
                     styleLink(hyperlink);
                     Label label = new Label(person.getOrganizationsAndRoles().get(organization).getClass().getSimpleName());
