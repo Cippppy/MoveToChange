@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class OrganizationBox /* extends VBox */ {
@@ -54,14 +56,14 @@ public class OrganizationBox /* extends VBox */ {
     public void addOrganization(Button button, VBox vbox){
         button.setOnAction(e -> {
             vbox.getChildren().clear();
-            Label dropdownLabel = new Label("Enter Organization name: ");
+            Label dropdownLabel = new Label("Enter Organization Name: ");
             ComboBox<String> dropdown = new ComboBox<>();
             ObservableList<String> options = FXCollections.observableArrayList();
                 for(Purpose p : Purpose.values()){
                     options.add(p.name());
                 }
             dropdown.setItems(options);
-            Label usernameLabel = new Label("Enter Organization name: ");
+            Label usernameLabel = new Label("Enter Organization Name: ");
             TextField usernameField = new TextField();
             Button acceptButton = new Button("OK");
             acceptButton(acceptButton, vbox, usernameField, dropdown);
@@ -93,13 +95,19 @@ public class OrganizationBox /* extends VBox */ {
     }
     public void defaultBox(Person person){
         logger.log(Level.INFO, "Making default box");
-        HBox hbox = new HBox();
+        VBox header = new VBox(8);
+        header.setAlignment(Pos.CENTER);
+        HBox hbox = new HBox(8);
         Button createButton = new Button("Create New Organization");
         addOrganization(createButton, vbox);
-        Label organizations = new Label("Your organizations");
-        hbox.getChildren().addAll(organizations, createButton);
+        Label organizations = new Label("Your Organizations");
+        VBox orgLabelContainer = new VBox(organizations);
+        orgLabelContainer.setAlignment(Pos.CENTER);
+        VBox.setMargin(orgLabelContainer, new Insets(0, 0, -15, 0));
+        header.getChildren().addAll(orgLabelContainer, createButton);
+        //hbox.getChildren().addAll(organizations, createButton);
         styleHeader(organizations);
-        vbox.getChildren().add(hbox);
+        vbox.getChildren().add(header);
         ArrayList<String> sortedKeys = new ArrayList();
         if(person.getOrganizationsAndRoles() == null) {
             person.setOrganizationsAndRoles(new HashMap<Organization, Role>());
@@ -140,11 +148,11 @@ public class OrganizationBox /* extends VBox */ {
 
     public static void roleLabels(Organization organization, HBox hbox){
         if(GUI.getPerson().getRole(organization) instanceof President || GUI.getPerson().getRole(organization) instanceof Organizer){
-            Button addEvent = new Button("Add event");
+            Button addEvent = new Button("Add Event");
             addEvent.setOnAction(e -> {
                 addEvent(organization);
             });
-            Button addAnnoucement = new Button("Add announcement");
+            Button addAnnoucement = new Button("Add Announcement");
             addAnnoucement.setOnAction(e -> {
                 addAnnoucement(organization);
             });
@@ -156,7 +164,7 @@ public class OrganizationBox /* extends VBox */ {
         Label reason = new Label("Reason");
         Label text = new Label("Text");
         Label location = new Label("Location");
-        Button confirm = new Button("Post event");
+        Button confirm = new Button("Post Event");
         confirm.setOnAction(e -> {
             String reasonString = reason.getText();
             String textString = text.getText();

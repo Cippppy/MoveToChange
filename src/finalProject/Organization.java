@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
@@ -353,36 +354,48 @@ public class Organization implements Serializable {
         sep.setMinWidth(1020);
         sep.setHalignment(HPos.CENTER);
 
-        Label announcementsLabel = new Label("Announcements");
-        announcementsLabel.setTextAlignment(TextAlignment.CENTER);
-        announcementsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
-        VBox announcementsList = new VBox();
-        VBox announcements = new VBox(announcementsLabel, announcementsList);
-        announcements.setMinWidth(550);
+        Label postsLabel = new Label("Announcements & Events");
+        postsLabel.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+        postsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        VBox postsList = new VBox();
+        VBox postsContainer = new VBox(postsLabel, postsList);
+        postsContainer.setMinWidth(1020);
+   //     for(int i = 0; i < this.posts.size(); i++){
+   //         displayPost(this.posts.get(i), postsContainer);
+   //         System.out.println(i);
+   //         System.out.println(this.posts.get(i).getReason());
+   //     }
 
-        Separator bottomSep = new Separator(Orientation.VERTICAL);
-        bottomSep.setHalignment(HPos.CENTER);
-        bottomSep.setValignment(VPos.CENTER);
-        bottomSep.setMinHeight(890);
-
-        Label eventsLabel = new Label("Events");
-        eventsLabel.setTextAlignment(TextAlignment.CENTER);
-        eventsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
-        VBox eventsList = new VBox();
-        VBox events = new VBox(eventsLabel, eventsList);
-        for(int i = 0; i < this.posts.size(); i++){
-            OrganizationBox.displayPost(this.posts.get(i), GUI.getLeftBox());
-            System.out.println(i);
-            System.out.println(this.posts.get(i).getReason());
-        }
-        events.setMinWidth(550);
-
-        HBox bottom = new HBox(announcements, bottomSep, events);
+        HBox bottom = new HBox(postsLabel, postsContainer);
         bottom.setMinWidth(1020);
         bottom.setMaxWidth(1020);
 
         orgDashBoard.getChildren().addAll(header, sep, bottom);
         return orgDashBoard;
+    }
+
+    public static void displayPost(Post post, VBox box){
+        if(post instanceof Event) {
+            Event event = (Event) post;
+            Label purpose = new Label(event.getReason());
+            Label location = new Label(event.getLocation());
+            Button attendEvent = new Button();
+            attendEvent.setOnAction(e -> {
+                event.addAttendee(GUI.getPerson());
+                attendEvent.setDisable(true);
+            });
+            Label attendes = new Label("" + event.getAttendees().size());
+            HBox upper = new HBox(purpose, attendEvent);
+            HBox lower = new HBox(location, attendes);
+            box.getChildren().addAll(upper, lower);
+        }
+        else if(post instanceof Announcement) {
+            Announcement announcement = (Announcement) post;
+            Label purpose = new Label(announcement.getReason());
+            Label text = new Label(announcement.getText());
+            HBox upper = new HBox(purpose, text);
+            box.getChildren().addAll(upper);
+        }
     }
 
     private void leaveOrg(Button leaveOrg){

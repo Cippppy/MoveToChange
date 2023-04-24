@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font; 
 import javafx.scene.paint.Color; 
 import javafx.scene.text.FontWeight; 
@@ -155,7 +156,7 @@ public class GUI extends Application {
     private void styleCenter(VBox center) {
         center.setMinWidth(1020);
         center.setPrefWidth(1020);
-        center.setAlignment(Pos.TOP_CENTER);
+        center.setAlignment(Pos.BASELINE_CENTER);
     }
 
     private void styleLogin(Pane pane) {
@@ -170,39 +171,33 @@ public class GUI extends Application {
     }
 
     private void setupControls(Pane pane) {
-        Text test = new Text("test");
-     /*    if (rank.equals(new Member())) {
-            test.setText("I am a member.");
-        } else if (rank.equals(new Organizer())) {
-            test.setText("I am an organizer.");
-        } else if (rank.equals(new President())) {
-            test.setText("I am a leader.");
-        } else {
-            test.setText("I am a guest.");
-        }
-        */
         Button button = new Button("Create Organization");
         addOrganization(button);
         
         
-        VBox buttontest = new VBox(button);
-        stylePanels(buttontest, Pos.TOP_LEFT);
+        VBox newOrgButton = new VBox(button);
+        stylePanels(newOrgButton, Pos.TOP_LEFT);
+        Text startText = new Text("An organization is not currently selected. Please choose an organization from the left-hand panel to begin.");
+        startText.setFont(Font.font("arial", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        startText.setTextAlignment(TextAlignment.CENTER);
+        startText.setFill(Color.SILVER); 
+        startText.setWrappingWidth(800);
         
-            leftBox = organizationBox.getVBox();
-            stylePanels(leftBox, Pos.TOP_LEFT);
+        leftBox = organizationBox.getVBox();
+        stylePanels(leftBox, Pos.TOP_LEFT);
+    
+        centerBox.getChildren().add(startText);
+        styleCenter(centerBox);
+    
+        RecommendationBox.setupBox();
+        //VBox rightPanel = recommendationBox;
+        //   RecommendationBox.setupBox();
+        stylePanels(rightBox, Pos.TOP_RIGHT);
         
-            centerBox.getChildren().add(test);
-            styleCenter(centerBox);
-        
-            RecommendationBox.setupBox();
-            //VBox rightPanel = recommendationBox;
-         //   RecommendationBox.setupBox();
-            stylePanels(rightBox, Pos.TOP_RIGHT);
-            
-            HBox root = new HBox(3, leftBox, centerBox, rightBox);
-        
-            pane.getChildren().add(root);
-    }
+        HBox root = new HBox(3, leftBox, centerBox, rightBox);
+    
+        pane.getChildren().add(root);
+}
 
     // private void setupLoginControls(Pane pane) {
     //     Label usernameLabel = new Label("Enter Username: ");
@@ -262,24 +257,6 @@ public class GUI extends Application {
         newStage.show();
      }
  });
-    }
-
-    private static Person setupPerson(){
-        person = new Person("abe", "vbucks");
-        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
-        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1);
-        Organization org3 = new Organization("apes", Purpose.VETERANS, 1);
-        Organization org4 = new Organization("ALBERT", Purpose.ANIMAL_RIGHTS, 1);
-        Organization org5 = new Organization("BLBERT", Purpose.ANIMAL_RIGHTS, 1);
-        Organization org6 = new Organization("Chris rocks", Purpose.VETERANS, 1);
-
-        person.addOrganization(org1, new President());
-        person.addOrganization(org2, new President());
-        person.addOrganization(org3, new President());
-        person.addOrganization(org4, new President());
-        person.addOrganization(org5, new President());
-        person.addOrganization(org6, new President());
-        return person;
     }
 
     public static VBox getLeftBox(){
