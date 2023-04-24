@@ -61,12 +61,12 @@ public class GUI extends Application {
         try {
             // LOGIN GUI
             login.initModality(Modality.APPLICATION_MODAL);
+            setupLogin();
             Scene loginScene = new Scene(loginLayout, 300, 150);
             login.setScene(loginScene);
             styleLogin(loginLayout);
             setupLoginControls(loginLayout);
             guestButton.setOnAction(e -> {
-                rank = new NonMember();
                 BorderPane mainPane = new BorderPane();
                 styleMainPane(mainPane);
                 setupControls(mainPane);
@@ -222,7 +222,7 @@ public class GUI extends Application {
     }
 
     private static Person setupPerson(){
-        person = new Person("abe", "John42", "vbucks");
+        person = new Person("abe", "vbucks");
         Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
         Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
         Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
@@ -237,6 +237,10 @@ public class GUI extends Application {
         person.addOrganization(org5, new President());
         person.addOrganization(org6, new President());
         return person;
+    }
+
+    private static void setupLogin() {
+        Login.addLogin("Po", "Po", "Po");
     }
 
     public static VBox getLeftBox(){

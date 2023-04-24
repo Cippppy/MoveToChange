@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class OrganizationBox {
     
@@ -78,7 +79,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organizations.addOrganization(organization);
+            Organization.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -143,12 +144,14 @@ public class OrganizationBox {
     public static void addEvent(Organization organization){
         GUI.getCenterBox().getChildren().clear();
         Label reason = new Label("Reason");
+        Label text = new Label("Text");
         Label location = new Label("Location");
         Button confirm = new Button("Post event");
         confirm.setOnAction(e -> {
             String reasonString = reason.getText();
+            String textString = text.getText();
             String locationString = location.getText();
-            organization.addEvent(reasonString, locationString);
+            organization.addEvent(reasonString, textString, locationString);
             GUI.getCenterBox().getChildren().clear();
             GUI.organizationClicked(organization);
         });
@@ -158,8 +161,9 @@ public class OrganizationBox {
         });
         HBox buttons = new HBox(confirm, back);
         TextField reasonInput = new TextField();
+        TextField textInput = new TextField();
         TextField locationInput = new TextField();
-        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, buttons);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, location, locationInput, buttons);
     }
     public static void displayEvent(Event event, VBox box){
         Label purpose = new Label(event.getReason());

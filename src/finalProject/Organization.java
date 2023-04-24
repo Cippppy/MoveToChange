@@ -431,7 +431,7 @@ public class Organization {
     public List<Event> getEvents(){
         return events;
     }
-    public void addEvent(String purpose, String location){
-        events.add(new Event(purpose, location));
+    public void addEvent(String purpose, String text, String location){
+        events.add(new Event(purpose, text, location));
     }
 }
