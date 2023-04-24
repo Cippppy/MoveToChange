@@ -1,8 +1,5 @@
 package finalProject;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * 
  * 
@@ -25,7 +22,8 @@ public class Announcement extends Post implements Distributable {
     
     @Override
     public String toString() {
-        return "<h2>" + reason + "</h2>"
+        return "<h1> Announcement </h1>"
+               + "<h2>" + reason + "</h2>"
                + "<p>" + text + "</p>";
     }
 }

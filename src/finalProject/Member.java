@@ -1,11 +1,5 @@
 package finalProject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * 
  * 
@@ -21,6 +15,6 @@ public class Member extends Role {
 
     @Override
     public String toString() {
-        return "";
+        return "Member";
     }
 }

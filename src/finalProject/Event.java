@@ -124,7 +124,8 @@ public class Event extends Post implements Participable {
 
     @Override
     public String toString() {
-        return "<h2>" + reason + "</h2>"
-               + "<p>" + text + "</p>";
+        return "<h1> Event </h1>"
+        + "<h2>" + reason + "</h2>"
+        + "<p>" + text + "</p>";
     }
 }

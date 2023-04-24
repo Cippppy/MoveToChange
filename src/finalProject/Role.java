@@ -8,6 +8,9 @@ public abstract class Role {
     /** The logger for the role **/
     public static Logger logger = Logger.getLogger(Logger.class.getName());
 
+    /**
+     * Constructor
+     */
     public Role() {
 
     }
@@ -15,6 +18,7 @@ public abstract class Role {
     /**
      * Allows the member to attend an event
      * @param event The event to attend
+     * @param person The person attending
      * @author Christian Cipolletta
      */
     public void attendEvent(Event event, Person person) {

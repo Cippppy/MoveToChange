@@ -65,15 +65,15 @@ public class Organization {
     /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
 
-    /**  **/
+    /** The list of all the organizations in the application **/
     public static List<Organization> allOrganizations = new ArrayList<Organization>();
 
-    /** **/
+    /** The file that the organizations are stored in **/
     private static final String FILE_NAME = "organizations.ser";
 
     
     /**
-     * Constructor
+     * Overloaded Constructor
      * 
      * @param name The name of the organization
      * @param purpose The purpose of the organization
@@ -87,6 +87,28 @@ public class Organization {
             this.purpose = purpose;
             this.numOfBranches = numOfBranches;
             this.totalMembers = totalMembers;
+            allOrganizations.add(this);
+            orgButton.setText(name);
+        }
+        else if(numOfBranches <= 0){
+            logger.log(Level.WARNING, "Number of branches must be at least 1");
+        }
+        else {
+            logger.log(Level.WARNING, "One or more values are null");
+        }
+    }
+
+    /**
+     * Overloaded Constructor
+     * 
+     * @param name The name of the organization
+     * @param purpose The purpose of the organization
+     */
+    public Organization(String name, Purpose purpose) {
+        if(name != null && purpose != null)
+        {
+            this.name = name;
+            this.purpose = purpose;
             allOrganizations.add(this);
             orgButton.setText(name);
         }
@@ -364,6 +386,10 @@ public class Organization {
         return orgDashBoard;
     }
 
+    /**
+     * Adds a post to the organization
+     * @param post The post to be added
+     */
     public void addPost(Post post) {
         if(post != null) {
             posts.add(post);
@@ -373,6 +399,10 @@ public class Organization {
         }
     }
 
+    /**
+     * Removes a post from the organization
+     * @param post The post to be removed
+     */
     public void removePost(Post post) {
         if(post != null) {
             posts.remove(post);
@@ -381,6 +411,11 @@ public class Organization {
             logger.log(Level.WARNING, "The post you are trying to remove is null.");
         }
     }
+
+    /**
+     * Adds an organization to the list of organizations
+     * @param organization The organization to be added
+     */
     public static void addOrganization(Organization organization){
         allOrganizations.add(organization);
     }

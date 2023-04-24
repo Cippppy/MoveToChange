@@ -38,7 +38,8 @@ public class March extends Event {
 
     @Override
     public String toString() {
-        return "<h2>" + reason + "</h2>"
-               + "<p>" + text + "</p>";
+        return "<h1> March </h1>"
+        + "<h2>" + reason + "</h2>"
+        + "<p>" + text + "</p>";
     }
 }

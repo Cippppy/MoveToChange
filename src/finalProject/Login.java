@@ -7,24 +7,40 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.time.LocalDate;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
 public class Login {
     
+    /** Tree set of people who use the program **/
     TreeSet<Person> credentials;
 
+    /** The file name of credentials **/
     String fileName;
 
+    /** Logger for the login class **/
     Logger logger = Logger.getLogger(Login.class.getName());
 
+    /**
+     * Constructor. Populates credentials with the file
+     * 
+     * @param fileName The name of the file to read
+     */
     public Login(String fileName) {
-        this.fileName = fileName;
-        credentials = new TreeSet<Person>();
-        setCredentials(0);
+        if(fileName != null) {
+            this.fileName = fileName;
+            credentials = new TreeSet<Person>();
+            setCredentials(0);
+        }
+        else {
+            logger.log(Level.WARNING, "The input file name was null.");
+        }
     }
 
+    /**
+     * Adds a person to credentials
+     * @param person The person to add
+     */
     public void addLogin(Person person) {
         if(person != null) {
             credentials.add(person);
@@ -35,8 +51,8 @@ public class Login {
     }
 
     /**
-     * Save the members of the branch to a .txt file
-     * Autogenerates the name as the branch location and the local date now!
+     * Save the credentials to a .txt file.
+     * Overwrites the last file.
      */
     public void saveCredentials() {
         final boolean OVERWRITE_MODE = false;
@@ -56,9 +72,8 @@ public class Login {
     }
 
     /**
-     * Overloaded method that sets the members of the branch
+     * Overloaded method that sets the credentials
      * by reading a .txt file
-     * @param fileName The name of the file to read
      * @param numHeaderRows The number of header rows in the file
      */
     public void setCredentials(int numHeaderRows) {
@@ -89,5 +104,4 @@ public class Login {
             logger.log(Level.WARNING, "File name does not end with .txt");
         }
     }
-
 }

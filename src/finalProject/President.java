@@ -1,7 +1,6 @@
 package finalProject;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * 
@@ -10,6 +9,7 @@ public class President extends Role implements Lead, Organize {
 
     /**
      * Constructor
+     * 
      */
     public President() {
 
@@ -17,7 +17,8 @@ public class President extends Role implements Lead, Organize {
 
     /**
      * Remove a member from the member list
-     * @param member The member to be removed
+     * @param organization The organization
+     * @param person The member to be removed
      */
     public void kickMember(Organization organization, Person person) {
             person.getOrganizationsAndRoles().remove(organization, person);
@@ -26,7 +27,8 @@ public class President extends Role implements Lead, Organize {
 
     /**
      * Change the position of a member
-     * @param member The member to be changed
+     * @param organization The organization
+     * @param person The member to be changed
      * @param role The new role of the member
      */
     public void changePosition(Organization organization, Person person, Role role) {

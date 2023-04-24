@@ -124,7 +124,8 @@ public class Speech extends Event {
 
     @Override
     public String toString() {
-        return "<h2>" + reason + "</h2>"
-               + "<p>" + text + "</p>";
+        return "<h1> Speech </h1>"
+        + "<h2>" + reason + "</h2>"
+        + "<p>" + text + "</p>";
     }
 }
