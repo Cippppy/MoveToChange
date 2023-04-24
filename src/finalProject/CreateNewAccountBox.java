@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +27,8 @@ public class CreateNewAccountBox extends VBox {
     // for printing incorrect username or password
     Label errorLabel;
 
+    Logger logger = Logger.getLogger(CreateNewAccountBox.class.getName());
+
     public CreateNewAccountBox() {
         // name field
         Label nameLabel = new Label("Enter Name: ");
@@ -46,10 +51,15 @@ public class CreateNewAccountBox extends VBox {
         this.setPadding(new Insets(20));
         this.getChildren().addAll(nameLabel, nameField, usernameLabel, usernameField, passwordLabel, passwordField,
                 buttonBox, errorLabel);
+                logger.log(Level.INFO, "Successfully created");
         // setting functionality
        // createAccountButton.setOnAction(e -> {
        //     Login.addLogin(nameField.getText(), usernameField.getText(), passwordField.getText());
        // });
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 
     public Button getCreateAccountButton() {

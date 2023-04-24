@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +22,8 @@ public class LoginGUI extends Application {
     LoginBox login = new LoginBox();
     CreateNewAccountBox box = new CreateNewAccountBox();
 
+    Logger logger = Logger.getLogger(LoginGUI.class.getName());
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -27,6 +32,7 @@ public class LoginGUI extends Application {
     public void start(Stage mainStage) {
         //setupControls(mainPane); // initialize and place controls
         //setStage(mainStage, scene); // finalize and show the stage
+        Login loggy = new Login();
         currentScene = loginScene;
         loginPane.setCenter(login);
         mainStage.setTitle("Login");
@@ -35,16 +41,33 @@ public class LoginGUI extends Application {
         login.getCreateNewAccountButton().setOnAction(e -> {
             currentScene = createNewAccountScene;
             createNewAccountPane.setCenter(createNewAccount);
-            mainStage.setScene(currentScene);
             mainStage.setTitle("New Account");
+            mainStage.setScene(currentScene);
+            mainStage.show();
+            logger.log(Level.INFO, "Button Works");
         });
         box.getCreateAccountButton().setOnAction(e -> {
-            Login.addLogin(box.getNameField(), box.getUsernameField(), box.getPasswordField());
+            try{
+                Login.addLogin(box.getNameField(), box.getUsernameField(), box.getPasswordField());
+            } catch (Exception f) {
+                f.printStackTrace();
+            }
             currentScene = loginScene;
-        //    loginPane.setCenter(login);
-            mainStage.setScene(currentScene);
+            loginPane.setCenter(login);
             mainStage.setTitle("Login");
+            mainStage.setScene(currentScene);
+            mainStage.show();
+            logger.log(Level.INFO, "New account");
         });
+        box.getBackButton().setOnAction(e -> {
+            currentScene = loginScene;
+            loginPane.setCenter(login);
+            mainStage.setTitle("Login");
+            mainStage.setScene(currentScene);
+            mainStage.show();
+            logger.log(Level.INFO, "Back");
+        });
+
     }
 
     public void setupLogin() {
