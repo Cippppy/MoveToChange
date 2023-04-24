@@ -48,4 +48,7 @@ public class LoginBox extends VBox {
         // setting functionality
         newAccountButton.setOnAction(e -> errorLabel.setText("Poop Dollah"));
     }
+    public Button getCreateNewAccountButton(){
+        return newAccountButton;
+    }
 }
