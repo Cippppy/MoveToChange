@@ -149,4 +149,7 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person person) {
         return this.name.compareTo(person.getName());
     }
+        public void addOrganization(Organization organization, Role role){
+        organizationsAndRoles.put(organization, role);
+    }
 }
