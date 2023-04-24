@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class OrganizationBox {
     
@@ -79,7 +78,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organization.addOrganization(organization);
+            Organizations.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);
@@ -136,7 +135,7 @@ public class OrganizationBox {
             });
             Button addAnnoucement = new Button("Add announcement");
             addAnnoucement.setOnAction(e -> {
-                
+                addAnnoucement(organization);
             });
             hbox.getChildren().addAll(addEvent, addAnnoucement);
         }
@@ -144,14 +143,14 @@ public class OrganizationBox {
     public static void addEvent(Organization organization){
         GUI.getCenterBox().getChildren().clear();
         Label reason = new Label("Reason");
-        Label text = new Label("Text");
         Label location = new Label("Location");
         Button confirm = new Button("Post event");
+        TextField reasonInput = new TextField();
+        TextField locationInput = new TextField();
         confirm.setOnAction(e -> {
-            String reasonString = reason.getText();
-            String textString = text.getText();
-            String locationString = location.getText();
-            organization.addEvent(reasonString, textString, locationString);
+            String reasonString = reasonInput.getText();
+            String locationString = locationInput.getText();
+            organization.addEvent(reasonString, locationString);
             GUI.getCenterBox().getChildren().clear();
             GUI.organizationClicked(organization);
         });
@@ -160,10 +159,27 @@ public class OrganizationBox {
             GUI.organizationClicked(organization);
         });
         HBox buttons = new HBox(confirm, back);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, buttons);
+    }
+    public static void addAnnoucement(Organization organization){
+        GUI.getCenterBox().getChildren().clear();
+        Label reason = new Label("Reason");
         TextField reasonInput = new TextField();
-        TextField textInput = new TextField();
-        TextField locationInput = new TextField();
-        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, location, locationInput, buttons);
+        Label text = new Label("text");
+        TextField textInput = new TextField(null);
+        Button confirm = new Button("Post Annoucment");
+        confirm.setOnAction(e -> {
+            String reasonString = reasonInput.getText();
+            String textString = textInput.getText();
+            organization.addAnnoucement(reasonString, textString);
+            GUI.organizationClicked(organization);
+        });
+        Button back = new Button("Back");
+        back.setOnAction(e -> {
+            GUI.organizationClicked(organization);
+        });
+        HBox buttons = new HBox(confirm, back);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, buttons);
     }
     public static void displayEvent(Event event, VBox box){
         Label purpose = new Label(event.getReason());
