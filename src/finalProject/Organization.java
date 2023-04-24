@@ -62,6 +62,8 @@ public class Organization {
 
     /** A list of all the announcements of the organization **/
     private List<Post> posts = new ArrayList<Post>();
+
+    private List<Event> events = new ArrayList<Event>();
     
     /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
@@ -375,6 +377,11 @@ public class Organization {
         eventsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
         VBox eventsList = new VBox();
         VBox events = new VBox(eventsLabel, eventsList);
+        for(int i = 0; i < this.events.size(); i++){
+            OrganizationBox.displayEvent(this.events.get(i), GUI.getLeftBox());
+            System.out.println(i);
+            System.out.println(this.events.get(i).getReason());
+        }
         events.setMinWidth(550);
 
         HBox bottom = new HBox(announcements, bottomSep, events);
@@ -420,5 +427,11 @@ public class Organization {
     }
     public static void addOrganization(Organization organization){
         allOrganizations.add(organization);
+    }
+    public List<Event> getEvents(){
+        return events;
+    }
+    public void addEvent(String purpose, String location){
+        events.add(new Event(purpose, location));
     }
 }
