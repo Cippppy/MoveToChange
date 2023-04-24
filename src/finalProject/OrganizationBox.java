@@ -149,9 +149,8 @@ public class OrganizationBox {
         TextField locationInput = new TextField();
         confirm.setOnAction(e -> {
             String reasonString = reason.getText();
-            String textString = text.getText();
             String locationString = location.getText();
-            organization.addEvent(reasonString, textString, locationString);
+            organization.addEvent(reasonString, locationString);
             GUI.getCenterBox().getChildren().clear();
             GUI.organizationClicked(organization);
         });
@@ -166,9 +165,8 @@ public class OrganizationBox {
         GUI.getCenterBox().getChildren().clear();
         Label reason = new Label("Reason");
         TextField reasonInput = new TextField();
-        TextField textInput = new TextField();
         TextField locationInput = new TextField();
-        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, text, textInput, location, locationInput, buttons);
+        GUI.getCenterBox().getChildren().addAll(reason, reasonInput, location, locationInput, buttons);
     }
     public static void displayEvent(Event event, VBox box){
         Label purpose = new Label(event.getReason());
