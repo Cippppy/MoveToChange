@@ -72,7 +72,7 @@ public class RecommendationBox {
                 Purpose purposeEnum = Enum.valueOf(Purpose.class, purposeString);
                 if(Organization.getAllOrganizations() != null){
                     System.out.println(Organization.getAllOrganizations().size());
-                    for(int j = 0; j < Organization.getAllOrganizations().size()-1 && j < 200; j++){
+                    for(int j = 0; j < Organization.getAllOrganizations().size() && j < 200; j++){
                         if(Organization.getAllOrganizations().get(j).getPurpose() == purposeEnum && !GUI.getPerson().getOrganizationsAndRoles().containsKey(Organization.getAllOrganizations().get(j))){
                             HBox line = new HBox();
                             Hyperlink hyperlink = new Hyperlink(Organization.getAllOrganizations().get(j).getName());
