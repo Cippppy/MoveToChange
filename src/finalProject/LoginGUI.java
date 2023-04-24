@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 public class LoginGUI extends Application {
 
     LoginBox login = new LoginBox();
+    CreateNewAccountBox box = new CreateNewAccountBox();
 
     public static void main(String[] args) {
         launch(args);
@@ -23,6 +24,9 @@ public class LoginGUI extends Application {
 
     private void setupControls(BorderPane mainPane) {
         mainPane.setCenter(login);
+        login.getCreateNewAccountButton().setOnAction(e -> {
+            mainPane.setCenter(box);
+        });
     }
 
     private static void setStage(Stage mainStage, Scene scene) {
