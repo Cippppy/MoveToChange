@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.logging.Level;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -65,7 +66,7 @@ public class Organization {
     /** Logger for the organization classes **/
     public static Logger logger = Logger.getLogger(Organization.class.getName());
 
-    /** The list of all the organizations in the application **/
+    /**The list of all the organizations in the application **/
     public static List<Organization> allOrganizations = new ArrayList<Organization>();
 
     /** The file that the organizations are stored in **/
@@ -97,7 +98,6 @@ public class Organization {
             logger.log(Level.WARNING, "One or more values are null");
         }
     }
-
     /**
      * Overloaded Constructor
      * 
@@ -119,7 +119,6 @@ public class Organization {
             logger.log(Level.WARNING, "One or more values are null");
         }
     }
-
     /**
      * Gets the purpose of this organization
      * @author Jimmy McCarry
@@ -386,10 +385,6 @@ public class Organization {
         return orgDashBoard;
     }
 
-    /**
-     * Adds a post to the organization
-     * @param post The post to be added
-     */
     public void addPost(Post post) {
         if(post != null) {
             posts.add(post);
@@ -399,10 +394,6 @@ public class Organization {
         }
     }
 
-    /**
-     * Removes a post from the organization
-     * @param post The post to be removed
-     */
     public void removePost(Post post) {
         if(post != null) {
             posts.remove(post);
@@ -411,12 +402,29 @@ public class Organization {
             logger.log(Level.WARNING, "The post you are trying to remove is null.");
         }
     }
-
-    /**
-     * Adds an organization to the list of organizations
-     * @param organization The organization to be added
-     */
     public static void addOrganization(Organization organization){
         allOrganizations.add(organization);
+    }
+
+    public void saveMembersByRole(Role role) {
+        final boolean OVERWRITE_MODE = false;
+        String filename = getName().strip() + role.toString() + ".txt";
+        List<Person> filteredMembers = members.parallelStream()
+            .filter(m -> (m.getOrganizationsAndRoles().get(this).equals(role)))
+            .collect(Collectors.toList());
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, OVERWRITE_MODE))) {
+            writer.write("Member name, Member Role");
+            writer.write(System.lineSeparator());
+            filteredMembers.forEach(m -> {try {
+                writer.write(m.getName() + ", " + m.getRole(this));
+                writer.write(System.lineSeparator());
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
+        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
