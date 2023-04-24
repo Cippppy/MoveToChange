@@ -2,6 +2,7 @@ package finalProject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,35 +12,36 @@ import java.util.function.Predicate;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, Serializable {
+
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The name of the person **/
     private String name;
 
     /** Hashmap of the person's organizations and the roles they hold **/
-    private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
+    transient private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
-    private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
-
-    /** The branches the member is a part of **/
-    private List<Branch> branches = new ArrayList<Branch>();
+    private String password; // The person's user name and password
 
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
 
+    
     /**
      * Create's a person with a name
      * 
      * @param name The name of the person
      */
-    public Person(String name, String username, String password) {
+    public Person(String name, String password) {
         if(name != null)
             this.name = name;
         else
             logger.log(Level.WARNING, "Name is null");
-        if(username != null && password != null) 
-            this.usernameAndPassword = new SimpleImmutableEntry<String,String>(username, password);
+        if(name != null && password != null) 
+            this.password = password;
         else
             logger.log(Level.WARNING, "Username or password is null");
         this.organizationsAndRoles = new HashMap<Organization, Role>();
@@ -52,7 +54,7 @@ public class Person implements Comparable<Person> {
     public Person(String name) {
         if(name != null) {
             this.name = name;
-            this.usernameAndPassword = new SimpleImmutableEntry<String,String>("default", "default");
+            this.password = "abc123";
             this.organizationsAndRoles = new HashMap<Organization, Role>();
         }
         else {
@@ -98,8 +100,12 @@ public class Person implements Comparable<Person> {
      * 
      * @return Username and Password
      */
-    public SimpleImmutableEntry<String, String> getUsernameAndPassword() {
-        return this.usernameAndPassword;
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -128,71 +134,6 @@ public class Person implements Comparable<Person> {
         return organizationsAndRoles.get(organization);
     }
 
-        /**
-     * Adds a single branch to this member
-     * @param branch The branch to add
-     */
-    public void addBranch(Branch branch) {
-        if(branch != null){
-            this.branches.add(branch);
-            if(!branch.getMembers().contains(this)) {
-                branch.addMember(this);
-                logger.log(Level.INFO, getName() + " added to " + branch);
-            }
-            else logger.log(Level.INFO, getName() + " already belongs to that branch");
-        }
-        else logger.log(Level.WARNING, "That branch is null");
-        
-    }
-
-    /**
-     * Removes a single branch from this member
-     * @param branch The branc to remove
-     */
-    public void removeBranch(Branch branch) {
-        if(branch != null) this.branches.remove(branch);
-        else logger.log(Level.WARNING, "Branch is null");
-        if(branch.getMembers().contains(this)) {
-            branch.removeMember(this);
-        }
-        else logger.log(Level.INFO, getName() + " does not belong to that branch");
-    }
-
-    /**
-     * Return the branches
-     * @return The branches
-     */
-    public List<Branch> getBranches() {
-        return this.branches;
-    }
-
-    /**
-     * Set the branches
-     * @param branches The branches
-     */
-    public void setBranches(List<Branch> branches) {
-        if(branches != null) this.branches = branches;
-        else logger.log(Level.WARNING, "Branches is null");
-        this.branches.forEach(branch -> {if(!branch.getMembers().contains(this)) {
-            branch.addMember(this);}});
-    }
-
-    /**
-     * Return the person's username
-     * @return The person's username
-     */
-    public String getUsername() {
-        return usernameAndPassword.getKey();
-    }
-
-    /**
-     * Return the person's password
-     * @return The person's password
-     */
-    public String getPassword() {
-        return usernameAndPassword.getValue();
-    }
-
     /**
      * Compares a person to a person by their name.
      * Used for the tree set
@@ -201,10 +142,9 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person person) {
         return this.name.compareTo(person.getName());
     }
+
     public void addOrganization(Organization organization, Role role){
         organizationsAndRoles.put(organization, role);
-    }
-    public void leaveOrg(Organization organization){
-        organizationsAndRoles.remove(organization);
+        organization.getMembers().add(this);
     }
 }
