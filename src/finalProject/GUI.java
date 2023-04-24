@@ -78,7 +78,6 @@ public class GUI extends Application {
                 setStage(stage, mainScene);
             });
             loginButton.setOnAction(e -> {
-                if (isLoginValid()) {
                     login.close();
                     // MAIN GUI
                     BorderPane mainPane = new BorderPane();
@@ -86,9 +85,6 @@ public class GUI extends Application {
                     setupControls(mainPane);
                     Scene mainScene = new Scene(mainPane);
                     setStage(stage, mainScene);
-                } else {
-                    errorLabel.setText("Invalid username or password. Please try again.");
-                }
             });
             login.show();
         } catch (Exception e) {
@@ -197,7 +193,7 @@ public class GUI extends Application {
     }
 
     private static Person setupPerson(){
-        person = new Person("abe", "John42", "vbucks");
+        person = new Person("John42", "vbucks");
         Recruiter rec = new Recruiter();
         President pres = new President();
         Member mem = new Member();
