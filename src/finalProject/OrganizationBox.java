@@ -2,6 +2,9 @@ package finalProject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -15,15 +18,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class OrganizationBox {
+public class OrganizationBox /* extends VBox */ {
     
 
     private VBox vbox = new VBox();
     private Person person;
 
+    Logger logger = Logger.getLogger(OrganizationBox.class.getName());
+
     public OrganizationBox(Person person){
         this.person = person;
         defaultBox(person);
+        logger.log(Level.INFO, "Successfully created OrgBox");
     }
     public void styleLink(Hyperlink hyperlink){
         hyperlink.setStyle("-fx-text-fill: blue; -fx-underline-color: blue;-fx-focus-color: transparent;");
@@ -86,10 +92,11 @@ public class OrganizationBox {
         });
     }
     public void defaultBox(Person person){
+        logger.log(Level.INFO, "Making default box");
         HBox hbox = new HBox();
         Button button = new Button("Click me");
         addOrganization(button, vbox);
-        Label organizations = new Label("Your oragnizations");
+        Label organizations = new Label("Your organizations");
         hbox.getChildren().addAll(organizations, button);
         styleHeader(organizations);
         vbox.getChildren().add(hbox);

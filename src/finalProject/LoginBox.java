@@ -10,11 +10,11 @@ import javafx.scene.layout.VBox;
 public class LoginBox extends VBox {
     // username field
     Label usernameLabel;
-    TextField usernameField;
+    TextField usernameField = new TextField();
 
     // password field
     Label passwordLabel;
-    TextField passwordField;
+    TextField passwordField = new TextField();
 
     // buttons
     Button loginButton;
@@ -29,10 +29,8 @@ public class LoginBox extends VBox {
     public LoginBox() {
         // username field
         Label usernameLabel = new Label("Enter Username: ");
-        TextField usernameField = new TextField();
         // password field
         Label passwordLabel = new Label("Enter Password: ");
-        TextField passwordField = new TextField();
         // buttons
         loginButton = new Button();
         loginButton.setText("Login");
@@ -50,5 +48,15 @@ public class LoginBox extends VBox {
     }
     public Button getCreateNewAccountButton(){
         return newAccountButton;
+    }
+    public Button getLoginButton() {
+        return loginButton;
+    }
+    public String getUsernameField() {
+        return usernameField.getText();
+    }
+
+    public String getPasswordField() {
+        return passwordField.getText();
     }
 }

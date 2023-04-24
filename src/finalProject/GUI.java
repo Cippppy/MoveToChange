@@ -1,5 +1,8 @@
 package finalProject;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,61 +34,102 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.control.ScrollPane;
 
 public class GUI extends Application {
-    // used for user validation at login (user and pass the same for testing purposes)
-    private String memLog = "member";
-    private String orgLog = "organizer";
-    private String leadLog = "lead";
-    private static Person person = setupPerson();
-    private Role rank = null; 
-    private ObservableList<String> objects = FXCollections.observableArrayList();
+    // // used for user validation at login (user and pass the same for testing purposes)
+    // private String memLog = "member";
+    // private String orgLog = "organizer";
+    // private String leadLog = "lead";
+    // private static Person person = setupPerson();
+    // private Role rank = null; 
+    // private ObservableList<String> objects = FXCollections.observableArrayList();
 
-    // needed for login setup
-    private Button loginButton = new Button("Login");
-    private Button guestButton = new Button("Login as Guest");
-    private TextField usernameField = new TextField();
-    private TextField passwordField = new TextField();
-    private VBox loginLayout = new VBox();
-    private Label errorLabel = new Label();
-    private Stage login = new Stage();
-    private OrganizationBox organizationBox = new OrganizationBox(person);
+    // // needed for login setup
+    // private Button loginButton = new Button("Login");
+    // private Button guestButton = new Button("Login as Guest");
+    // private TextField usernameField = new TextField();
+    // private TextField passwordField = new TextField();
+    // private VBox loginLayout = new VBox();
+    // private Label errorLabel = new Label();
+    // // private Stage login = new Stage();
+    static Person person;
+    BorderPane organizationPane = new BorderPane();
+    Scene organizationScene = new Scene(organizationPane);
+    OrganizationBox organizationBox;
+
+    //Login GUI
+    BorderPane loginPane = new BorderPane();
+    BorderPane createNewAccountPane = new BorderPane();
+    BorderPane programPane = new BorderPane();
+
+    Scene loginScene = new Scene(loginPane);
+    Scene createNewAccountScene = new Scene(createNewAccountPane, 250, 200);
+
+    CreateNewAccountBox createNewAccount = new CreateNewAccountBox();
+    LoginBox login = new LoginBox();
 
     private static VBox leftBox = new VBox();
     private static VBox centerBox = new VBox();
     private static VBox rightBox = new VBox();
 
+    Logger logger = Logger.getLogger(GUI.class.getName());
+
     public static void main(String[] args) {
         launch(args);
     }
     
-    public void start(final Stage stage) throws Exception {
+    public void start(final Stage mainStage) throws Exception {
         try {
             // LOGIN GUI
-            login.initModality(Modality.APPLICATION_MODAL);
-            Scene loginScene = new Scene(loginLayout, 300, 150);
-            login.setScene(loginScene);
-            styleLogin(loginLayout);
-            setupLoginControls(loginLayout);
-            guestButton.setOnAction(e -> {
-                BorderPane mainPane = new BorderPane();
-                styleMainPane(mainPane);
-                setupControls(mainPane);
-                Scene mainScene = new Scene(mainPane);
-                setStage(stage, mainScene);
+            Organization.deserialize();
+            Login.deserialize();
+            setupLogin();
+            // mainStage.initModality(Modality.APPLICATION_MODAL);
+            mainStage.setScene(loginScene);
+            loginPane.setCenter(login);
+            mainStage.setTitle("Login");
+            mainStage.show();
+            login.getCreateNewAccountButton().setOnAction(e -> {
+                mainStage.close();
+                createNewAccountPane.setCenter(createNewAccount);
+                mainStage.setTitle("New Account");
+                mainStage.setScene(createNewAccountScene);
+                mainStage.show();
             });
-            loginButton.setOnAction(e -> {
-                if (isLoginValid()) {
-                    login.close();
-                    // MAIN GUI
+            login.getLoginButton().setOnAction(e -> {
+                person = Login.findLogin(login.getUsernameField(), login.getPasswordField());
+                if(Login.isLoginValid(person)) {
+                    mainStage.close();
+                    organizationBox = new OrganizationBox(person);
+                    // mainStage.setTitle("Organizations");
+                    // mainStage.setScene(organizationScene);
+                    // mainStage.show();
                     BorderPane mainPane = new BorderPane();
                     styleMainPane(mainPane);
                     setupControls(mainPane);
                     Scene mainScene = new Scene(mainPane);
-                    setStage(stage, mainScene);
-                } else {
-                    errorLabel.setText("Invalid username or password. Please try again.");
+                    setStage(mainStage, mainScene);
+                    mainStage.show();
                 }
+
             });
-            login.show();
+            createNewAccount.getCreateAccountButton().setOnAction(e -> {
+                try{
+                    Login.addLogin(createNewAccount.getNameField(), createNewAccount.getUsernameField(), createNewAccount.getPasswordField());
+                } catch (Exception f) {
+                    f.printStackTrace();
+                }
+                mainStage.close();
+                loginPane.setCenter(login);
+                mainStage.setTitle("Login");
+                mainStage.setScene(loginScene);
+                mainStage.show();
+            });
+            createNewAccount.getBackButton().setOnAction(e -> {
+                mainStage.close();
+                loginPane.setCenter(login);
+                mainStage.setTitle("Login");
+                mainStage.setScene(loginScene);
+                mainStage.show();
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -160,31 +204,31 @@ public class GUI extends Application {
             pane.getChildren().add(root);
     }
 
-    private void setupLoginControls(Pane pane) {
-        Label usernameLabel = new Label("Enter Username: ");
-        Label passwordLabel = new Label("Enter Password: ");
-        HBox buttonBox = new HBox(2);
-        buttonBox.getChildren().addAll(loginButton, guestButton);
-        loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
-    }
+    // private void setupLoginControls(Pane pane) {
+    //     Label usernameLabel = new Label("Enter Username: ");
+    //     Label passwordLabel = new Label("Enter Password: ");
+    //     HBox buttonBox = new HBox(2);
+    //     buttonBox.getChildren().addAll(loginButton, guestButton);
+    //     loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
+    // }
 
-    private boolean isLoginValid() {
-        boolean valid = false;
-        if (usernameField.getText().equals(memLog) && passwordField.getText().equals(memLog)) {
-            login.close();
-            rank = new Member();
-            valid = true;
-        } else if (usernameField.getText().equals(orgLog) && passwordField.getText().equals(orgLog)) {
-            login.close();
-            rank = new Organizer();
-            valid = true;
-        } else if (usernameField.getText().equals(leadLog) && passwordField.getText().equals(leadLog)) {
-            login.close();
-            rank = new President();
-            valid = true;
-        }
-        return valid;
-    }
+    // private boolean isLoginValid() {
+    //     boolean valid = false;
+    //     if (usernameField.getText().equals(memLog) && passwordField.getText().equals(memLog)) {
+    //         login.close();
+    //         rank = new Member();
+    //         valid = true;
+    //     } else if (usernameField.getText().equals(orgLog) && passwordField.getText().equals(orgLog)) {
+    //         login.close();
+    //         rank = new Organizer();
+    //         valid = true;
+    //     } else if (usernameField.getText().equals(leadLog) && passwordField.getText().equals(leadLog)) {
+    //         login.close();
+    //         rank = new President();
+    //         valid = true;
+    //     }
+    //     return valid;
+    // }
 
     private void addOrganization(Button button){
     button.setOnAction(new EventHandler<ActionEvent>() {
@@ -249,5 +293,19 @@ public class GUI extends Application {
     }
     public static Person getPerson(){
         return person;
+    }
+
+    private static void setupLogin() {
+        Login.addLogin("Po", "Po", "Po");
+        Person testPerson = Login.findLogin("Po", "Po");
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+        testPerson.addOrganization(org1, new President());
+    }
+
+    @Override
+    public void stop() {
+        // executed when the application shuts down
+        Organization.serialize();
+        Login.serialize();
     }
 }

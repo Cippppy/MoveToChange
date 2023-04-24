@@ -13,12 +13,12 @@ import javafx.scene.layout.VBox;
 public class CreateNewAccountBox extends VBox {
     // username field
     Label usernameLabel;
-    TextField usernameField;
+    TextField usernameField = new TextField();
 
     // password field
     Label passwordLabel;
     TextField nameField = new TextField();
-    TextField passwordField;
+    TextField passwordField = new TextField();
 
     // buttons
     Button createAccountButton;
@@ -34,10 +34,8 @@ public class CreateNewAccountBox extends VBox {
         Label nameLabel = new Label("Enter Name: ");
         // username field
         usernameLabel = new Label("Enter Username: ");
-        usernameField = new TextField();
         // password field
         passwordLabel = new Label("Enter Password: ");
-        passwordField = new TextField();
         // buttons
         createAccountButton = new Button();
         createAccountButton.setText("Create Account");

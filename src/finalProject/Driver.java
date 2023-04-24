@@ -1,69 +1,57 @@
 package finalProject;
 
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.text.FontWeight; 
+import javafx.scene.text.Font; 
+import javafx.scene.text.TextAlignment; 
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.geometry.Insets;
+import javafx.scene.control.Separator;
+import javafx.geometry.Orientation;
+
 public class Driver {
     public static void main(String[] args) throws Exception {
 
-        // // Organization constructors
-        // Organization animals = new Organization("PETA", Purpose.ANIMAL_RIGHTS, 3, 9);
-        // Organization nullOrganization = new Organization(null, null, 0, 0);
+        // Person person = new Person("abe", "vbucks");
+        // Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+        // Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
+        // Organization org3 = new Organization("apes", Purpose.VETERANS, 1, 1);
+        // Organization org4 = new Organization("ALBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
+        // Organization org5 = new Organization("BLBERT", Purpose.ANIMAL_RIGHTS, 1, 1);
+        // Organization org6 = new Organization("Chris rocks", Purpose.VETERANS, 1, 1);
 
-        // // Branch constructors
-        // // Branch animalBranch = new Branch("Dog House", 3, animals);
-        // // Branch nullBranch = new Branch(null, null);
-        // // Branch testBranch = new Branch("Test", nullOrganization);
-
-        // // Event constructors
-        // Event animalEvent = new Event("Animals", "Animals", "Cat House");
-        // Speech animalSpeech = new Speech("Animals", "Animals", "Cat House");
-        // March animalMarch = new March("Animals", "Animals", "Cat House");
-        // Meeting animalMeeting = new Meeting("Animals", "Animals", "Cat House");
-
-        // Event greenEnergyEvent = new Event("Green Energy", "Animals", "Power Grid");
-        // // Event nullEvent = new Event(null, null, null);
-
-        // // // People Constuctors
-        // // President animalPresident = new President("President Lizard", animalBranch);
-        // // Organizer animalOrganizer = new Organizer("Rex", animalBranch);
-        // // Recruiter animalRecruiter = new Recruiter("Slinky", animalBranch);
-        // // Member animalMember = new Member("Air Bud");
-        // // Member animalTestMember = new Member("Boot");
-        // // animalBranch.addMember(animalTestMember);
-
-        // // animalOrganizer.addEvent(animalEvent);
-        // // animalBranch.addEvent(null);
-        // // animalBranch.addEvent(animalEvent);
-        // // animalOrganizer.planEvent("Dog Naming", "Shelter");
-        // // animalOrganizer.addAttendee(animalEvent, animalMember);
-        // // animalOrganizer.addAttendee(greenEnergyEvent, animalMember);
-        // // animalOrganizer.removeAttendee(animalEvent, animalMember);
-        // // animalOrganizer.removeAttendee(greenEnergyEvent, animalMember);
-        // // animalOrganizer.removeAttendee(animalEvent, animalMember);
-        // // animalOrganizer.addAttendee(animalOrganizer.getEvents().get(0), animalMember);
-        // // animalPresident.changePosition(animals, animalTestMember, "Organizer");
-        // // System.out.println(animalBranch.getMembers().contains(animalTestMember));
-        // // animalPresident.kickMember(animals,animalTestMember);
-        // // System.out.println(animalBranch.getMembers().contains(animalTestMember));
-        // // animalBranch.addMember(animalTestMember);
-        // // animalBranch.addMember(animalMember);
-
-        // // animalBranch.saveMembers();
-        // // animalBranch.setMembers("testMembers.txt", 0);
-        // // System.out.println(animalBranch.getMembers());
-
-        // // animals.saveBranches();
-        // // animals.setBranches("testBranches.txt", 0);
-        // // System.out.println(animals.getBranches());
-        // // animalBranch.removeMember(null);
-        // Person person = new Person("person", "user", "pass");
-        // System.out.println(person.getUsernameAndPassword());
-
-        // Login login = new Login("Credentials.txt");
-        // login.setCredentials(0);
-        // login.addLogin(person);
-        // login.saveCredentials();
+        // person.addOrganization(org1, new President());
+        // person.addOrganization(org2, new President());
+        // person.addOrganization(org3, new President());
+        // person.addOrganization(org4, new President());
+        // person.addOrganization(org5, new President());
+        // person.addOrganization(org6, new President());
         // Organization.serialize();
-        Login login = new Login();
-        Login.serialize();
-        Login.deserialize();
+
+        // Login.addLogin("Po", "Po", "Po");
+        // Login.addLogin("Bob", "The", "Builder");
+        // Login.serialize();
+        System.out.println(Login.deserialize());
     }
 }

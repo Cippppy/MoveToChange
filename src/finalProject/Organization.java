@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,7 +38,10 @@ import javafx.geometry.Orientation;
  * @author Christian Cipolletta
  * @version 04/10/2023
  */
-public class Organization {
+public class Organization implements Serializable {
+
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The name of the organization **/
     private String name;
@@ -52,10 +56,10 @@ public class Organization {
     private int totalMembers;
 
     /** The respective button for the organization **/
-    private Button orgButton = new Button();
+    transient private Button orgButton = new Button();
 
     /** The dashboard of the organization **/
-    private VBox orgDashBoard = new VBox(3);
+    transient private VBox orgDashBoard = new VBox(3);
 
     /** A list of all the members of the organization **/
     private List<Person> members = new ArrayList<Person>();
