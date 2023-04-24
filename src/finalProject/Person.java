@@ -24,7 +24,7 @@ public class Person implements Comparable<Person>, Serializable {
     transient private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
-    transient private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+    private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
 
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
