@@ -2,6 +2,7 @@ package finalProject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,16 +12,19 @@ import java.util.function.Predicate;
  * @author Jimmy McCarry
  * @version 03/27/2023
  */
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, Serializable {
+
+    /** the version ID for serializing **/
+	private static final long serialVersionUID = -8274170900300199913L; // v1 UID
 
     /** The name of the person **/
     private String name;
 
     /** Hashmap of the person's organizations and the roles they hold **/
-    private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
+    transient private HashMap<Organization, Role> organizationsAndRoles; // Holds the organzations with their roles
 
     /** An entry of username and password of the person **/
-    private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
+    transient private SimpleImmutableEntry<String, String> usernameAndPassword; // The person's user name and password
 
     /** Logger for the person class **/
     public static Logger logger = Logger.getLogger(Person.class.getName());
