@@ -78,7 +78,7 @@ public class OrganizationBox {
             Organization organization = new Organization(name, purpose, 1, 0);
             //Organizations.addOrganization(organization);
             person.addOrganization(organization, new President());
-            Organizations.addOrganization(organization);
+            Organization.addOrganization(organization);
             System.out.println(organization.toString());
             vbox.getChildren().clear();
             defaultBox(person);

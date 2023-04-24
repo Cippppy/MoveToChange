@@ -39,6 +39,11 @@ public class GUI extends Application {
     private Role rank = null; 
     private ObservableList<String> objects = FXCollections.observableArrayList();
 
+    private static Organization trees = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1);
+    private static Organization vetRights = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1);
+    private static Organization apes = new Organization("apes", Purpose.VETERANS, 1, 1);
+    private static Organization arnold = new Organization("ARNOLD", Purpose.VETERANS, 1, 1);
+
     // needed for login setup
     private Button loginButton = new Button("Login");
     private Button guestButton = new Button("Login as Guest");
@@ -66,7 +71,6 @@ public class GUI extends Application {
             styleLogin(loginLayout);
             setupLoginControls(loginLayout);
             guestButton.setOnAction(e -> {
-                rank = new NonMember();
                 BorderPane mainPane = new BorderPane();
                 styleMainPane(mainPane);
                 setupControls(mainPane);
@@ -126,40 +130,29 @@ public class GUI extends Application {
     }
 
     private void setupControls(Pane pane) {
-        Text test = new Text("test");
-     /*    if (rank.equals(new Member())) {
-            test.setText("I am a member.");
-        } else if (rank.equals(new Organizer())) {
-            test.setText("I am an organizer.");
-        } else if (rank.equals(new President())) {
-            test.setText("I am a leader.");
-        } else {
-            test.setText("I am a guest.");
-        }
-        */
         Button button = new Button("Create Organization");
         addOrganization(button);
-        
         
         VBox buttontest = new VBox(button);
         stylePanels(buttontest, Pos.TOP_LEFT);
         
-            leftBox = organizationBox.getVBox();
-            stylePanels(leftBox, Pos.TOP_LEFT);
+        leftBox = organizationBox.getVBox();
+        stylePanels(leftBox, Pos.TOP_LEFT);
+    
+        VBox test = new VBox();
+        centerBox.getChildren().add(test);
+        styleCenter(centerBox);
+    
+        RecommendationBox.setupBox();
+        //VBox rightPanel = recommendationBox;
+        //   RecommendationBox.setupBox();
+        stylePanels(rightBox, Pos.TOP_RIGHT);
         
-            centerBox.getChildren().add(test);
-            styleCenter(centerBox);
-        
-            RecommendationBox.setupBox();
-            //VBox rightPanel = recommendationBox;
-         //   RecommendationBox.setupBox();
-            stylePanels(rightBox, Pos.TOP_RIGHT);
-            
-            HBox root = new HBox(3, leftBox, centerBox, rightBox);
-        
-            pane.getChildren().add(root);
+        HBox root = new HBox(3, leftBox, centerBox, rightBox);
+    
+        pane.getChildren().add(root);
     }
-
+    
     private void setupLoginControls(Pane pane) {
         Label usernameLabel = new Label("Enter Username: ");
         Label passwordLabel = new Label("Enter Password: ");
@@ -222,14 +215,14 @@ public class GUI extends Application {
 
     private static Person setupPerson(){
         person = new Person("abe", "John42", "vbucks");
-        person.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1), new President());
-        person.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1), new President());
-        person.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1), new President());
-        person.addOrganization(new Organization("ALBERT", Purpose.VETERANS, 1, 1), new President());
-        Organization.addOrganization(new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1, 1));
-        Organization.addOrganization(new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1, 1));
-        Organization.addOrganization(new Organization("apes", Purpose.VETERANS, 1, 1));
-        Organization.addOrganization(new Organization("ARNOLD", Purpose.VETERANS, 1, 1));
+        Recruiter rec = new Recruiter();
+        President pres = new President();
+        Member mem = new Member();
+        Organizer org = new Organizer();
+        person.setRole(trees, rec);
+        person.setRole(arnold, pres);
+        person.setRole(vetRights, mem);
+        person.setRole(apes, org);
         return person;
     }
 
