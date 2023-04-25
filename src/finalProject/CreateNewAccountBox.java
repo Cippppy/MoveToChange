@@ -10,14 +10,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Creates a VBox to create new accounts for the GUI
+ */
 public class CreateNewAccountBox extends VBox {
+
+    // name field
+    Label nameLabel;
+    TextField nameField = new TextField();
+
     // username field
     Label usernameLabel;
     TextField usernameField = new TextField();
 
     // password field
     Label passwordLabel;
-    TextField nameField = new TextField();
     TextField passwordField = new TextField();
 
     // buttons
@@ -27,11 +34,15 @@ public class CreateNewAccountBox extends VBox {
     // for printing incorrect username or password
     Label errorLabel;
 
+    /** Logger for the create new account box **/
     transient Logger logger = Logger.getLogger(CreateNewAccountBox.class.getName());
 
+    /**
+     * Constructor
+     */
     public CreateNewAccountBox() {
         // name field
-        Label nameLabel = new Label("Enter Name: ");
+        nameLabel = new Label("Enter Name: ");
         // username field
         usernameLabel = new Label("Enter Username: ");
         // password field
@@ -56,22 +67,42 @@ public class CreateNewAccountBox extends VBox {
        // });
     }
 
+    /**
+     * Return the back button
+     * @return The back button
+     */
     public Button getBackButton() {
         return backButton;
     }
 
+    /**
+     * Return the create account button
+     * @return The create account button
+     */
     public Button getCreateAccountButton() {
         return createAccountButton;
     }
 
+    /**
+     * Return the get name field as a String
+     * @return The name field as a string
+     */
     public String getNameField() {
         return nameField.getText();
     }
 
+    /**
+     * Return the get username field as a String
+     * @return The username field as a string
+     */
     public String getUsernameField() {
         return usernameField.getText();
     }
 
+    /**
+     * Return the get password field as a string
+     * @return The password field as a string
+     */
     public String getPasswordField() {
         return passwordField.getText();
     }

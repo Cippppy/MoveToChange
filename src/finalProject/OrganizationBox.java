@@ -152,14 +152,17 @@ public class OrganizationBox /* extends VBox */ {
     public static void roleLabels(Organization organization, HBox hbox){
         if(GUI.getPerson().getRole(organization) instanceof President || GUI.getPerson().getRole(organization) instanceof Organizer){
             Button addEvent = new Button("Add Event");
+            addEvent.setWrapText(true);
             addEvent.setOnAction(e -> {
                 addEvent(organization);
             });
             Button addAnnoucement = new Button("Add Announcement");
+            addAnnoucement.setWrapText(true);
             addAnnoucement.setOnAction(e -> {
                 addAnnoucement(organization);
             });
             Button saveMems = new Button("Save Members");
+            saveMems.setWrapText(true);
             saveMems.setOnAction(e -> {
                 saveMembers(organization);
             });

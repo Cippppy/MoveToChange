@@ -9,6 +9,9 @@ package finalProject;
  */
 public class Member extends Role {
     
+    /**
+     * Constructor
+     */
     public Member() {
         
     }

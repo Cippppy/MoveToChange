@@ -1,8 +1,13 @@
 package finalProject;
 
+/**
+ * Interface that allows leaders to lead
+ */
 public interface Lead {
     
-    // TODO - Figure out what lead means
+    /**
+     * Leads
+     */
     public default void lead() {
 
     }

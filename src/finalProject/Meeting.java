@@ -34,7 +34,9 @@ public class Meeting extends Event {
         super(reason, text, location);
     }
 
-    // TODO - Figure out what meet does
+    /**
+     * Meets
+     */
     public void meet() {
 
     }

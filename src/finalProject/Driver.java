@@ -30,6 +30,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Separator;
 import javafx.geometry.Orientation;
 
+/**
+ * Used for testing purposes
+ */
 public class Driver {
     public static void main(String[] args) throws Exception {
 

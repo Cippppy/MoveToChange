@@ -1,8 +1,13 @@
 package finalProject;
 
+/**
+ * Allows an event to be participated
+ */
 public interface Participable {
     
-    // TODO - Figure out what this does
+    /**
+     * Participates
+     */
     public default void participate() {
 
     }

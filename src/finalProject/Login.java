@@ -17,16 +17,18 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+/**
+ * Helper class to help hold the logins
+ */
 public class Login {
     
-    /** Tree set of people who use the program **/
-   // TreeSet<Person> credentials;
-
+    /** The credentials for all users **/
     private static TreeMap<String, Person> credentials = new TreeMap<String, Person>();
 
     /** Logger for the login class **/
     transient private static Logger logger = Logger.getLogger(Login.class.getName());
 
+    /** File name where the credenitals are stored **/
     private static final String FILE_NAME = "credentials.ser";
 
     /**
@@ -54,6 +56,12 @@ public class Login {
         }
     }
 
+    /**
+     * Finds the login of a specifc username and password
+     * @param username The username of the person to find
+     * @param password The password of the person to find
+     * @return The person found
+     */
     public static Person findLogin(String username, String password) {
         Person person = null;
         if (credentials.containsKey(username.toUpperCase())) {
@@ -66,6 +74,11 @@ public class Login {
         return person;
     }
 
+    /**
+     * Checks if the person is inside of the credentials
+     * @param person The person to check
+     * @return True or False
+     */
     public static boolean isLoginValid(Person person) {
         boolean valid = false;
         if (credentials.values().contains(person)) {
@@ -75,6 +88,9 @@ public class Login {
         return valid;
     }
 
+    /**
+     * Serializes the credentials tree map
+     */
     public static void serialize() {
 
 		try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
@@ -89,12 +105,8 @@ public class Login {
 	}
 
     /**
-	 * Deserializes the instance of the Statistic stored in a file
-     * @param fileName The name of the file to be read
-	 * @return The deserialized StateStatistic.
-	 * @throws StatisticDataNotFoundException
-     * @author Christian Cipolletta
-	 */
+     * Deserializes the credentials tree map
+     */
 	public static void deserialize() {
         if(credentials == null) {
             credentials = new TreeMap<String, Person>();

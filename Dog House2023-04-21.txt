@@ -1,4 +1,0 @@
-Member Name, Member Role
-Boot, MEMBER
-Boot, MEMBER
-Air Bud, MEMBER

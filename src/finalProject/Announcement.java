@@ -1,10 +1,7 @@
 package finalProject;
 
-import java.io.Serializable;
-import javax.crypto.SecretKey;
-
 /**
- * 
+ * Class to create announcements for the organization
  * 
  * @author Jimmy McCarry
  * @version 03/27/2023

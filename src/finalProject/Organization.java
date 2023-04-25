@@ -73,10 +73,10 @@ public class Organization implements Serializable {
     /** Logger for the organization classes **/
     public transient static Logger logger = Logger.getLogger(Organization.class.getName());
 
-    /**  **/
+    /** List of the organizations in the application **/
     public static List<Organization> allOrganizations = new ArrayList<Organization>();
 
-    /** **/
+    /** The file name that holds all the organizations **/
     private static final String FILE_NAME = "organizations.ser";
 
         /**Used to set file write mode to overwrite **/
@@ -87,7 +87,6 @@ public class Organization implements Serializable {
      * 
      * @param name The name of the organization
      * @param purpose The purpose of the organization
-     * @param numOfBranches The number of branches the organization has
      * @param totalMembers The number of members the organization has
      */
     public Organization(String name, Purpose purpose, int totalMembers) {
@@ -111,6 +110,12 @@ public class Organization implements Serializable {
         }
     }
 
+    /**
+     * Overloaded constructor
+     * 
+     * @param name The name of the organization
+     * @param purpose The purpose of the organization
+     */
     public Organization(String name, Purpose purpose) {
         if(name != null && purpose != null)
         {
@@ -249,10 +254,8 @@ public class Organization implements Serializable {
     }
 
     /**
-	 * Serializes the instance of the Statistic to a file
-	 * @param fileName The name of the file to be saved to
-	 * @author Christian Cipolletta
-	 */
+     * Serializes all the organizations
+     */
 	public static void serialize() {
 
 		try (FileOutputStream fileOut = new FileOutputStream(FILE_NAME)) {
@@ -266,13 +269,9 @@ public class Organization implements Serializable {
 		}
 	}
 
-	/**
-	 * Deserializes the instance of the Statistic stored in a file
-     * @param fileName The name of the file to be read
-	 * @return The deserialized StateStatistic.
-	 * @throws StatisticDataNotFoundException
-     * @author Christian Cipolletta
-	 */
+    /**
+     * Deserializes all the organizations
+     */
 	public static void deserialize() {
         if(allOrganizations == null) {
             allOrganizations = new ArrayList<Organization>();
@@ -296,6 +295,10 @@ public class Organization implements Serializable {
 		} 
 	}
 
+    /**
+     * Sets all the organizations 
+     * @param allOrgs All the organizations to set
+     */
     public static void setAllOrganizations(List<Organization> allOrgs) {
         if(allOrganizations != null && !allOrganizations.isEmpty()) {
             allOrganizations = allOrgs;
@@ -305,6 +308,10 @@ public class Organization implements Serializable {
         }
     }
 
+    /**
+     * Returns all the organizations
+     * @return All the organizations
+     */
     public static List<Organization> getAllOrganizations() {
         return allOrganizations;
     }
@@ -324,6 +331,8 @@ public class Organization implements Serializable {
         Label orgName = new Label(name);
         orgName.setFont(Font.font("arial", FontWeight.BOLD, 48));
         orgName.setTextAlignment(TextAlignment.LEFT);
+        orgName.setWrapText(true);
+        orgName.setMinWidth(100);
         Label orgPurposeLabel = new Label("PURPOSE: ");
         orgPurposeLabel.setFont(Font.font("arial", FontWeight.BOLD, 15));
         Label orgPurpose = new Label(purpose.toString());
@@ -333,6 +342,7 @@ public class Organization implements Serializable {
         orgInfo.setAlignment(Pos.TOP_LEFT);
         orgInfo.setMinWidth(550);
         SerializableButton showRoster = new SerializableButton("Show Roster");
+        showRoster.setWrapText(true);
         HBox interactionTopRow = new HBox();
     /*     if(GUI.getPerson().getOrganizationsAndRoles().containsKey(this)){
             Button join = new Button();
@@ -361,23 +371,24 @@ public class Organization implements Serializable {
         VBox interactionBox = new VBox(interactionTopRow);
         interactionBox.setPadding(new Insets(20));
         interactionBox.setAlignment(Pos.CENTER_RIGHT);
-        interactionBox.setMinWidth(470);
+        interactionBox.setMinWidth(300);
 
         HBox header = new HBox(2, orgInfo, interactionBox);
-        header.setMinWidth(1020);
-        header.setMinHeight(1020);
+        header.setMinWidth(100);
+        header.setMinHeight(200);
 
         Separator sep = new Separator();
-        sep.setMinWidth(1020);
-        sep.setMinHeight(100);
+        sep.setMinWidth(50);
+        sep.setMinHeight(1020);
         sep.setHalignment(HPos.CENTER);
 
         HBox bottom = new HBox(2);
-        bottom.setMinWidth(1020);
+        bottom.setMinWidth(400);
         bottom.setMaxWidth(1020);
 
         Label postsLabel = new Label("Announcements & Events");
-        postsLabel.setMinSize(550, 1020);
+        postsLabel.setWrapText(true);
+        postsLabel.setMinSize(300, 400);
         postsLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
         postsLabel.setPadding(new Insets(100,0,0,0));
         postsLabel.setAlignment(Pos.TOP_LEFT);
@@ -400,6 +411,11 @@ public class Organization implements Serializable {
         return orgDashBoard;
     }
 
+    /**
+     * Method to display the posts of the organization
+     * @param post The post to show
+     * @param box The box to show it in
+     */
     public static void displayPost(Post post, VBox box){
         if(post instanceof Event) {
             Event event = (Event) post;
@@ -424,6 +440,10 @@ public class Organization implements Serializable {
         }
     }
 
+    /**
+     * Uses a button to make a person to leave an organization
+     * @param leaveOrg The button
+     */
     private void leaveOrg(Button leaveOrg){
             leaveOrg.setText("Left");
             leaveOrg.setDisable(true);
@@ -432,6 +452,10 @@ public class Organization implements Serializable {
             GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox()); 
     }
 
+    /**
+     * Uses a button to make a person to join an organization
+     * @param joinOrg The button
+     */
     private void joinOrg(SerializableButton joinOrg){
         joinOrg.setText("Joined");
         joinOrg.setDisable(true);
@@ -440,6 +464,10 @@ public class Organization implements Serializable {
         GUI.getLeftBox().getChildren().add(new OrganizationBox(GUI.getPerson()).getVBox());
     }
 
+    /**
+     * Adds a post to the organization
+     * @param post The post to add
+     */
     public void addPost(Post post) {
         if(post != null) {
             posts.add(post);
@@ -449,6 +477,10 @@ public class Organization implements Serializable {
         }
     }
 
+    /**
+     * Removes a post from the organization
+     * @param post The post to remove
+     */
     public void removePost(Post post) {
         if(post != null) {
             posts.remove(post);
@@ -457,19 +489,41 @@ public class Organization implements Serializable {
             logger.log(Level.WARNING, "The post you are trying to remove is null.");
         }
     }
+
+    /**
+     * Adds an organization to all organizations
+     * @param organization The organization to add
+     */
     public static void addOrganization(Organization organization){
         if(allOrganizations == null) {
             allOrganizations = new ArrayList<Organization>();
         }
         allOrganizations.add(organization);
     }
+
+    /**
+     * Adds an event to the organization
+     * @param purpose The purpose of the event
+     * @param text The text of the event
+     * @param location The location of the event
+     */
     public void addEvent(String purpose, String text, String location){
         posts.add(new Event(purpose, text, location));
     }
+
+    /**
+     * Adds an announcement to an organization
+     * @param purpose The purpose for the announcement
+     * @param text The text of the announcement
+     */
     public void addAnnoucement(String purpose, String text) {
         posts.add(new Announcement(purpose, text));
     }
 
+    /**
+     * Saves members to a .txt file by their role
+     * @param role The role to filter by
+     */
     public void saveMembersByRole(Role role) {
         String filename = name + role.toString() + ".txt";
         List<Person> filteredMembers = members.parallelStream()
@@ -493,8 +547,8 @@ public class Organization implements Serializable {
     }
 
     /**
-     * Save the members of the branch to a .txt file
-     * Autogenerates the name as the branch location and the local date now!
+     * Save the members of the organization to a .txt file
+     * Autogenerates the name as the organization name
      */
     public void saveMembers() {
         String fileName = name + ".txt";;
@@ -514,6 +568,9 @@ public class Organization implements Serializable {
     }
 
     private String names;
+    /**
+     * Method to show the members of an organization
+     */
     public void showMembers() {
         GUI.getCenterBox().getChildren().clear();
         Text text = new Text();
@@ -523,6 +580,7 @@ public class Organization implements Serializable {
             names = names.concat("\n" + memberLabel);
         });
         Button back = new Button("Back");
+        back.setWrapText(true);
         back.setOnAction(e -> {
             GUI.organizationClicked(this);
         });
@@ -534,6 +592,9 @@ public class Organization implements Serializable {
     }
 
     private String postText;
+    /**
+     * Method to show the posts of an organization
+     */
     public void showPosts() {
         Text text = new Text();
         postText = "";
@@ -542,6 +603,7 @@ public class Organization implements Serializable {
             names = names.concat("\n" + memberLabel);
         });
         Button back = new Button("Back");
+        back.setWrapText(true);
         back.setOnAction(e -> {
             GUI.organizationClicked(this);
         });

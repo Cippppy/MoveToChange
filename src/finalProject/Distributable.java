@@ -1,8 +1,13 @@
 package finalProject;
 
+/**
+ * Lets announcements distribute
+ */
 public interface Distributable {
     
-    // TODO - Figure out what distribute means
+    /**
+     * Distributes
+     */
     public default void distribute() {
 
     }

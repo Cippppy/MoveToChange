@@ -35,26 +35,12 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.control.ScrollPane;
 
 public class GUI extends Application {
-    // // used for user validation at login (user and pass the same for testing purposes)
-    // private String memLog = "member";
-    // private String orgLog = "organizer";
-    // private String leadLog = "lead";
-    // private static Person person = setupPerson();
-    // private Role rank = null; 
-    // private ObservableList<String> objects = FXCollections.observableArrayList();
 
-    // // needed for login setup
-    // private Button loginButton = new Button("Login");
-    // private Button guestButton = new Button("Login as Guest");
-    // private TextField usernameField = new TextField();
-    // private TextField passwordField = new TextField();
-    // private VBox loginLayout = new VBox();
-    // private Label errorLabel = new Label();
-    // // private Stage login = new Stage();
     static Person person;
     BorderPane organizationPane = new BorderPane();
     Scene organizationScene = new Scene(organizationPane);
     OrganizationBox organizationBox;
+    RecommendationBox recommendationBox = new RecommendationBox();
 
     //Login GUI
     BorderPane loginPane = new BorderPane();
@@ -67,22 +53,28 @@ public class GUI extends Application {
     CreateNewAccountBox createNewAccount = new CreateNewAccountBox();
     LoginBox login = new LoginBox();
 
+    /** Left VBox of the GUI **/
     private static VBox leftBox = new VBox();
+
+    /** Center VBox of the GUI **/
     private static VBox centerBox = new VBox();
+
+    /** Right VBox of the GUI **/
     private static VBox rightBox = new VBox();
 
+    /** Logger for the GUI class **/
     transient Logger logger = Logger.getLogger(GUI.class.getName());
 
     public static void main(String[] args) {
         launch(args);
     }
     
+    @Override
     public void start(final Stage mainStage) throws Exception {
         try {
             // LOGIN GUI
             Organization.deserialize();
             Login.deserialize();
-            setupLogin();
             // setupLogin();
             // mainStage.initModality(Modality.APPLICATION_MODAL);
             mainStage.setScene(loginScene);
@@ -101,13 +93,10 @@ public class GUI extends Application {
                 if(Login.isLoginValid(person)) {
                     mainStage.close();
                     organizationBox = new OrganizationBox(person);
-                    // mainStage.setTitle("Organizations");
-                    // mainStage.setScene(organizationScene);
-                    // mainStage.show();
                     BorderPane mainPane = new BorderPane();
                     styleMainPane(mainPane);
                     setupControls(mainPane);
-                    Scene mainScene = new Scene(mainPane, 700, 700);
+                    Scene mainScene = new Scene(mainPane, 1000, 800);
                     setStage(mainStage, mainScene);
                     mainStage.show();
                 }
@@ -137,33 +126,52 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * Sets the stage of the GUI    
+     * @param stage The stage to set
+     * @param scene The scene to set
+     */
     private void setStage(Stage stage, Scene scene) {
         stage.setTitle("Move To Change");
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * Style of the main pane
+     * @param pane The main pane
+     */
     private void styleMainPane(Pane pane) {
         pane.setStyle("-fx-background-color: #ffffff;");
     }
 
+    /**
+     * Method to style other panels
+     * @param panel The panel to style
+     * @param pos The position of the panel
+     */
     private void stylePanels(VBox panel, Pos pos) {
-        panel.setMinWidth(450);
+        panel.setMinWidth(300);
+        panel.setMaxWidth(2000);
         panel.setMinHeight(1080);
         panel.setAlignment(pos);
         panel.setStyle("-fx-background-color: #e6e6e6;");
     }
 
+    /**
+     * Method to style the center VBox
+     * @param center The VBox in the center
+     */
     private void styleCenter(VBox center) {
-        center.setMinWidth(1020);
+        center.setMinWidth(800);
         center.setPrefWidth(1020);
         center.setAlignment(Pos.BASELINE_CENTER);
     }
 
-    private void styleLogin(Pane pane) {
-        pane.setStyle("-fx-padding: 20px;");
-    }
-
+    /**
+     * Sets the organization that was clicked on
+     * @param organization The organization the person clicked on
+     */
     public static void organizationClicked(Organization organization){
         GUI.centerBox.getChildren().clear();
         GUI.centerBox.getChildren().add(organization.displayDash());
@@ -171,6 +179,10 @@ public class GUI extends Application {
         GUI.leftBox.getChildren().add(new OrganizationBox(person).getVBox());
     }
 
+    /**
+     * Sets up the controls of the GUI
+     * @param pane The pane to put the controls in
+     */
     private void setupControls(Pane pane) {
         Button button = new Button("Create Organization");
         addOrganization(button);
@@ -189,43 +201,23 @@ public class GUI extends Application {
     
         centerBox.getChildren().add(startText);
         styleCenter(centerBox);
+
+        rightBox = recommendationBox;
+        rightBox.setMinWidth(1200);
+        rightBox.setAlignment(Pos.TOP_LEFT);
     
         RecommendationBox.setupBox();
-        //VBox rightPanel = recommendationBox;
-        //   RecommendationBox.setupBox();
         stylePanels(rightBox, Pos.TOP_RIGHT);
         
         HBox root = new HBox(3, leftBox, centerBox, rightBox);
     
         pane.getChildren().add(root);
-}
+    }
 
-    // private void setupLoginControls(Pane pane) {
-    //     Label usernameLabel = new Label("Enter Username: ");
-    //     Label passwordLabel = new Label("Enter Password: ");
-    //     HBox buttonBox = new HBox(2);
-    //     buttonBox.getChildren().addAll(loginButton, guestButton);
-    //     loginLayout.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, buttonBox, errorLabel);
-    // }
-
-    // private boolean isLoginValid() {
-    //     boolean valid = false;
-    //     if (usernameField.getText().equals(memLog) && passwordField.getText().equals(memLog)) {
-    //         login.close();
-    //         rank = new Member();
-    //         valid = true;
-    //     } else if (usernameField.getText().equals(orgLog) && passwordField.getText().equals(orgLog)) {
-    //         login.close();
-    //         rank = new Organizer();
-    //         valid = true;
-    //     } else if (usernameField.getText().equals(leadLog) && passwordField.getText().equals(leadLog)) {
-    //         login.close();
-    //         rank = new President();
-    //         valid = true;
-    //     }
-    //     return valid;
-    // }
-
+    /**
+     * Method to create the add organization function to the GUI
+     * @param button The button that adds organizations
+     */
     private void addOrganization(Button button){
     button.setOnAction(new EventHandler<ActionEvent>() {
     @Override
@@ -249,34 +241,59 @@ public class GUI extends Application {
             String purposeValue = dropdown.getValue().toString();
             Purpose purpose = Enum.valueOf(Purpose.class, purposeValue);
             Organization organization = new Organization(name, purpose, 0);
-            //Organizations.addOrganization(organization);
             System.out.println(organization.toString());
         });
         root.getChildren().addAll(usernameLabel, usernameField, dropdownLabel, dropdown, acceptButton);
         Scene scene = new Scene(root, 300, 250);
         newStage.setScene(scene);
         newStage.show();
-     }
- });
+    }
+    });
     }
 
+    /**
+     * Return the left box of the gui
+     * @return The left box
+     */
     public static VBox getLeftBox(){
         return leftBox;
     }
+
+    /**
+     * Return the center box of the gui
+     * @return The center box
+     */
     public static VBox getCenterBox(){
         return centerBox;
     }
+    
+    /**
+     * Return the right box of the gui
+     * @return The right box
+     */
     public static VBox getRightBox(){
         return rightBox;
     }
+
+    /**
+     * Return the person of the gui
+     * @return The person of the gui
+     */
     public static Person getPerson(){
         return person;
     }
 
+    /**
+     * Method that setups basic credentials and organizations if needed
+     */
     private static void setupLogin() {
+        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
+        Organization org2 = new Organization("veterans rights! They are needed! GO Veterans wooooo", Purpose.VETERANS, 1);
+        Organization org3 = new Organization("apes", Purpose.VETERANS, 1);
+        Organization org4 = new Organization("ALBERT", Purpose.VETERANS, 1);
         Login.addLogin("Po", "Po", "Po");
         Person testPerson = Login.findLogin("Po", "Po");
-        Organization org1 = new Organization("Protect the trees", Purpose.ENVIRONMENTALISM, 1);
+
         testPerson.addOrganization(org1, new President());
 
         Login.addLogin("Bob", "Bob", "Bob");

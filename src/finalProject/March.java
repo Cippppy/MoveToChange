@@ -31,7 +31,9 @@ public class March extends Event {
         super(reason, text, location);
     }
 
-    // TODO - Figure out what march means
+    /**
+     * Marches
+     */
     public void march() {
 
     }

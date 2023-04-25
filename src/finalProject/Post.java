@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Creates Posts
+ */
 public abstract class Post implements Serializable {
 
     /** the version ID for serializing **/

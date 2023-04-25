@@ -12,7 +12,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RecommendationBox extends VBox{
+/**
+ * Class to setup the recommendation box for the GUI
+ */
+public class RecommendationBox extends VBox {
     
     private static Label recTitle = new Label("Recommended Organizations");
     private static VBox header = new VBox(recTitle);
@@ -21,8 +24,12 @@ public class RecommendationBox extends VBox{
     private VBox box = new VBox();
     private static OrganizationBox organizationBox;
 
+    /**
+     * Constructor
+     */
     public RecommendationBox(){
- /*        ComboBox<String> dropdown = new ComboBox<>();
+        recTitle.setWrapText(true);
+         ComboBox<String> dropdown = new ComboBox<>();
             ObservableList<String> options = FXCollections.observableArrayList();
                 for(Purpose p : Purpose.values()){
                     options.add(p.name());
@@ -39,10 +46,10 @@ public class RecommendationBox extends VBox{
                                int boogie = i;
                                    hyperlink.setOnAction(e1 -> {
                                        GUI.getCenterBox().getChildren().clear();
-                                       if(Organization.getAllOrganizations().get(boogie).getAnnouncements().size() != 0)
-                                       for(int j = 0; j < Organization.getAllOrganizations().get(j).getAnnouncements().size() || j < 10; j++){
-                                           Hyperlink link = new Hyperlink(Organization.getAllOrganizations().get(j).getAnnouncements().get(j).getReason());
-                                           Label label = new Label(Organization.getAllOrganizations().get(j).getAnnouncements().get(j).getText());
+                                       if(Organization.getAllOrganizations().get(boogie).getPosts().size() != 0)
+                                       for(int j = 0; j < Organization.getAllOrganizations().get(j).getPosts().size() || j < 10; j++){
+                                           Hyperlink link = new Hyperlink(Organization.getAllOrganizations().get(j).getPosts().get(j).getReason());
+                                           Label label = new Label(Organization.getAllOrganizations().get(j).getPosts().get(j).getText());
                                            styleLink(hyperlink);
                                            styleLabel(label);
                                            GUI.getCenterBox().getChildren().addAll(link, label);
@@ -54,9 +61,11 @@ public class RecommendationBox extends VBox{
                        } 
                 }
             });
-            */
     }
 
+    /**
+     * Sets up the recommendation box
+     */
     public static void setupBox(){
         recTitle.setStyle("-fx-font-size: 30px; -fx-text-fill: black;");
         header.setAlignment(Pos.CENTER);
@@ -92,11 +101,11 @@ public class RecommendationBox extends VBox{
                             });
                             hyperlink.setOnAction(e1 -> {
                                 GUI.organizationClicked(Organization.getAllOrganizations().get(count));  
-                            //    for(int i = 0; i < Organization.getAllOrganizations().size(); i++){
-                            //        System.out.println(Organization.getAllOrganizations().get(i).getName());
-                            //        System.out.println(i);
-                            //    }
-                            //    System.out.println(Organization.getAllOrganizations().get(count));
+                               for(int i = 0; i < Organization.getAllOrganizations().size(); i++){
+                                   System.out.println(Organization.getAllOrganizations().get(i).getName());
+                                   System.out.println(i);
+                               }
+                               System.out.println(Organization.getAllOrganizations().get(count));
                             });
                             styleLink(hyperlink);
                             line.getChildren().addAll(hyperlink, joinButton);
@@ -105,8 +114,13 @@ public class RecommendationBox extends VBox{
                     } 
                 }
             });
+            GUI.getRightBox().setMinWidth(500);
     }
 
+    /**
+     * Styles the links for the recommendation box
+     * @param hyperlink The link to style
+     */
     public static void styleLink(Hyperlink hyperlink){
         hyperlink.setStyle("-fx-text-fill: blue; -fx-underline-color: blue;-fx-focus-color: transparent;");
         hyperlink.setFont(Font.font("Arial", 24));
@@ -115,6 +129,11 @@ public class RecommendationBox extends VBox{
         hyperlink.setOnMouseEntered(e -> hyperlink.setStyle("-fx-underline: true;"));
         hyperlink.setOnMouseExited(e -> hyperlink.setStyle("-fx-underline: false;"));
     }
+
+    /**
+     * Styles the labels of the recommendation box
+     * @param label The label to style
+     */
     public static void styleLabel(Label label){
         label.setStyle("-fx-font-size: 16px; -fx-text-fill: grey;");
         label.setPadding(new Insets(0, 0, 0, 20));

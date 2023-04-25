@@ -34,7 +34,9 @@ public class Demonstration extends Event {
         super(reason, text, location);
     }
 
-    // TODO - Figure out what demonstrate means
+    /**
+     * Demonstrates
+     */
     public void demonstrate() {
         
     }

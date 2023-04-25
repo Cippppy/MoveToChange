@@ -22,7 +22,7 @@ public class Event extends Post implements Participable {
     /** The location of the event **/
     String location;
 
-    /**  **/
+    /** Logger for the event class **/
     transient Logger logger = Logger.getLogger(Event.class.getName());
 
     /**
